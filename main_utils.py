@@ -99,7 +99,7 @@ def get_direct_link(yandex_api, sharing_link):
 
 def get_saved_files_names(source):
     try:
-        with open(f'uploaded_files_{source}.txt', 'r') as uploaded_txt:
+        with open(f'uploaded_files_{source}.txt', 'r', encoding='cp1251') as uploaded_txt:
             list_loaded_files = uploaded_txt.read()
         uploaded_txt.close()
         list_loaded_files = list_loaded_files.split('\n')[:-1]
