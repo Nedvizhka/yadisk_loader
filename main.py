@@ -68,9 +68,9 @@ if __name__ == '__main__':
 
                 # загрузка realty в таблицу
                 try:
-                    # df_avito_realty[list_realty_cols].to_sql(name='realty', con=sql_engine, if_exists='append',
-                    #                        chunksize=7000, method='multi', index=False)
-                    df_avito_realty.to_csv(f'{filename}_test_avito_realty.csv')
+                    df_avito_realty[list_realty_cols].to_sql(name='realty', con=sql_engine, if_exists='append',
+                                           chunksize=7000, method='multi', index=False)
+                    # df_avito_realty.to_csv(f'{filename}_test_avito_realty.csv')
                     error_adding_files = False
                 except Exception as exc:
                     print(exc)
@@ -94,9 +94,9 @@ if __name__ == '__main__':
                     print('Выгрузка в таблицу prices обработанного файла из авито:', filename)
                 # загрузка realty в таблицу, запись названия файла в .txt
                 try:
-                    # df_avito_prices.to_sql(name='prices', con=sql_engine, if_exists='append',
-                    #                        chunksize=7000, method='multi', index=False)
-                    df_avito_prices.to_csv(f'{filename}_test_avito_prices.csv')
+                    df_avito_prices.to_sql(name='prices', con=sql_engine, if_exists='append',
+                                           chunksize=7000, method='multi', index=False)
+                    # df_avito_prices.to_csv(f'{filename}_test_avito_prices.csv')
                     write_saved_file_names(Path(filename).stem, 'avito')
                     error_writing_files = False
                 except Exception as exc:
@@ -125,9 +125,9 @@ if __name__ == '__main__':
 
                 # загрузка realty в таблицу
                 try:
-                    # df_cian_realty[list_realty_cols].to_sql(name='realty', con=sql_engine, if_exists='append',
-                    #                        chunksize=7000, method='multi', index=False)
-                    df_cian_realty.to_csv(f'{filename}_test_cian_realty.csv')
+                    df_cian_realty[list_realty_cols].to_sql(name='realty', con=sql_engine, if_exists='append',
+                                           chunksize=7000, method='multi', index=False)
+                    # df_cian_realty.to_csv(f'{filename}_test_cian_realty.csv')
                     error_writing_files = False
                 except Exception as exc:
                     print(exc)
@@ -148,9 +148,9 @@ if __name__ == '__main__':
                     print('Выгрузка в таблицу prices обработанного файла из cian:', filename)
                 # загрузка realty в таблицу, запись названия файла в .txt
                 try:
-                    # df_cian_prices.to_sql(name='prices', con=sql_engine, if_exists='append',
-                    #                        chunksize=7000, method='multi', index=False)
-                    df_cian_prices.to_csv(f'{filename}_test_cian_prices.csv')
+                    df_cian_prices.to_sql(name='prices', con=sql_engine, if_exists='append',
+                                           chunksize=7000, method='multi', index=False)
+                    # df_cian_prices.to_csv(f'{filename}_test_cian_prices.csv')
                     write_saved_file_names(Path(filename).stem, 'cian')
                     error_writing_files = False
                 except Exception as exc:
