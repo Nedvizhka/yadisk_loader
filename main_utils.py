@@ -310,38 +310,41 @@ def district_from_rn_mkrn(realty_row, all_districts, sql_engine):
     # для работы функции создадим объекты текущего р-н и мкр
     current_rn = None
     current_mkrn = None
-    for addr_part in realty_row.addr.split(';')[:4]:
-        if 'мкр.' in addr_part:
-            current_mkrn = addr_part.replace(' мкр. ', '')
-        elif 'р-н' in addr_part:
-            current_rn = addr_part.replace(' р-н ', '')
-        else:
-            pass
-    if current_rn == None and current_mkrn == None:
-        return None
-    else:
-        district_name = current_mkrn if current_mkrn != None else current_rn
-        district_intersection = all_districts[
-            (all_districts.city_id == realty_row.city_id) & (all_districts.name == district_name)]
-        if len(district_intersection) == 0:
-            # обновление данных из districts на случай если дистрикт добавлялся во время исполнения скрипта
-            all_districts_upd = get_districts(sql_engine)
-            district_intersection_upd = all_districts_upd[
-                (all_districts_upd.city_id == realty_row.city_id) & (all_districts_upd.name == district_name)]
-            current_max_id = int(all_districts_upd.id.max())
-            # если в обновленном districts нет данных о районе - добавляем
-            if len(district_intersection_upd) == 0:
-                print('добавлен ')
-                add_districts_df.loc[len(add_districts_df)] = [realty_row.city_id, district_name]
-                add_districts_df.to_sql(name='districts', con=sql_engine, if_exists='append', chunksize=7000,
-                                        method='multi', index=False)
-                print('добавлен новый район "{}" в districts функцией district_from_rn_mkrn'.format(district_name))
-                return current_max_id + 1
-            # если данные о районе есть, возвращаем id
+    if realty_row['city_id'] != None:
+        for addr_part in realty_row.addr.split(';')[:4]:
+            if 'мкр.' in addr_part:
+                current_mkrn = addr_part.replace(' мкр. ', '')
+            elif 'р-н' in addr_part:
+                current_rn = addr_part.replace(' р-н ', '')
             else:
-                return district_intersection_upd.iloc[0, 0]
+                pass
+        if current_rn == None and current_mkrn == None:
+            return None
         else:
-            return district_intersection.iloc[0, 0]
+            district_name = current_mkrn if current_mkrn != None else current_rn
+            district_intersection = all_districts[
+                (all_districts.city_id == realty_row.city_id) & (all_districts.name == district_name)]
+            if len(district_intersection) == 0:
+                # обновление данных из districts на случай если дистрикт добавлялся во время исполнения скрипта
+                all_districts_upd = get_districts(sql_engine)
+                district_intersection_upd = all_districts_upd[
+                    (all_districts_upd.city_id == realty_row.city_id) & (all_districts_upd.name == district_name)]
+                current_max_id = int(all_districts_upd.id.max())
+                # если в обновленном districts нет данных о районе - добавляем
+                if len(district_intersection_upd) == 0:
+                    print('добавлен ')
+                    add_districts_df.loc[len(add_districts_df)] = [realty_row.city_id, district_name]
+                    add_districts_df.to_sql(name='districts', con=sql_engine, if_exists='append', chunksize=7000,
+                                            method='multi', index=False)
+                    print('добавлен новый район "{}" в districts функцией district_from_rn_mkrn'.format(district_name))
+                    return current_max_id + 1
+                # если данные о районе есть, возвращаем id
+                else:
+                    return district_intersection_upd.iloc[0, 0]
+            else:
+                return district_intersection.iloc[0, 0]
+    else:
+        return None
 
 
 def square_from_ploshad(square_value):
@@ -393,9 +396,9 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             # city_id
             city_df_dict = city_df.set_index('id').to_dict()['url_avito']
             df['city_id'] = df['city'].apply(lambda x: city_id_from_link(x, city_df_dict))
-            df.dropna(subset=['city_id'], inplace=True)
-            df.reset_index(drop=True, inplace=True)
-            df.city_id = df.city_id.astype(int)
+            # df.dropna(subset=['city_id'], inplace=True)
+            # df.reset_index(drop=True, inplace=True)
+            # df.city_id = df.city_id.astype(int)
 
             # district_id
             df['district_id'] = None
@@ -483,10 +486,10 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
 
             cian_realty['city_id'] = df['city'].apply(lambda x: city_id_from_link(x, city_df_dict))
             # удалить записи где city_id пустой (записи городов, которые не присутствуют в списке городов для парсинга)
-            ind_to_drop = cian_realty[(cian_realty['city_id'].isna())].index.tolist()
-            cian_realty.drop(ind_to_drop, inplace=True)
-            df.drop(ind_to_drop, inplace=True)
-            cian_realty.city_id = cian_realty.city_id.astype(int)
+            # ind_to_drop = cian_realty[(cian_realty['city_id'].isna())].index.tolist()
+            # cian_realty.drop(ind_to_drop, inplace=True)
+            # df.drop(ind_to_drop, inplace=True)
+            # cian_realty.city_id = cian_realty.city_id.astype(int)
 
             # type_id
 
