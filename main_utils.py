@@ -310,7 +310,7 @@ def district_from_rn_mkrn(realty_row, all_districts, sql_engine):
     # для работы функции создадим объекты текущего р-н и мкр
     current_rn = None
     current_mkrn = None
-    for addr_part in realty_row.addr.split(';')[:3]:
+    for addr_part in realty_row.addr.split(';')[:4]:
         if 'мкр.' in addr_part:
             current_mkrn = addr_part.replace(' мкр. ', '')
         elif 'р-н' in addr_part:
@@ -445,8 +445,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             df['status_new'] = 1
 
             # delete rows where one of important values isna
-            df_check = df[['source_id', 'ad_id', 'city_id', 'type_id', 'addr', 'square',
-                           'floor', 'house_floors', 'link', 'date', 'version', 'offer_from', 'status_new']]
+            df_check = df[['source_id', 'ad_id', 'type_id', 'addr', 'link', 'date', 'version']]
             values_na_ind = df_check[df_check.isna().any(axis=1)].index
             if len(values_na_ind) > 0:
                 df = df.drop(values_na_ind)
@@ -543,9 +542,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             cian_realty['price'], cian_realty['price_sqrm'] = df['price'], df['price_sqrm']
 
             # delete rows where one of important values isna
-            cian_realty_check = cian_realty[['source_id', 'ad_id', 'city_id', 'type_id', 'addr', 'square',
-                                               'floor', 'house_floors', 'link', 'date','version', 'offer_from',
-                                               'status_new']]
+            cian_realty_check = cian_realty[['source_id', 'ad_id', 'type_id', 'addr', 'link', 'date', 'version']]
             values_na_ind = cian_realty_check[cian_realty_check.isna().any(axis=1)].index
             if len(values_na_ind) > 0:
                 cian_realty = cian_realty.drop(values_na_ind)
