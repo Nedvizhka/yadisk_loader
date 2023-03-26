@@ -9,6 +9,7 @@ from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
+import numpy as np
 import requests
 import yadisk
 from sqlalchemy import create_engine, text, NullPool
@@ -310,14 +311,16 @@ def district_from_rn_mkrn(realty_row, all_districts, sql_engine):
     # для работы функции создадим объекты текущего р-н и мкр
     current_rn = None
     current_mkrn = None
-    if realty_row['city_id'] != None:
+    if not np.isnan(realty_row['city_id']):
         for addr_part in realty_row.addr.split(';')[:4]:
             if 'мкр.' in addr_part:
                 current_mkrn = addr_part.replace(' мкр. ', '')
+                continue
             elif 'р-н' in addr_part:
                 current_rn = addr_part.replace(' р-н ', '')
+                continue
             else:
-                pass
+                continue
         if current_rn == None and current_mkrn == None:
             return None
         else:
@@ -332,7 +335,6 @@ def district_from_rn_mkrn(realty_row, all_districts, sql_engine):
                 current_max_id = int(all_districts_upd.id.max())
                 # если в обновленном districts нет данных о районе - добавляем
                 if len(district_intersection_upd) == 0:
-                    print('добавлен ')
                     add_districts_df.loc[len(add_districts_df)] = [realty_row.city_id, district_name]
                     add_districts_df.to_sql(name='districts', con=sql_engine, if_exists='append', chunksize=7000,
                                             method='multi', index=False)
