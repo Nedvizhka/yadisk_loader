@@ -622,6 +622,10 @@ def create_prices(df, filename, sql_engine, source):
             # date
             file_date = get_date_from_name(filename)
             prices_df['date'] = file_date
+
+            # filter df
+            prices_df = prices_df[['realty_id', 'price', 'price_sqrm', 'date']]
+
         else:  # source == 'cian':
             # create df with link and realty_id
             current_source_id = df.source_id.unique()[0]
@@ -636,6 +640,9 @@ def create_prices(df, filename, sql_engine, source):
             # date
             file_date = get_date_from_name(filename)
             prices_df['date'] = file_date
+
+            # filter df
+            prices_df = prices_df[['realty_id', 'price', 'price_sqrm', 'date']]
 
     except Exception as ex:
         prices_df = pd.DataFrame()
