@@ -1,15 +1,16 @@
 import configparser
 import io
 import os
-import pandas as pd
-import requests
 import shutil
 import traceback
 import warnings
-import yadisk
 import zipfile
 from datetime import datetime
 from pathlib import Path
+
+import pandas as pd
+import requests
+import yadisk
 from sqlalchemy import create_engine, text, NullPool
 from sshtunnel import SSHTunnelForwarder
 
@@ -204,7 +205,7 @@ def get_tables_info(engine):
     return city_db, realty_type_db, source_db, district_db, exc_code
 
 
-def get_version(engine, today_date, source_id):
+def get_version_db(engine, today_date, source_id):
     last_version = f"SELECT Max(version) FROM realty WHERE date < '{today_date}' AND source_id = {source_id}"
     try:
         con_obj = engine.connect()
@@ -429,7 +430,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             # version
             current_source = df.source_id.unique()[0]
             current_date = datetime.now().date()
-            last_version = get_version(sql_engine, current_date, current_source)[0].iloc[0, 0]
+            last_version = get_version_db(sql_engine, current_date, current_source)[0].iloc[0, 0]
             if last_version == None:
                 current_version = 1
             else:
@@ -440,17 +441,24 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             # offer_from
             df['offer_from'] = df['Тип продавца']
 
-            # status_newa
+            # status_new
             df['status_new'] = 1
 
-            realty_avito = df[['source_id', 'ad_id', 'city_id', 'district_id', 'type_id', 'addr', 'square', 'floor',
-                               'house_floors', 'link', 'date', 'status', 'version', 'offer_from', 'status_new', 'Цена',
-                               'Цена за м2']]
+            # delete rows where one of important values isna
+            df_check = df[['source_id', 'ad_id', 'city_id', 'type_id', 'addr', 'square',
+                           'floor', 'house_floors', 'link', 'date', 'version', 'offer_from', 'status_new']]
+            values_na_ind = df_check[df_check.isna().any(axis=1)].index
+            if len(values_na_ind) > 0:
+                df = df.drop(values_na_ind)
+
+            realty_avito_to_return = df[['source_id', 'ad_id', 'city_id', 'district_id', 'type_id', 'addr',
+                                         'square', 'floor', 'house_floors', 'link', 'date', 'status', 'version',
+                                         'offer_from', 'status_new', 'Цена', 'Цена за м2']]
         except Exception as ex:
             print(traceback.format_exc())
-            realty_avito = pd.DataFrame()
+            realty_avito_to_return = pd.DataFrame()
             file_date = None
-        return realty_avito, file_date
+        return realty_avito_to_return, file_date
     else:  # cian
         try:
             # new table
@@ -495,7 +503,8 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
 
             # district_id после addr потому что в нем используется адрес
             all_districts = get_districts(sql_engine)
-            cian_realty['district_id'] = cian_realty.apply(lambda row: district_from_rn_mkrn(row, all_districts, sql_engine), axis=1)
+            cian_realty['district_id'] = cian_realty.apply(
+                lambda row: district_from_rn_mkrn(row, all_districts, sql_engine), axis=1)
 
             # square
             cian_realty['square'] = df['square']
@@ -516,7 +525,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             # version
             current_source = cian_realty.source_id.unique()[0]
             current_date = datetime.now().date()
-            last_version = get_version(sql_engine, current_date, current_source)[0].iloc[0, 0]
+            last_version = get_version_db(sql_engine, current_date, current_source)[0].iloc[0, 0]
             if last_version == None:
                 current_version = 1
             else:
@@ -533,14 +542,22 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             # add fields of price and price_sqrm
             cian_realty['price'], cian_realty['price_sqrm'] = df['price'], df['price_sqrm']
 
-            realty_cian = cian_realty[['source_id', 'ad_id', 'city_id', 'district_id', 'type_id', 'addr', 'square', 'floor',
-                              'house_floors', 'link', 'date', 'status', 'version', 'offer_from', 'status_new', 'price',
-                              'price_sqrm']]
+            # delete rows where one of important values isna
+            cian_realty_check = cian_realty[['source_id', 'ad_id', 'city_id', 'type_id', 'addr', 'square',
+                                               'floor', 'house_floors', 'link', 'date','version', 'offer_from',
+                                               'status_new']]
+            values_na_ind = cian_realty_check[cian_realty_check.isna().any(axis=1)].index
+            if len(values_na_ind) > 0:
+                cian_realty = cian_realty.drop(values_na_ind)
+
+            cian_realty_to_return = cian_realty[['source_id', 'ad_id', 'city_id', 'district_id', 'type_id',
+                                                 'addr', 'square', 'floor','house_floors', 'link', 'date',
+                                                 'status', 'version', 'offer_from', 'status_new', 'price', 'price_sqrm']]
         except Exception as ex:
             print(traceback.format_exc())
-            realty_cian = pd.DataFrame()
+            cian_realty_to_return = pd.DataFrame()
             file_date = None
-        return realty_cian, file_date
+        return cian_realty_to_return, file_date
 
 
 def process_realty(local_dir, file_to_process, sql_engine, source):
@@ -574,7 +591,7 @@ def process_realty(local_dir, file_to_process, sql_engine, source):
 
 
 def get_realty_ids(engine, today_date, source_id):
-    id_query = f"SELECT link,id FROM realty WHERE date = '{today_date}' AND source_id = {source_id}"
+    id_query = f"SELECT link, id AS 'realty_id' FROM realty WHERE date = '{today_date}' AND source_id = {source_id}"
     try:
         con_obj = engine.connect()
         id_db = pd.read_sql(text(id_query), con=con_obj)
@@ -590,35 +607,31 @@ def get_realty_ids(engine, today_date, source_id):
 def create_prices(df, filename, sql_engine, source):
     try:
         if source == 'avito':
-            prices_df = pd.DataFrame()
-
-            # add realty_id
+            # create df with link and realty_id
             current_source_id = df.source_id.unique()[0]
-            realty_id_df = get_realty_ids(sql_engine, get_date_from_name(filename), current_source_id)[0]
-            prices_df['realty_id'] = realty_id_df['link'].map(realty_id_df.set_index('link')['id'])
+            prices_df = get_realty_ids(sql_engine, get_date_from_name(filename), current_source_id)[0]
 
             # price
-            prices_df['price'] = df['Цена']
+            prices_df = pd.merge(prices_df, df[['link', 'Цена']], on='link', how='left')\
+                .rename(columns={'Цена': 'price'})
 
             # price_sqrm
-            prices_df['price_sqrm'] = df['Цена за м2'].astype(float)
+            prices_df = pd.merge(prices_df, df[['link', 'Цена за м2']], on='link', how='left')\
+                .rename(columns={'Цена за м2': 'price_sqrm'})
 
             # date
             file_date = get_date_from_name(filename)
             prices_df['date'] = file_date
         else:  # source == 'cian':
-            prices_df = pd.DataFrame()
-
-            # add realty_id
+            # create df with link and realty_id
             current_source_id = df.source_id.unique()[0]
-            realty_id_df = get_realty_ids(sql_engine, get_date_from_name(filename), current_source_id)[0]
-            prices_df['realty_id'] = realty_id_df['link'].map(realty_id_df.set_index('link')['id'])
+            prices_df = get_realty_ids(sql_engine, get_date_from_name(filename), current_source_id)[0]
 
             # price
-            prices_df['price'] = df['price']
+            prices_df = pd.merge(prices_df, df[['link', 'price']], on='link', how='left')
 
             # price_sqrm
-            prices_df['price_sqrm'] = df['price_sqrm'].astype(float)
+            prices_df = pd.merge(prices_df, df[['link', 'price_sqrm']], on='link', how='left')
 
             # date
             file_date = get_date_from_name(filename)
