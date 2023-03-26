@@ -61,7 +61,7 @@ if __name__ == '__main__':
                     time.sleep(300)
                     print('Ошибка при обработке файлов из авито {}. Перезапуск скрипта...'.format(filename))
                     error_processing_files = True
-                    continue
+                    break
                 else:
                     error_processing_files = False
                     print('Выгрузка в таблицу realty обработанного файла из авито:', filename)
@@ -78,7 +78,7 @@ if __name__ == '__main__':
                     print('Не удаолсь добавить данные в таблицу {}. Перезапуск скрипта...'.format('realty'))
                     time.sleep(100)
                     error_adding_files = True
-                    continue
+                    break
 
                 # обработка prices avito из realty avito
                 df_avito_prices, error_file_processing = create_prices(df_avito_realty, filename, sql_engine, 'avito')
@@ -88,7 +88,7 @@ if __name__ == '__main__':
                     time.sleep(300)
                     print('Ошибка при обработке файлов для prices из авито {}. Перезапуск скрипта...'.format(filename))
                     error_processing_files = True
-                    continue
+                    break
                 else:
                     error_processing_files = False
                     print('Выгрузка в таблицу prices обработанного файла из авито:', filename)
@@ -105,7 +105,7 @@ if __name__ == '__main__':
                     print('Не удаолсь добавить данные в таблицу {}. Перезапуск скрипта...'.format('prices'))
                     time.sleep(100)
                     error_writing_files = True
-                    continue
+                    break
 
             for filename in files_to_process_cian:
                 # обработка realty циан
@@ -115,10 +115,9 @@ if __name__ == '__main__':
 
                 # проверка состояния
                 if error_file_processing:
-                    time.sleep(300)
                     print('Ошибка при обработке файлов из CIAN {}. Перезапуск скрипта...'.format(filename))
                     error_processing_files = True
-                    continue
+                    break
                 else:
                     error_processing_files = False
                     print('Выгрузка в таблицу realty обработанного файла из cian:', filename)
@@ -133,7 +132,7 @@ if __name__ == '__main__':
                     print(exc)
                     print('Не удалось добавить данные в таблицу {}. Перезапуск скрипта...'.format('realty'))
                     error_writing_files = True
-                    continue
+                    break
 
                 # обработка prices avito из realty avito
                 df_cian_prices, error_file_processing = create_prices(df_cian_realty, filename, sql_engine, 'cian')
@@ -142,7 +141,7 @@ if __name__ == '__main__':
                 if error_file_processing:
                     print('Ошибка при обработке файлов для prices из cian {}. Перезапуск скрипта...'.format(filename))
                     error_processing_files = True
-                    continue
+                    break
                 else:
                     error_processing_files = False
                     print('Выгрузка в таблицу prices обработанного файла из cian:', filename)
@@ -157,7 +156,7 @@ if __name__ == '__main__':
                     print(exc)
                     print('Не удалось добавить данные в таблицу {}. Перезапуск скрипта...'.format('prices'))
                     error_writing_files = True
-                    continue
+                    break
             try:
                 if error_loading_files:
                     print('Ошибка при загрузке файлов')
