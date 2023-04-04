@@ -34,6 +34,7 @@ list_realty_cols = ['source_id', 'ad_id', 'city_id', 'district_id', 'type_id', '
                     'house_floors', 'link', 'date', 'status', 'version', 'offer_from', 'status_new']
 
 
+
 def get_today_date():
     return datetime.today().strftime(format="%d/%m/%Y, %H:%M:%S")
 
@@ -74,6 +75,17 @@ def get_config(get_only_start_time=False):
     else:
         return start_time
 
+def show_error(list_errors):
+    err_list = ['error_create_temp_realty',
+                'error_getting_ad_id',
+                'error_loading_into_realty',
+                'error_updating_realty']
+    try:
+        array = np.array(list_errors)
+        indices = np.where(array == True)[0]
+        return [err_list[i] for i in indices]
+    except:
+        return 'ошибок нет'
 
 def get_sql_engine(ssh_host, ssh_port, ssh_username, ssh_password, localhost,
                    localhost_port, database_username, database_password, database_name):
@@ -182,28 +194,199 @@ def get_local_files(save_dir):
     saved_files_list = [x.as_posix() for x in p if x.is_file()]
     return saved_files_list
 
+def load_df_into_sql_table(df, table_name, engine):
+    df.to_sql(name=table_name, con=engine, if_exists='append', chunksize=7000, method='multi', index=False)
+    return
+
+def get_index_temp(engine):
+    index_show_query = \
+        f"""SHOW indexes FROM temp_realty"""
+    try:
+        con_obj = engine.connect()
+        index_db = pd.read_sql(text(index_show_query), con=con_obj)
+        con_obj.close()
+        exc_code = None
+    except Exception as exc:
+        print(traceback.format_exc())
+        index_db = None
+        exc_code = exc.code
+    return index_db, exc_code
+
+def create_temp_realty(engine):
+    create_table_query = \
+        """CREATE TABLE `temp_realty` (
+          `id` int(11) NOT NULL AUTO_INCREMENT,
+          `source_id` int(11) DEFAULT NULL,
+          `ad_id` BIGINT DEFAULT NULL,
+          `city_id` int(11) DEFAULT NULL,
+          `district_id` int(11) DEFAULT NULL,
+          `type_id` int(11) DEFAULT NULL,
+          `addr` varchar(255) DEFAULT NULL,
+          `square` float DEFAULT '0',
+          `floor` int(11) DEFAULT NULL,
+          `house_floors` int(11) DEFAULT NULL,
+          `link` varchar(512) DEFAULT NULL,
+          `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+          `status` int(11) DEFAULT '0',
+          `version` int(11) DEFAULT '0',
+          `offer_from` varchar(255) DEFAULT NULL,
+          `status_new` int(1) NOT NULL DEFAULT '0',
+          `house_id` int(11) DEFAULT NULL,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=2048 ROW_FORMAT=DYNAMIC;"""
+
+    index_create_query = \
+        f"""CREATE INDEX index_ad_id_temp
+        ON temp_realty (ad_id);"""
+
+    clear_temp_table_query = \
+        """DELETE FROM temp_realty"""
+
+    try:
+        con_obj = engine.connect()
+        con_obj.execute(text(create_table_query))
+        if 'index_ad_id_temp' in get_index_temp(engine)[0].Key_name.to_list():
+            pass
+        else:
+            con_obj.execute(text(index_create_query))
+        con_obj.commit()
+        con_obj.close()
+        print('Временная таблица создана')
+        return None
+    except:
+        try:
+            con_obj = engine.connect()
+            con_obj.execute(text(clear_temp_table_query))
+            con_obj.commit()
+            con_obj.close()
+            print('Временная таблица очищена')
+            return None
+        except:
+            return True
+
+def get_exist_ad_id(engine, source):
+    source_id = 2 if source == 'cian' else 3
+    ad_id_query = f'SELECT ad_id FROM realty where source_id = {source_id}'
+    try:
+        con_obj = engine.connect()
+        ad_id_db = pd.read_sql(text(ad_id_query), con=con_obj)
+        con_obj.close()
+        exc_code = None
+    except Exception as exc:
+        print(traceback.format_exc())
+        ad_id_db = None
+        exc_code = exc.code
+    return ad_id_db, exc_code
+
+def update_realty(engine, df):
+    clear_temp_table_query = \
+        """DELETE FROM temp_realty"""
+    try:
+        # выгрузка данных в таблицу на сервере
+        load_df_into_sql_table(df, 'temp_realty', engine)
+
+        con_obj = engine.connect()
+        common_ids = tuple(df.ad_id)
+
+        update_table_query = f"""update realty join temp_realty on realty.ad_id=temp_realty.ad_id
+                                            set realty.source_id = temp_realty.source_id,
+                                                realty.city_id = temp_realty.city_id,
+                                                realty.district_id = temp_realty.district_id,
+                                                realty.type_id = temp_realty.type_id,
+                                                realty.addr = temp_realty.addr,
+                                                realty.square = temp_realty.square,
+                                                realty.floor = temp_realty.floor,
+                                                realty.house_floors = temp_realty.house_floors,
+                                                realty.link = temp_realty.link,
+                                                realty.date = temp_realty.date,
+                                                realty.version = temp_realty.version,
+                                                realty.offer_from = temp_realty.offer_from,
+                                                realty.status_new = temp_realty.status_new,
+                                                realty.house_id = temp_realty.house_id
+                                             WHERE realty.ad_id in {common_ids}"""
+
+        con_obj.execute(text(update_table_query))
+        con_obj.commit()
+        con_obj.close()
+
+        # очистка данных из temp_realty
+        con_obj = engine.connect()
+        con_obj.execute(text(clear_temp_table_query))
+        con_obj.commit()
+        con_obj.close()
+        return None
+    except:
+        try:
+            con_obj = engine.connect()
+            con_obj.execute(text(clear_temp_table_query))
+            con_obj.commit()
+            con_obj.close()
+            return True
+        except:
+            print('Не удалось подключиться к БД')
+            return True
+
+
+def load_and_update_realty_db(engine, df, source):
+    # создание временной таблицы для обновления данных
+    error_create_temp_realty = create_temp_realty(engine)
+    if error_create_temp_realty:
+        error_create_temp_realty = True
+        return error_create_temp_realty, False, False, False
+    else:
+        error_create_temp_realty = False
+
+    # разбивка полученных данных на новые и существующие по ad_id
+    exist_ad_id, error_getting_ad_id = get_exist_ad_id(engine, source)[0].ad_id.to_list()
+    if error_getting_ad_id:
+        error_getting_ad_id = True
+        return False, error_getting_ad_id, False, False
+    else:
+        error_getting_ad_id = False
+        print('Загрузка новых объявлений в таблицу')
+    df_realty_exist = df[df.ad_id.isin(exist_ad_id)][list_realty_cols]
+    df_realty_new = df[~df.ad_id.isin(exist_ad_id)][list_realty_cols]
+
+    # выгрузка данных в таблицу на сервере
+    try:
+        load_df_into_sql_table(df_realty_new, 'realty', engine)
+        error_loading_into_realty = False
+    except:
+        error_loading_into_realty = True
+        return False, False, error_loading_into_realty, False
+    print('новые объявления добавлены, переход к обновлению существующих')
+
+    # обновление данных
+    if len(df_realty_exist) != 0:
+        error_updating_realty = update_realty(engine, df_realty_exist)
+        if error_updating_realty:
+            error_updating_realty = True
+            return False, False, False, error_updating_realty
+        else:
+            error_updating_realty = False
+            print('Обновление данных завершено')
+    else:
+        error_updating_realty = False
+        print('не было обнаружено пересечений в данных, переход к добавлению цен в prices')
+    return error_create_temp_realty, error_getting_ad_id, error_loading_into_realty, error_updating_realty
+
+
 
 def get_tables_info(engine):
     cities_query = 'SELECT * FROM city'
-    types_query = 'SELECT * FROM realty_types'
     source_query = 'SELECT id, name FROM sources'
-    district_query = 'SELECT DISTINCT id, city_id, name FROM districts'
     try:
         con_obj = engine.connect()
         city_db = pd.read_sql(text(cities_query), con=con_obj)
-        realty_type_db = pd.read_sql(text(types_query), con=con_obj)
         source_db = pd.read_sql(text(source_query), con=con_obj)
-        district_db = pd.read_sql(text(district_query), con=con_obj)
         con_obj.close()
         exc_code = None
     except Exception as exc:
         print(traceback.format_exc())
         city_db = None
-        realty_type_db = None
         source_db = None
-        district_db = None
         exc_code = exc.code
-    return city_db, realty_type_db, source_db, district_db, exc_code
+    return city_db, source_db, exc_code
 
 
 def get_version_db(engine, today_date, source_id):
@@ -375,7 +558,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
     if source == 'avito':
         try:
             # сбор данных из таблиц в бд
-            city_df, realty_type_df, source_df, district_df, exc_code = get_tables_info(sql_engine)
+            city_df, source_df, exc_code = get_tables_info(sql_engine)
 
             # удаление корявых данных, дубликатов
             index_to_drop = df[
@@ -469,7 +652,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             cian_realty = pd.DataFrame()
 
             # сбор данных из таблиц в бд
-            city_df, realty_type_df, source_df, district_df, exc_code = get_tables_info(sql_engine)
+            city_df, source_df, exc_code = get_tables_info(sql_engine)
 
             # удаление дубликатов
             df.drop_duplicates(subset=['link'], keep='last', inplace=True)
@@ -588,7 +771,7 @@ def process_realty(local_dir, file_to_process, sql_engine, source):
         return realty_df, file_date, error_status
     else:
         error_status = True
-        print('Файл {} не удалось обработать для realty'.format(file_to_process))
+        print('Файл {} не удалось обнаружить для realty'.format(file_to_process))
         return realty_df, file_date, error_status
 
 
