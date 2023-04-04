@@ -338,7 +338,7 @@ def load_and_update_realty_db(engine, df, source):
 
     # разбивка полученных данных на новые и существующие по ad_id
     exist_ad_id, error_getting_ad_id = get_exist_ad_id(engine, source)
-    exist_ad_id = exist_ad_id[0].ad_id.to_list()
+    exist_ad_id = exist_ad_id.ad_id.to_list()
     if error_getting_ad_id:
         error_getting_ad_id = True
         return False, error_getting_ad_id, False, False
