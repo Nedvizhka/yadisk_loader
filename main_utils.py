@@ -549,9 +549,9 @@ def floor_floors_from_etazh(etazh_value):
 
 def get_date_from_name(fname):
     try:
-        return datetime.strptime(fname.replace("(без дублей)", "").replace("циан", "").replace(" ", ""), "%d-%m-%y")
+        return datetime.strptime(fname.replace("(без дублей)", "").replace("циан", "").replace(" ", "")[:8], "%d-%m-%y")
     except:
-        return datetime.strptime(Path(fname).stem.replace("(без дублей)", "").replace("циан", "").replace(" ", ""),
+        return datetime.strptime(Path(fname).stem.replace("(без дублей)", "").replace("циан", "").replace(" ", "")[:8],
                                  "%d-%m-%y")
 
 
