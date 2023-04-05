@@ -614,7 +614,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             df['date'] = file_date
 
             # status
-            df['status'] = None
+            df['status'] = 0
 
             # version
             current_source = df.source_id.unique()[0]
@@ -708,7 +708,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             cian_realty['date'] = file_date
 
             # status
-            cian_realty['status'] = None
+            cian_realty['status'] = 0
 
             # version
             current_source = cian_realty.source_id.unique()[0]
