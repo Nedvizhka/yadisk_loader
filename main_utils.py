@@ -299,11 +299,12 @@ def update_realty(engine, df):
                                                 realty.house_floors = temp_realty.house_floors,
                                                 realty.link = temp_realty.link,
                                                 realty.date = temp_realty.date,
+                                                realty.status = realty.status,
                                                 realty.version = temp_realty.version,
                                                 realty.offer_from = temp_realty.offer_from,
                                                 realty.status_new = temp_realty.status_new,
                                                 realty.house_id = temp_realty.house_id
-                                             WHERE realty.ad_id in {common_ids}"""
+                                            WHERE realty.ad_id in {common_ids}"""
 
         con_obj.execute(text(update_table_query))
         con_obj.commit()
