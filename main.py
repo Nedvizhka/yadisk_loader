@@ -181,10 +181,10 @@ if __name__ == '__main__':
                     close_sql_connection(sql_server, sql_engine)
                     print('Новые данные загружены по файлам {} из авито и {} из циана за {}'
                           .format(files_to_process_avito, files_to_process_cian, datetime.now() - st_time))
-                    time.sleep(3601)
+                    time.sleep(300)
                     continue
             except:
                 close_sql_connection(sql_server, sql_engine)
                 print('нет новых данных для загрузки')
-                time.sleep(100)
+                time.sleep(200)
                 continue
