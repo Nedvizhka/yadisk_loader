@@ -17,6 +17,8 @@ from sshtunnel import SSHTunnelForwarder
 
 warnings.filterwarnings("ignore")
 
+not_found_distr = []
+
 dict_realty_cian_avito = {
     '1': ['Комната'],
     '2': ['Квартира-студия', 'Апартаменты-студия', 'Гостинка', 'Студия'],
@@ -503,11 +505,11 @@ def district_from_rn_mkrn(realty_row, all_districts, sql_engine):
     current_mkrn = None
     if not np.isnan(realty_row['city_id']):
         for addr_part in realty_row.addr.split(';')[:4]:
-            if 'мкр.' in addr_part:
-                current_mkrn = addr_part.replace(' мкр. ', '')
+            if 'мкр.' in addr_part or '; микрорайон' in addr_part:
+                current_mkrn = addr_part.replace(' мкр. ', '').replace('мкр. ', '').replace(' микрорайон ', '')
                 continue
-            elif 'р-н' in addr_part:
-                current_rn = addr_part.replace(' р-н ', '')
+            elif 'р-н' in addr_part or '; район' in addr_part:
+                current_rn = addr_part.replace(' р-н ', '').replace('р-н ', '').replace(' район ', '')
                 continue
             else:
                 continue
@@ -517,7 +519,7 @@ def district_from_rn_mkrn(realty_row, all_districts, sql_engine):
             district_name = current_mkrn if current_mkrn != None else current_rn
             district_intersection = all_districts[
                 (all_districts.city_id == realty_row.city_id) & (all_districts.name == district_name)]
-            if len(district_intersection) == 0:
+            if (len(district_intersection) == 0) and (district_name not in not_found_distr): # УДАЛИТЬ not_found_distr
                 # обновление данных из districts на случай если дистрикт добавлялся во время исполнения скрипта
                 all_districts_upd = get_districts(sql_engine)
                 district_intersection_upd = all_districts_upd[
@@ -525,16 +527,24 @@ def district_from_rn_mkrn(realty_row, all_districts, sql_engine):
                 current_max_id = int(all_districts_upd.id.max())
                 # если в обновленном districts нет данных о районе - добавляем
                 if len(district_intersection_upd) == 0:
-                    add_districts_df.loc[len(add_districts_df)] = [realty_row.city_id, district_name]
-                    add_districts_df.to_sql(name='districts', con=sql_engine, if_exists='append', chunksize=7000,
-                                            method='multi', index=False)
-                    print('добавлен новый район "{}" в districts функцией district_from_rn_mkrn'.format(district_name))
-                    return current_max_id + 1
-                # если данные о районе есть, возвращаем id
+                    if realty_row.source_id == 2: # добавляет район только если источник cian (source id == 2)
+                        add_districts_df.loc[len(add_districts_df)] = [realty_row.city_id, district_name]
+                        # add_districts_df.to_sql(name='districts', con=sql_engine, if_exists='append', chunksize=7000, method='multi', index=False)
+                        print('добавлен новый район "{}" в districts функцией district_from_rn_mkrn'.format(district_name))
+                        not_found_distr.append(district_name) # УДАЛИТЬ
+                        return current_max_id + 1
+                    else:
+                        not_found_distr.append(district_name)
+                        return None
+                # если данные о районе в обновленном districts есть, возвращаем id
                 else:
                     return district_intersection_upd.iloc[0, 0]
             else:
-                return district_intersection.iloc[0, 0]
+                try:
+                    return district_intersection.iloc[0, 0]
+                except:
+                    return 'unknown_district' # УДАЛИТЬ
+
     else:
         return None
 
@@ -593,7 +603,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             # df.city_id = df.city_id.astype(int)
 
             # district_id
-            df['district_id'] = None
+            # df['district_id'] = None
 
             # type_id
 
@@ -605,6 +615,11 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
 
             # addr
             df['addr'] = df.apply(lambda row: avito_addr_from_row(row, city_df), axis=1)
+
+            # district_id после addr потому что в нем используется адрес
+            all_districts = get_districts(sql_engine)
+            df['district_id'] = df.apply(lambda row: district_from_rn_mkrn(row, all_districts, sql_engine), axis=1)
+            not_found_distr.clear()
 
             # square
             df['square'] = df['Площадь'].apply(lambda x: square_from_ploshad(x))
@@ -644,6 +659,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             values_na_ind = df_check[df_check.isna().any(axis=1)].index
             if len(values_na_ind) > 0:
                 df = df.drop(values_na_ind)
+            df.drop_duplicates(subset=['ad_id'], inplace=True)
 
             realty_avito_to_return = df[['source_id', 'ad_id', 'city_id', 'district_id', 'type_id', 'addr',
                                          'square', 'floor', 'house_floors', 'link', 'date', 'status', 'version',
@@ -662,21 +678,26 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             city_df, source_df, exc_code = get_tables_info(sql_engine)
 
             # удаление дубликатов
-            df.drop_duplicates(subset=['link'], keep='last', inplace=True)
+            df.drop_duplicates(subset=['Ссылка'], keep='last', inplace=True)
             df.reset_index(drop=True, inplace=True)
+
+            # add source
+            df['source'] = df['Ссылка'].apply(lambda x: x.split('.')[1])
 
             # source_id
             source_df_dict = source_df.set_index('id').to_dict()['name']
             cian_realty['source_id'] = df['source'].apply(lambda x: source_id_from_link(x, source_df_dict, 'cian'))
 
             # ad_id
-            cian_realty['ad_id'] = df['ad_id']
+            cian_realty['ad_id'] = df['Ссылка'].apply(lambda x: x.split('/')[-2])
+
+            # city
+            df['city'] = df['Адрес'].apply(lambda x: x.split(';')[1])
 
             # city_id
             city_df_dict = city_df.set_index('id').to_dict()['name']
             cian_realty['city_id'] = df['city'].apply(lambda x: city_id_from_link(x, city_df_dict))
 
-            cian_realty['city_id'] = df['city'].apply(lambda x: city_id_from_link(x, city_df_dict))
             # удалить записи где city_id пустой (записи городов, которые не присутствуют в списке городов для парсинга)
             # ind_to_drop = cian_realty[(cian_realty['city_id'].isna())].index.tolist()
             # cian_realty.drop(ind_to_drop, inplace=True)
@@ -685,7 +706,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
 
             # type_id
 
-            cian_realty['type_id'] = df['type'].apply(lambda x: type_id_from_room(x, dict_realty_type))
+            cian_realty['type_id'] = df['Комнат'].apply(lambda x: type_id_from_room(x, dict_realty_type))
             # удалить записи аукционов и других объяв где не опредлен type_id
             ind_to_drop = cian_realty[(cian_realty['type_id'].isna())].index.tolist()
             cian_realty.drop(ind_to_drop, inplace=True)
@@ -693,21 +714,23 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             cian_realty.type_id = cian_realty.type_id.astype(int)
 
             # addr
-            cian_realty['addr'] = df['addr']
+            cian_realty['addr'] = df['Адрес']
+            cian_realty['addr'] = cian_realty['addr'].apply(lambda x: x.replace(';', '; '))
 
             # district_id после addr потому что в нем используется адрес
             all_districts = get_districts(sql_engine)
             cian_realty['district_id'] = cian_realty.apply(
                 lambda row: district_from_rn_mkrn(row, all_districts, sql_engine), axis=1)
+            not_found_distr.clear() # УДАЛИТЬ
 
             # square
-            cian_realty['square'] = df['square']
+            cian_realty['square'] = df['Площадь'].apply(lambda x: square_from_ploshad(x))
 
             # floor
-            cian_realty['floor'], cian_realty['house_floors'] = df['floor'], df['house_floors']
+            cian_realty['floor'], cian_realty['house_floors'] = zip(*df['Этаж'].apply(floor_floors_from_etazh))
 
             # link
-            cian_realty['link'] = df['link']
+            cian_realty['link'] = df['Ссылка']
 
             # date
             file_date = get_date_from_name(fname)
@@ -728,23 +751,25 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             cian_realty['version'] = current_version
 
             # offer_from
-            cian_realty['offer_from'] = df['offer_from']
+            cian_realty['offer_from'] = df['Тип продавца']
 
             # status_new
             cian_realty['status_new'] = 1
 
             # add fields of price and price_sqrm
-            cian_realty['price'], cian_realty['price_sqrm'] = df['price'], df['price_sqrm']
+            cian_realty['price'], cian_realty['price_sqrm'] = df['Цена'], df['Цена за м2']
 
             # delete rows where one of important values isna
             cian_realty_check = cian_realty[['source_id', 'ad_id', 'type_id', 'addr', 'link', 'date', 'version']]
             values_na_ind = cian_realty_check[cian_realty_check.isna().any(axis=1)].index
             if len(values_na_ind) > 0:
                 cian_realty = cian_realty.drop(values_na_ind)
+            cian_realty.drop_duplicates(subset=['ad_id'], inplace=True)
 
             cian_realty_to_return = cian_realty[['source_id', 'ad_id', 'city_id', 'district_id', 'type_id',
-                                                 'addr', 'square', 'floor','house_floors', 'link', 'date',
-                                                 'status', 'version', 'offer_from', 'status_new', 'price', 'price_sqrm']]
+                                                 'addr', 'square', 'floor', 'house_floors', 'link', 'date',
+                                                 'status', 'version', 'offer_from', 'status_new', 'price',
+                                                 'price_sqrm']]
         except Exception as ex:
             print(traceback.format_exc())
             cian_realty_to_return = pd.DataFrame()
@@ -764,7 +789,7 @@ def process_realty(local_dir, file_to_process, sql_engine, source):
                     realty_df, file_date = create_realty(saved_file, Path(saved_files[f_ind]).stem,
                                                          sql_engine, 'avito')
                 elif source == 'cian':
-                    saved_file = pd.read_csv(saved_files[f_ind], delimiter=',', encoding='cp1251')
+                    saved_file = pd.read_csv(saved_files[f_ind], delimiter=',', encoding='utf8')
                     realty_df, file_date = create_realty(saved_file, Path(saved_files[f_ind]).stem,
                                                          sql_engine, 'cian')
             except Exception as ex:
