@@ -1,6 +1,7 @@
 import time
 
 from main_utils import *
+from sql_utils import *
 
 if __name__ == '__main__':
     while True:
@@ -50,6 +51,9 @@ if __name__ == '__main__':
             else:
                 error_loading_files = False
                 print('ready to process files', files_to_process_avito, files_to_process_cian)
+
+            if len(files_to_process_avito) == 0 and len(files_to_process_cian) == 0:
+                continue
 
             # обработка файлов и загрузка данных в таблицу
             for filename in files_to_process_avito:
