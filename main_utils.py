@@ -354,6 +354,7 @@ def load_and_update_realty_db(engine, df, source):
     else:
         error_getting_ad_id = False
         print('Загрузка новых объявлений в таблицу')
+    df.ad_id = df.ad_id.astype(int)
     df_realty_exist = df[df.ad_id.isin(exist_ad_id)][list_realty_cols]
     df_realty_new = df[~df.ad_id.isin(exist_ad_id)][list_realty_cols]
     print(len(df_realty_exist), 'существующих и', len(df_realty_new), 'новых объявлений')
@@ -569,7 +570,7 @@ def district_from_rn_mkrn(realty_row, all_districts, sql_engine):
             district_name = current_mkrn if current_mkrn != None else current_rn
             district_intersection = all_districts[
                 (all_districts.city_id == realty_row.city_id) & (all_districts.name == district_name)]
-            if len(district_intersection) == 0: # and (district_name not in not_found_distr): # УДАЛИТЬ not_found_distr
+            if len(district_intersection) == 0 and (realty_row.source_id != 3): # and (district_name not in not_found_distr): # УДАЛИТЬ not_found_distr
                 # обновление данных из districts на случай если дистрикт добавлялся во время исполнения скрипта
                 all_districts_upd = get_districts(sql_engine)
                 district_intersection_upd = all_districts_upd[
