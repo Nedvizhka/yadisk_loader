@@ -21,7 +21,7 @@ def filter_addr_for_dadata(addrString, source):
             addrList = list(filter(lambda c: 'мкр' not in c, addrList))
         else:
             addrList = list(filter(lambda c: not any(del_el in c for del_el in [str(i) for i in range(0,10)] if 'мкр' in c), addrList))
-            addrList = list(filter(lambda c: 'мкр' in c, addrList))
+            # addrList = list(filter(lambda c: 'мкр' in c, addrList))
         return '; '.join(addrList)
 
 def dadata_request(df, source):
