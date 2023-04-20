@@ -69,7 +69,7 @@ def get_config(get_only_start_time=False):
 
     ya_token = config['yandex']['ya_token']
     ya_api = config['yandex']['ya_api']
-    ya_link = config['yandex']['ya_link_test']
+    ya_link = config['yandex']['ya_link']
 
     start_time = int(config['start_time']['daily_start_hour'])
 
@@ -169,8 +169,9 @@ def download_yadisk_files(yandex_api, sharing_link, handled_files, save_dir, mar
             cnt = 0
             for member in zips.namelist():
                 filename = os.path.basename(member)
-                if (not filename or Path(filename).stem in handled_files) and \
-                    ('циан' in filename if marketplace == 'avito' else 'циан' not in filename):
+                if (not filename or Path(filename).stem in handled_files):
+                    continue
+                elif 'циан' in filename if marketplace == 'avito' else 'циан' not in filename:
                     continue
                 src = zips.open(member)
                 target = open(os.path.join(save_dir, filename), 'wb')
