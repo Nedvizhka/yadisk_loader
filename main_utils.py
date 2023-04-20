@@ -658,6 +658,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             all_districts = get_districts(sql_engine)
             df['district_id'] = df.apply(lambda row: district_from_rn_mkrn(row, all_districts, sql_engine), axis=1)
             not_found_distr.clear()
+            print('district add from realty')
 
             # square
             df['square'] = df['Площадь'].apply(lambda x: square_from_ploshad(x))
@@ -760,6 +761,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             cian_realty['district_id'] = cian_realty.apply(
                 lambda row: district_from_rn_mkrn(row, all_districts, sql_engine), axis=1)
             not_found_distr.clear() # УДАЛИТЬ
+            print('district add from realty')
 
             # square
             cian_realty['square'] = df['Площадь'].apply(lambda x: square_from_ploshad(x))
