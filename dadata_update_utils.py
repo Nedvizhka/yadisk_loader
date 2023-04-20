@@ -56,31 +56,12 @@ def dadata_request(df, source):
     print('обращение к дадата по {}/{} записям из {} заняло'.format(len(df) - bad_addr, len(df), source), datetime.now() - st_time)
     return dh_df
 
-# получение данных район, house_id, jkh_id, dadata_house_id
+# получение данных район, house_id, jkh_id, dadata_houses_id
 
 def get_districts_from_house(df, engine):
     unique_fias = tuple(df.dropna(subset='house_fias_id').house_fias_id.unique())
     get_districts_query = \
-        """select dh.house_fias_id, h.district_id, h.id as house_id, h.jkh_id, dh.id as dadata_house_id
-            from dadata_houses dh left join houses h on h.dadata_houses_id = dh.id 
-            where h.district_id is not null
-            and dh.house_fias_id in {}""".format(unique_fias)
-    try:
-        con_obj = engine.connect()
-        districts_db = pd.read_sql(text(get_districts_query), con=con_obj)
-        con_obj.close()
-        exc_code = None
-    except Exception as exc:
-        print(traceback.format_exc())
-        districts_db = None
-        exc_code = exc.code
-    return districts_db, exc_code
-
-
-def get_districts_from_house(df, engine):
-    unique_fias = tuple(df.dropna(subset='house_fias_id').house_fias_id.unique())
-    get_districts_query = \
-        """select dh.house_fias_id, dh.ad_id, jh.district_id, h.id as house_id, jh.id as jkh_id, dh.id as dadata_house_id
+        """select dh.house_fias_id, dh.ad_id, jh.district_id, h.id as house_id, jh.id as jkh_id, dh.id as dadata_houses_id
             from dadata_houses dh 
             left join jkh_houses jh on jh.house_fias_id = dh.house_fias_id 
             left join houses h on h.jkh_id = jh.id
