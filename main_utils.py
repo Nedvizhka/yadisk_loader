@@ -15,6 +15,8 @@ import yadisk
 from sqlalchemy import create_engine, text, NullPool
 from sshtunnel import SSHTunnelForwarder
 
+from dadata_update_utils import filter_addr_for_dadata, dadata_request, get_districts_from_house, update_jkh_district
+
 warnings.filterwarnings("ignore")
 
 not_found_distr = []
@@ -60,7 +62,7 @@ def get_config(get_only_start_time=False):
     ssh_password = config['database']['ssh_password']
     database_username = config['database']['database_username']
     database_password = config['database']['database_password']
-    database_name = config['database']['database_name']
+    database_name = config['database']['preprod_database_name'] # переключить на database_name для работы на прод сервере
     localhost = config['database']['localhost']
     localhost_port = int(config['database']['localhost_port'])
     table_name = config['database']['table_name']
@@ -157,7 +159,7 @@ def download_local_yadisk_files(yandex_api_token, handled_files, save_dir):
         return saved_files, is_error
 
 
-def download_yadisk_files(yandex_api, sharing_link, handled_files, save_dir):
+def download_yadisk_files(yandex_api, sharing_link, handled_files, save_dir, marketplace):
     direct_link = get_direct_link(yandex_api, sharing_link)
     try:
         saved_files = []
@@ -167,7 +169,8 @@ def download_yadisk_files(yandex_api, sharing_link, handled_files, save_dir):
             cnt = 0
             for member in zips.namelist():
                 filename = os.path.basename(member)
-                if not filename or Path(filename).stem in handled_files or 'циан' in filename:
+                if (not filename or Path(filename).stem in handled_files) and \
+                    ('циан' in filename if marketplace == 'avito' else 'циан' not in filename):
                     continue
                 src = zips.open(member)
                 target = open(os.path.join(save_dir, filename), 'wb')
@@ -342,6 +345,7 @@ def load_and_update_realty_db(engine, df, source):
     # разбивка полученных данных на новые и существующие по ad_id
     exist_ad_id, error_getting_ad_id = get_exist_ad_id(engine, source)
     exist_ad_id = exist_ad_id.ad_id.to_list()
+
     if error_getting_ad_id:
         error_getting_ad_id = True
         return False, error_getting_ad_id, False, False
@@ -350,15 +354,8 @@ def load_and_update_realty_db(engine, df, source):
         print('Загрузка новых объявлений в таблицу')
     df_realty_exist = df[df.ad_id.isin(exist_ad_id)][list_realty_cols]
     df_realty_new = df[~df.ad_id.isin(exist_ad_id)][list_realty_cols]
+    print(len(df_realty_exist), 'существующих и', len(df_realty_new), 'новых объявлений')
 
-    # выгрузка данных в таблицу на сервере
-    try:
-        load_df_into_sql_table(df_realty_new, 'realty', engine)
-        error_loading_into_realty = False
-    except:
-        error_loading_into_realty = True
-        return False, False, error_loading_into_realty, False
-    print('новые объявления добавлены, переход к обновлению существующих')
 
     # обновление данных
     if len(df_realty_exist) != 0:
@@ -368,10 +365,48 @@ def load_and_update_realty_db(engine, df, source):
             return False, False, False, error_updating_realty
         else:
             error_updating_realty = False
-            print('Обновление данных завершено')
+            print('Обновление существующих данных realty завершено')
     else:
         error_updating_realty = False
         print('не было обнаружено пересечений в данных, переход к добавлению цен в prices')
+
+    # тест запуск
+    df_realty_new = df_realty_new[df_realty_new['city_id'] == 7].sample(700, random_state=111)
+    print('тестовый запуск - будет обработано', len(df_realty_new), 'новых объявлений')
+
+    # выгрузка новых данных в таблицу на сервере
+    try:
+        # обновление dadata_houses
+        df_dadata_houses = dadata_request(df_realty_new, source)
+        df_dadata_houses.to_sql(name='dadata_houses', con=engine, if_exists='append',
+                                chunksize=5000, method='multi', index=False)
+
+        # добавление полей для realty
+        only_districts_df, error_loading_districts_from_houses = get_districts_from_house(df_dadata_houses, engine)
+        only_districts_df = only_districts_df[~only_districts_df.ad_id.isna()]
+        only_districts_df.drop_duplicates(subset=['house_fias_id', 'ad_id', 'district_id'], keep='last', inplace=True)
+        print(len(only_districts_df))
+
+        df_realty_new_extra = df_realty_new.merge(only_districts_df[['ad_id', 'house_id', 'jkh_id', 'dadata_house_id']],
+                                                  on='ad_id', how='left')
+
+        # обновление полей для jkh_id
+        error_create_temp_jkh_houses, error_updating_jkh_houses = update_jkh_district(df_realty_new_extra, only_districts_df, engine)
+        if error_create_temp_jkh_houses or error_updating_jkh_houses:
+            print('не удалось обновить jkh_houses')
+            return False, False, False, error_updating_realty
+
+
+        load_df_into_sql_table(df_realty_new_extra, 'realty', engine)
+        error_loading_into_realty = False
+        print('новые объявления добавлены, переход к обновлению существующих')
+
+    except Exception as exc:
+        print('новые объявления не добавлены')
+        print(exc)
+        error_loading_into_realty = True
+        return False, False, error_loading_into_realty, False
+
     return error_create_temp_realty, error_getting_ad_id, error_loading_into_realty, error_updating_realty
 
 
@@ -519,7 +554,7 @@ def district_from_rn_mkrn(realty_row, all_districts, sql_engine):
             district_name = current_mkrn if current_mkrn != None else current_rn
             district_intersection = all_districts[
                 (all_districts.city_id == realty_row.city_id) & (all_districts.name == district_name)]
-            if (len(district_intersection) == 0) and (district_name not in not_found_distr): # УДАЛИТЬ not_found_distr
+            if len(district_intersection) == 0: # and (district_name not in not_found_distr): # УДАЛИТЬ not_found_distr
                 # обновление данных из districts на случай если дистрикт добавлялся во время исполнения скрипта
                 all_districts_upd = get_districts(sql_engine)
                 district_intersection_upd = all_districts_upd[
@@ -529,12 +564,12 @@ def district_from_rn_mkrn(realty_row, all_districts, sql_engine):
                 if len(district_intersection_upd) == 0:
                     if realty_row.source_id == 2: # добавляет район только если источник cian (source id == 2)
                         add_districts_df.loc[len(add_districts_df)] = [realty_row.city_id, district_name]
-                        # add_districts_df.to_sql(name='districts', con=sql_engine, if_exists='append', chunksize=7000, method='multi', index=False)
+                        add_districts_df.to_sql(name='districts', con=sql_engine, if_exists='append', chunksize=10, method='multi', index=False)
                         print('добавлен новый район "{}" в districts функцией district_from_rn_mkrn'.format(district_name))
-                        not_found_distr.append(district_name) # УДАЛИТЬ
+                        # not_found_distr.append(district_name) # УДАЛИТЬ
                         return current_max_id + 1
                     else:
-                        not_found_distr.append(district_name)
+                        # not_found_distr.append(district_name)
                         return None
                 # если данные о районе в обновленном districts есть, возвращаем id
                 else:
@@ -543,7 +578,7 @@ def district_from_rn_mkrn(realty_row, all_districts, sql_engine):
                 try:
                     return district_intersection.iloc[0, 0]
                 except:
-                    return 'unknown_district' # УДАЛИТЬ
+                    return None # УДАЛИТЬ
 
     else:
         return None
@@ -569,6 +604,8 @@ def get_date_from_name(fname):
     except:
         return datetime.strptime(Path(fname).stem.replace("(без дублей)", "").replace("циан", "").replace(" ", "")[:8],
                                  "%d-%m-%y")
+
+
 
 
 def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_cian_avito):

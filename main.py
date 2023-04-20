@@ -27,20 +27,20 @@ if __name__ == '__main__':
                                                     localhost_port, database_username, database_password, database_name)
 
             # загрузка списка сохраненных файлов
-            # handled_files_avito = get_saved_files_names('avito')
+            handled_files_avito = get_saved_files_names('avito')
             handled_files_cian = get_saved_files_names('cian')
 
             # чтение и сохранение в local_save_dir файлов из ядиска avito
-            # files_to_process_avito, error_file_loading_avito = download_yadisk_files(ya_api, ya_link,
-            #                                                                          handled_files_avito,
-            #                                                                          local_save_dir_avito)
+            files_to_process_avito, error_file_loading_avito = download_yadisk_files(ya_api, ya_link,
+                                                                                     handled_files_avito,
+                                                                                     local_save_dir_avito, 'avito')
             # заглушка загрузки avito
-            files_to_process_avito, error_file_loading_avito = [], False
+            # files_to_process_avito, error_file_loading_avito = [], False
 
-            # чтение и сохранение в local_save_dir файлов из лиичного ядиска cian
-            files_to_process_cian, error_file_loading_cian = download_local_yadisk_files(ya_token,
-                                                                                         handled_files_cian,
-                                                                                         local_save_dir_cian)
+            # чтение и сохранение в local_save_dir файлов из ядиска cian
+            files_to_process_cian, error_file_loading_cian = download_yadisk_files(ya_api, ya_link,
+                                                                                   handled_files_cian,
+                                                                                   local_save_dir_cian, 'cian')
 
             # проверка состояния
             if error_file_loading_avito or error_file_loading_cian:
@@ -56,6 +56,58 @@ if __name__ == '__main__':
                 continue
 
             # обработка файлов и загрузка данных в таблицу
+            for filename in files_to_process_cian:
+                # обработка realty циан
+                print('обработка файла {} для cian'.format(filename))
+                df_cian_realty, file_date, error_file_processing = process_realty(local_save_dir_cian, filename,
+                                                                                  sql_engine, 'cian')
+
+                # проверка состояния
+                if error_file_processing:
+                    print('Ошибка при обработке файлов из CIAN {}. Перезапуск скрипта...'.format(filename))
+                    error_processing_files = True
+                    break
+                else:
+                    error_processing_files = False
+                    print('Выгрузка в таблицу realty обработанного файла из cian:', filename)
+
+                # выгрузка и обновление данных в таблице realty
+                error_create_temp_realty, error_getting_ad_id, error_loading_into_realty, error_updating_realty = \
+                    load_and_update_realty_db(sql_engine, df_cian_realty, 'cian')
+
+                if any([error_create_temp_realty, error_getting_ad_id,
+                        error_loading_into_realty,error_updating_realty]):
+                    close_sql_connection(sql_server, sql_engine)
+                    print('Ошибка:', show_error([error_create_temp_realty, error_getting_ad_id,
+                                                 error_loading_into_realty, error_updating_realty]))
+                    print('Не удалось добавить данные в таблицу {}. Перезапуск скрипта...'.format('realty'))
+                    time.sleep(10)
+                    break
+
+                # обработка prices cian из realty cian
+                df_cian_prices, error_file_processing = create_prices(df_cian_realty, filename, sql_engine, 'cian')
+
+                # проверка состояния
+                if error_file_processing:
+                    print('Ошибка при обработке файлов для prices из cian {}. Перезапуск скрипта...'.format(filename))
+                    error_processing_files = True
+                    break
+                else:
+                    error_processing_files = False
+                    print('Выгрузка в таблицу prices обработанного файла из cian:', filename)
+                # загрузка и обновление prices в таблицу на сервере, запись названия файла в .txt
+                try:
+                    df_cian_prices.to_sql(name='prices', con=sql_engine, if_exists='append',
+                                           chunksize=7000, method='multi', index=False)
+                    # df_cian_prices.to_csv(f'{filename}_test_cian_prices.csv')
+                    write_saved_file_names(Path(filename).stem, 'cian')
+                    error_writing_files = False
+                except Exception as exc:
+                    print(exc)
+                    print('Не удалось добавить данные в таблицу {}. Перезапуск скрипта...'.format('prices'))
+                    error_writing_files = True
+                    break
+
             for filename in files_to_process_avito:
                 # обработка realty avito
                 print('обработка файла {} для авито'.format(filename))
@@ -107,57 +159,6 @@ if __name__ == '__main__':
                     print(exc)
                     close_sql_connection(sql_server, sql_engine)
                     print('Не удаолсь добавить данные в таблицу {}. Перезапуск скрипта...'.format('prices'))
-                    error_writing_files = True
-                    break
-            for filename in files_to_process_cian:
-                # обработка realty циан
-                print('обработка файла {} для cian'.format(filename))
-                df_cian_realty, file_date, error_file_processing = process_realty(local_save_dir_cian, filename,
-                                                                                  sql_engine, 'cian')
-
-                # проверка состояния
-                if error_file_processing:
-                    print('Ошибка при обработке файлов из CIAN {}. Перезапуск скрипта...'.format(filename))
-                    error_processing_files = True
-                    break
-                else:
-                    error_processing_files = False
-                    print('Выгрузка в таблицу realty обработанного файла из cian:', filename)
-
-                # выгрузка и обновление данных в таблице realty
-                error_create_temp_realty, error_getting_ad_id, error_loading_into_realty, error_updating_realty = \
-                    load_and_update_realty_db(sql_engine, df_cian_realty, 'cian')
-
-                if any([error_create_temp_realty, error_getting_ad_id,
-                        error_loading_into_realty,error_updating_realty]):
-                    close_sql_connection(sql_server, sql_engine)
-                    print('Ошибка:', show_error([error_create_temp_realty, error_getting_ad_id,
-                                                 error_loading_into_realty, error_updating_realty]))
-                    print('Не удалось добавить данные в таблицу {}. Перезапуск скрипта...'.format('realty'))
-                    time.sleep(10)
-                    break
-
-                # обработка prices cian из realty cian
-                df_cian_prices, error_file_processing = create_prices(df_cian_realty, filename, sql_engine, 'cian')
-
-                # проверка состояния
-                if error_file_processing:
-                    print('Ошибка при обработке файлов для prices из cian {}. Перезапуск скрипта...'.format(filename))
-                    error_processing_files = True
-                    break
-                else:
-                    error_processing_files = False
-                    print('Выгрузка в таблицу prices обработанного файла из cian:', filename)
-                # загрузка и обновление prices в таблицу на сервере, запись названия файла в .txt
-                try:
-                    df_cian_prices.to_sql(name='prices', con=sql_engine, if_exists='append',
-                                           chunksize=7000, method='multi', index=False)
-                    # df_cian_prices.to_csv(f'{filename}_test_cian_prices.csv')
-                    write_saved_file_names(Path(filename).stem, 'cian')
-                    error_writing_files = False
-                except Exception as exc:
-                    print(exc)
-                    print('Не удалось добавить данные в таблицу {}. Перезапуск скрипта...'.format('prices'))
                     error_writing_files = True
                     break
             try:
