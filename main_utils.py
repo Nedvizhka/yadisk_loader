@@ -374,8 +374,12 @@ def load_and_update_realty_db(engine, df, source):
         print('не было обнаружено пересечений в данных, переход к добавлению цен в prices')
 
     # тест запуск
-    df_realty_new = df_realty_new[df_realty_new['city_id'] == 7].sample(700, random_state=111)
-    print('тестовый запуск - будет обработано', len(df_realty_new), 'новых объявлений')
+    if source != 'cian':
+        df_realty_new = df_realty_new[df_realty_new['city_id'] == 7].sample(700, random_state=111)
+        print('тестовый запуск - будет обработано', len(df_realty_new), 'новых объявлений')
+    else:
+        df_realty_new = df_realty_new[df_realty_new['city_id'] == 7]
+        print('тестовый запуск - будет обработано', len(df_realty_new), 'новых объявлений')
 
     # выгрузка новых данных в таблицу на сервере
     try:
