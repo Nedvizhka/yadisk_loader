@@ -7,6 +7,7 @@ import warnings
 import zipfile
 from datetime import datetime
 from pathlib import Path
+import time
 
 import pandas as pd
 import numpy as np
@@ -378,14 +379,27 @@ def load_and_update_realty_db(engine, df, source):
     # выгрузка новых данных в таблицу на сервере
     try:
         # обновление dadata_houses
-        df_dadata_houses = dadata_request(df_realty_new, source)
-        df_dadata_houses.to_sql(name='dadata_houses', con=engine, if_exists='append',
-                                chunksize=5000, method='multi', index=False)
+        try:
+            df_dadata_houses = dadata_request(df_realty_new, source)
+            df_dadata_houses.to_sql(name='dadata_houses', con=engine, if_exists='append',
+                                    chunksize=5000, method='multi', index=False)
+        except:
+            try:
+                print('не удалось собрать данные из дадата - попытка №2')
+                time.sleep(20)
+                df_dadata_houses = dadata_request(df_realty_new, source)
+                df_dadata_houses.to_sql(name='dadata_houses', con=engine, if_exists='append',
+                                        chunksize=5000, method='multi', index=False)
+            except:
+                print('не удалось собрать данные из дадата - проверь баланс')
+                return False, False, True, False
 
         # добавление полей для realty
         only_districts_df, error_loading_districts_from_houses = get_districts_from_house(df_dadata_houses, engine)
         only_districts_df = only_districts_df[~only_districts_df.ad_id.isna()]
         only_districts_df.drop_duplicates(subset=['house_fias_id', 'ad_id', 'district_id'], keep='last', inplace=True)
+        only_districts_df['ad_id'] = only_districts_df['ad_id'].astype(int)
+        df_realty_new['ad_id'] = df_realty_new['ad_id'].astype(int)
         print(len(only_districts_df))
 
         df_realty_new_extra = df_realty_new.merge(only_districts_df[['ad_id', 'house_id', 'jkh_id', 'dadata_house_id']],
