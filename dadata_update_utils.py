@@ -158,7 +158,7 @@ def update_jkh_houses(engine, df):
         con_obj.commit()
         con_obj.close()
 
-        #         очистка данных из temp_realty
+        #         очистка данных из temp_jkh
         con_obj = engine.connect()
         con_obj.execute(text(clear_temp_table_query))
         con_obj.commit()
