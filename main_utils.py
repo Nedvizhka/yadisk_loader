@@ -289,6 +289,17 @@ def update_realty(engine, df):
     clear_temp_table_query = \
         """DELETE FROM temp_realty"""
     try:
+        try:
+            # очистка данных из temp_realty
+            con_obj = engine.connect()
+            con_obj.execute(text(clear_temp_table_query))
+            con_obj.commit()
+            con_obj.close()
+            print('temp_realty очищена')
+            time.sleep(1)
+        except:
+            print('не удалось удалить данные')
+            time.sleep(1)
         # выгрузка данных в таблицу на сервере
         load_df_into_sql_table(df, 'temp_realty', engine)
 
