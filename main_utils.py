@@ -207,7 +207,7 @@ def load_df_into_sql_table(df, table_name, engine):
 
 def get_index_temp(engine):
     index_show_query = \
-        f"""SHOW indexes FROM temp_realty"""
+        f"""SHOW indexes FROM temp_realty_new"""
     try:
         con_obj = engine.connect()
         index_db = pd.read_sql(text(index_show_query), con=con_obj)
@@ -221,7 +221,7 @@ def get_index_temp(engine):
 
 def create_temp_realty(engine):
     create_table_query = \
-        """CREATE TABLE `temp_realty` (
+        """CREATE TABLE `temp_realty_new` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `source_id` int(11) DEFAULT NULL,
           `ad_id` BIGINT DEFAULT NULL,
@@ -244,10 +244,10 @@ def create_temp_realty(engine):
 
     index_create_query = \
         f"""CREATE INDEX index_ad_id_temp
-        ON temp_realty (ad_id);"""
+        ON temp_realty_new (ad_id);"""
 
     clear_temp_table_query = \
-        """DELETE FROM temp_realty"""
+        """DELETE FROM temp_realty_new"""
 
     try:
         con_obj = engine.connect()
@@ -268,7 +268,10 @@ def create_temp_realty(engine):
             con_obj.close()
             print('Временная таблица очищена')
             return None
-        except:
+        except Exception as exc:
+            print(exc)
+            time.sleep(1)
+            print('не удалось очистить таблицу')
             return True
 
 def get_exist_ad_id(engine, source):
@@ -287,7 +290,7 @@ def get_exist_ad_id(engine, source):
 
 def update_realty(engine, df):
     clear_temp_table_query = \
-        """DELETE FROM temp_realty"""
+        """DELETE FROM temp_realty_new"""
     try:
         try:
             # очистка данных из temp_realty
@@ -295,33 +298,33 @@ def update_realty(engine, df):
             con_obj.execute(text(clear_temp_table_query))
             con_obj.commit()
             con_obj.close()
-            print('temp_realty очищена')
+            print('temp_realty_new очищена')
             time.sleep(1)
         except:
             print('не удалось удалить данные')
             time.sleep(1)
         # выгрузка данных в таблицу на сервере
-        load_df_into_sql_table(df, 'temp_realty', engine)
+        load_df_into_sql_table(df, 'temp_realty_new', engine)
 
         con_obj = engine.connect()
         common_ids = tuple(df.ad_id)
 
-        update_table_query = f"""update realty join temp_realty on realty.ad_id=temp_realty.ad_id
-                                            set realty.source_id = temp_realty.source_id,
-                                                realty.city_id = temp_realty.city_id,
-                                                realty.district_id = temp_realty.district_id,
-                                                realty.type_id = temp_realty.type_id,
-                                                realty.addr = temp_realty.addr,
-                                                realty.square = temp_realty.square,
-                                                realty.floor = temp_realty.floor,
-                                                realty.house_floors = temp_realty.house_floors,
-                                                realty.link = temp_realty.link,
-                                                realty.date = temp_realty.date,
+        update_table_query = f"""update realty join temp_realty_new on realty.ad_id=temp_realty_new.ad_id
+                                            set realty.source_id = temp_realty_new.source_id,
+                                                realty.city_id = temp_realty_new.city_id,
+                                                realty.district_id = temp_realty_new.district_id,
+                                                realty.type_id = temp_realty_new.type_id,
+                                                realty.addr = temp_realty_new.addr,
+                                                realty.square = temp_realty_new.square,
+                                                realty.floor = temp_realty_new.floor,
+                                                realty.house_floors = temp_realty_new.house_floors,
+                                                realty.link = temp_realty_new.link,
+                                                realty.date = temp_realty_new.date,
                                                 realty.status = realty.status,
-                                                realty.version = temp_realty.version,
-                                                realty.offer_from = temp_realty.offer_from,
-                                                realty.status_new = temp_realty.status_new,
-                                                realty.house_id = temp_realty.house_id
+                                                realty.version = temp_realty_new.version,
+                                                realty.offer_from = temp_realty_new.offer_from,
+                                                realty.status_new = temp_realty_new.status_new,
+                                                realty.house_id = temp_realty_new.house_id
                                             WHERE realty.ad_id in {common_ids}"""
 
         con_obj.execute(text(update_table_query))
