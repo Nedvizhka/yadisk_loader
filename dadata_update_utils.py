@@ -150,7 +150,8 @@ def update_jkh_houses(engine, df):
         common_ids = tuple(df.jkh_id)
 
         update_table_query = f"""update jkh_houses join temp_jkh_houses on jkh_houses.id=temp_jkh_houses.jkh_id
-                                            set jkh_houses.district_id = temp_jkh_houses.new_distr
+                                            set jkh_houses.district_id = temp_jkh_houses.new_distr,
+                                            set jkh_houses.geo_district = 0
                                             WHERE jkh_houses.id in {common_ids}"""
 
         con_obj.execute(text(update_table_query))
@@ -195,7 +196,7 @@ def update_jkh_district(df_realty, df_districts, engine):
                     distr_to_update.loc[len(distr_to_update)] = [int(val.jkh_id), val.district_id]
             except:
                 pass
-    print('обновление районов в jkh_houses для', len(distr_to_update), 'записей')
+    print('Получены несовпадения районов c jkh, обновление районов в jkh_houses для', len(distr_to_update), 'записей')
 
     error_create_temp_jkh_houses = create_temp_jkh_houses(engine)
     if error_create_temp_jkh_houses:
