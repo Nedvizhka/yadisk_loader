@@ -405,21 +405,30 @@ def load_and_update_realty_db(engine, df, source):
         only_districts_df.drop_duplicates(subset=['house_fias_id', 'ad_id', 'district_id'], keep='last', inplace=True)
         only_districts_df['ad_id'] = only_districts_df['ad_id'].astype(int)
         df_realty_new['ad_id'] = df_realty_new['ad_id'].astype(int)
-        print(len(only_districts_df))
+        print('уникальных троек по h_fias_id, ad_id, d_id, в таблице с районами и houses_jkh_ddt/id: ',
+              len(only_districts_df))
+        if len(only_districts_df != 0):
+            print('выгрузка данных в таблицу realty')
+            df_realty_new_extra = df_realty_new.merge(only_districts_df[['ad_id', 'house_id', 'jkh_id', 'dadata_houses_id']],
+                                                      on='ad_id', how='left')
+            # обновление полей для jkh_id
+            error_create_temp_jkh_houses, error_updating_jkh_houses = update_jkh_district(df_realty_new_extra,
+                                                                                          only_districts_df, engine)
+            if error_create_temp_jkh_houses or error_updating_jkh_houses:
+                print('не удалось обновить jkh_houses')
+                return False, False, False, error_updating_realty
 
-        df_realty_new_extra = df_realty_new.merge(only_districts_df[['ad_id', 'house_id', 'jkh_id', 'dadata_houses_id']],
-                                                  on='ad_id', how='left')
+            load_df_into_sql_table(df_realty_new_extra, 'realty', engine)
+            error_loading_into_realty = False
+            print('новые объявления добавлены, переход к обновлению существующих')
 
-        # обновление полей для jkh_id
-        error_create_temp_jkh_houses, error_updating_jkh_houses = update_jkh_district(df_realty_new_extra, only_districts_df, engine)
-        if error_create_temp_jkh_houses or error_updating_jkh_houses:
-            print('не удалось обновить jkh_houses')
-            return False, False, False, error_updating_realty
+        else:
+            print('нет новых записей с  houses_jkh_ddt/id, добавляю результаты парсинга as is')
+            df_realty_new['house_id'] = None
+            df_realty_new['jkh_id'] = None
+            df_realty_new['dadata_houses_id'] = None
+            load_df_into_sql_table(df_realty_new, 'realty', engine)
 
-
-        load_df_into_sql_table(df_realty_new_extra, 'realty', engine)
-        error_loading_into_realty = False
-        print('новые объявления добавлены, переход к обновлению существующих')
 
     except Exception as exc:
         print('новые объявления не добавлены')
