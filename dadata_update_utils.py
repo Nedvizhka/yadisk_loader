@@ -150,15 +150,14 @@ def update_jkh_houses(engine, df):
         common_ids = tuple(df.jkh_id)
 
         update_table_query = f"""update jkh_houses join temp_jkh_houses on jkh_houses.id=temp_jkh_houses.jkh_id
-                                            set jkh_houses.district_id = temp_jkh_houses.new_distr,
-                                            set jkh_houses.geo_district = 0
+                                            set jkh_houses.district_id = temp_jkh_houses.new_distr
                                             WHERE jkh_houses.id in {common_ids}"""
 
         con_obj.execute(text(update_table_query))
         con_obj.commit()
         con_obj.close()
 
-        #         очистка данных из temp_jkh
+        #         очистка данных из temp_realty
         con_obj = engine.connect()
         con_obj.execute(text(clear_temp_table_query))
         con_obj.commit()
