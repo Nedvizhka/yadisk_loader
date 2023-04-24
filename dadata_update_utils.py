@@ -1,4 +1,5 @@
 import traceback
+import time
 import pandas as pd
 import numpy as np
 from datetime import datetime
@@ -54,6 +55,7 @@ def dadata_request(df, source):
             else:
                 bad_addr += 1
     print('обращение к дадата по {}/{} записям из {} заняло'.format(len(df) - bad_addr, len(df), source), datetime.now() - st_time)
+    dh_df.to_csv(f'{source}_dadata_request_{datetime.today().strftime(format="%d_%m_%Y")}')
     return dh_df
 
 # получение данных район, house_id, jkh_id, dadata_houses_id
@@ -71,11 +73,13 @@ def get_districts_from_house(df, engine):
             and dh.house_fias_id in {}""".format(unique_fias)
 
     try:
+        time.sleep(3)
         con_obj = engine.connect()
         districts_db = pd.read_sql(text(get_districts_query), con=con_obj)
         con_obj.close()
         exc_code = None
     except Exception as exc:
+        print('get districts from house connection failed')
         print(traceback.format_exc())
         districts_db = None
         exc_code = exc.code
@@ -86,11 +90,13 @@ def get_index_temp_jkh_houses(engine):
     index_show_query = \
         f"""SHOW indexes FROM temp_jkh_houses"""
     try:
+        time.sleep(3)
         con_obj = engine.connect()
         index_db = pd.read_sql(text(index_show_query), con=con_obj)
         con_obj.close()
         exc_code = None
     except Exception as exc:
+        print('get index connection failed')
         print(traceback.format_exc())
         index_db = None
         exc_code = exc.code
@@ -117,14 +123,19 @@ def create_temp_jkh_houses(engine):
         """DELETE FROM temp_jkh_houses"""
 
     try:
+        time.sleep(3)
         con_obj = engine.connect()
         con_obj.execute(text(create_table_query))
-        if 'index_jkh_id_temp' in get_index_temp_jkh_houses(engine)[0].Key_name.to_list():
-            pass
-        else:
-            con_obj.execute(text(index_create_query))
         con_obj.commit()
         con_obj.close()
+        if 'index_jkh_id_temp' in get_index_temp_jkh_houses(engine)[0].Key_name.to_list():
+            print('Временная таблица temp_jkh_houses уже была создана')
+            pass
+        else:
+            con_obj = engine.connect()
+            con_obj.execute(text(index_create_query))
+            con_obj.commit()
+            con_obj.close()
         print('Временная таблица temp_jkh_houses создана')
         return None
     except:
@@ -146,18 +157,20 @@ def update_jkh_houses(engine, df):
         # выгрузка данных в таблицу на сервере
         load_df_into_sql_table_jkh(df, 'temp_jkh_houses', engine)
 
+        time.sleep(3)
         con_obj = engine.connect()
         common_ids = tuple(df.jkh_id)
 
         update_table_query = f"""update jkh_houses join temp_jkh_houses on jkh_houses.id=temp_jkh_houses.jkh_id
-                                            set jkh_houses.district_id = temp_jkh_houses.new_distr
+                                            set jkh_houses.district_id = temp_jkh_houses.new_distr,
+                                                jkh_houses.geo_district = 0 
                                             WHERE jkh_houses.id in {common_ids}"""
 
         con_obj.execute(text(update_table_query))
         con_obj.commit()
         con_obj.close()
 
-        #         очистка данных из temp_realty
+        # очистка данных из temp_realty
         con_obj = engine.connect()
         con_obj.execute(text(clear_temp_table_query))
         con_obj.commit()
