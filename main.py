@@ -31,11 +31,11 @@ if __name__ == '__main__':
             handled_files_cian = get_saved_files_names('cian')
 
             # чтение и сохранение в local_save_dir файлов из ядиска avito
-            files_to_process_avito, error_file_loading_avito = download_yadisk_files(ya_api, ya_link,
-                                                                                     handled_files_avito,
-                                                                                     local_save_dir_avito, 'avito')
+            # files_to_process_avito, error_file_loading_avito = download_yadisk_files(ya_api, ya_link,
+            #                                                                          handled_files_avito,
+            #                                                                          local_save_dir_avito, 'avito')
             # заглушка загрузки avito
-            # files_to_process_avito, error_file_loading_avito = [], False
+            files_to_process_avito, error_file_loading_avito = [], False
 
             # чтение и сохранение в local_save_dir файлов из ядиска cian
             files_to_process_cian, error_file_loading_cian = download_yadisk_files(ya_api, ya_link,
