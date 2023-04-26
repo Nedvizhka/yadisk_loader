@@ -15,6 +15,7 @@ import requests
 import yadisk
 from sqlalchemy import create_engine, text, NullPool
 from sshtunnel import SSHTunnelForwarder
+from tqdm import tqdm
 
 from dadata_update_utils import filter_addr_for_dadata, dadata_request, get_districts_from_house, update_jkh_district
 
@@ -587,31 +588,21 @@ def district_from_rn_mkrn(realty_row, all_districts, sql_engine):
             district_intersection = all_districts[
                 (all_districts.city_id == realty_row.city_id) & (all_districts.name == district_name)]
             if len(district_intersection) == 0 and (realty_row.source_id != 3): # and (district_name not in not_found_distr): # УДАЛИТЬ not_found_distr
-                # обновление данных из districts на случай если дистрикт добавлялся во время исполнения скрипта
-                all_districts_upd = get_districts(sql_engine)
-                district_intersection_upd = all_districts_upd[
-                    (all_districts_upd.city_id == realty_row.city_id) & (all_districts_upd.name == district_name)]
-                current_max_id = int(all_districts_upd.id.max())
+                current_max_id = int(all_districts.id.max())
                 # если в обновленном districts нет данных о районе - добавляем
-                if len(district_intersection_upd) == 0:
-                    if realty_row.source_id == 2: # добавляет район только если источник cian (source id == 2)
-                        add_districts_df.loc[len(add_districts_df)] = [realty_row.city_id, district_name]
-                        add_districts_df.to_sql(name='districts', con=sql_engine, if_exists='append', chunksize=10, method='multi', index=False)
-                        print('добавлен новый район "{}" в districts функцией district_from_rn_mkrn'.format(district_name))
-                        # not_found_distr.append(district_name) # УДАЛИТЬ
-                        return current_max_id + 1
-                    else:
-                        # not_found_distr.append(district_name)
-                        return None
-                # если данные о районе в обновленном districts есть, возвращаем id
+                if realty_row.source_id == 2: # добавляет район только если источник cian (source id == 2)
+                    add_districts_df.loc[len(add_districts_df)] = [realty_row.city_id, district_name]
+                    add_districts_df.to_sql(name='districts', con=sql_engine, if_exists='append', chunksize=10, method='multi', index=False)
+                    print('добавлен новый район "{}" в districts функцией district_from_rn_mkrn'.format(district_name))
+                    all_districts.loc[len(all_districts)] = [current_max_id + 1, realty_row.city_id, district_name]
+                    return current_max_id + 1
                 else:
-                    return district_intersection_upd.iloc[0, 0]
+                    return None
             else:
                 try:
                     return district_intersection.iloc[0, 0]
                 except:
                     return None # УДАЛИТЬ
-
     else:
         return None
 
@@ -687,9 +678,10 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
 
             # district_id после addr потому что в нем используется адрес
             all_districts = get_districts(sql_engine)
-            df['district_id'] = df.apply(lambda row: district_from_rn_mkrn(row, all_districts, sql_engine), axis=1)
+            print('обработка district_id:')
+            tqdm.pandas()
+            df['district_id'] = df.progress_apply(lambda row: district_from_rn_mkrn(row, all_districts, sql_engine), axis=1)
             not_found_distr.clear()
-            print('district add from realty')
 
             # square
             df['square'] = df['Площадь'].apply(lambda x: square_from_ploshad(x))
@@ -789,9 +781,11 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
 
             # district_id после addr потому что в нем используется адрес
             all_districts = get_districts(sql_engine)
-            cian_realty['district_id'] = cian_realty.apply(
-                lambda row: district_from_rn_mkrn(row, all_districts, sql_engine), axis=1)
-            not_found_distr.clear() # УДАЛИТЬ
+            print('обработка district_id:')
+            tqdm.pandas()
+            cian_realty['district_id'] = cian_realty.progress_apply(lambda row: district_from_rn_mkrn(row,
+                                                                                                      all_districts,
+                                                                                                      sql_engine), axis=1)
             print('district add from realty')
 
             # square
