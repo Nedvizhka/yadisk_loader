@@ -21,7 +21,7 @@ def get_config_1(get_only_start_time=False):
 
     ya_token = config['yandex']['ya_token']
     ya_api = config['yandex']['ya_api']
-    ya_link = config['yandex']['ya_link']
+    ya_link = config['yandex']['ya_link_test']
 
     start_time = int(config['start_time']['daily_start_hour'])
 
