@@ -386,7 +386,7 @@ def load_and_update_realty_db(engine, df, source):
         df_realty_new = df_realty_new[df_realty_new['city_id'] == 7].sample(700, random_state=111)
         print('тестовый запуск - будет обработано', len(df_realty_new), 'новых объявлений для', source)
     else:
-        # df_realty_new = df_realty_new[df_realty_new['city_id'] == 7]
+        df_realty_new = df_realty_new[df_realty_new['city_id'] == 7].sample(100, random_state=111)
         print('тестовый запуск - будет обработано', len(df_realty_new), 'новых объявлений для', source)
 
     # выгрузка новых данных в таблицу на сервере
@@ -396,7 +396,8 @@ def load_and_update_realty_db(engine, df, source):
             df_dadata_houses = dadata_request(df_realty_new, source)
             df_dadata_houses.to_sql(name='dadata_houses', con=engine, if_exists='append',
                                     chunksize=5000, method='multi', index=False)
-        except:
+        except Exception as exc:
+            print(exc)
             try:
                 print('не удалось собрать данные из дадата - попытка №2')
                 time.sleep(20)
