@@ -68,7 +68,7 @@ def get_config(get_only_start_time=False):
     ssh_password = config['database']['ssh_password']
     database_username = config['database']['database_username']
     database_password = config['database']['database_password']
-    database_name = config['database']['preprod_database_name'] # переключить на database_name для работы на прод сервере
+    database_name = config['database']['database_name'] # переключить на database_name для работы на прод сервере
     localhost = config['database']['localhost']
     localhost_port = int(config['database']['localhost_port'])
     table_name = config['database']['table_name']
@@ -212,7 +212,7 @@ def load_df_into_sql_table(df, table_name, engine):
 
 def get_index_temp(engine):
     index_show_query = \
-        f"""SHOW indexes FROM temp_realty_new"""
+        """SHOW indexes FROM temp_realty_new"""
     try:
         con_obj = engine.connect()
         index_db = pd.read_sql(text(index_show_query), con=con_obj)
@@ -384,10 +384,10 @@ def load_and_update_realty_db(engine, df, source):
     # тест запуск
     if source != 'cian':
         df_realty_new = df_realty_new[df_realty_new['city_id'] == 7].sample(700, random_state=111)
-        print('тестовый запуск - будет обработано', len(df_realty_new), 'новых объявлений')
+        print('тестовый запуск - будет обработано', len(df_realty_new), 'новых объявлений для', source)
     else:
-        df_realty_new = df_realty_new[df_realty_new['city_id'] == 7]
-        print('тестовый запуск - будет обработано', len(df_realty_new), 'новых объявлений')
+        # df_realty_new = df_realty_new[df_realty_new['city_id'] == 7]
+        print('тестовый запуск - будет обработано', len(df_realty_new), 'новых объявлений для', source)
 
     # выгрузка новых данных в таблицу на сервере
     try:

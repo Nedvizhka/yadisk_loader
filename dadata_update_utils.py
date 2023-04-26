@@ -2,12 +2,21 @@ import traceback
 import time
 import pandas as pd
 import numpy as np
+from pathlib import Path
 from datetime import datetime
 
 from dadata import Dadata
 from sqlalchemy import text
 
 # запрос к дадата
+
+def create_ddt_save_dir(source):
+    try:
+        Path.mkdir(Path.cwd() / f'saved_{source}_csv')
+    except:
+        pass
+    save_dir = (Path.cwd() / f'saved_{source}_csv').as_posix()
+    return save_dir
 
 def filter_addr_for_dadata(addrString, source):
     addrList = addrString.split('; ')
@@ -55,7 +64,9 @@ def dadata_request(df, source):
             else:
                 bad_addr += 1
     print('обращение к дадата по {}/{} записям из {} заняло'.format(len(df) - bad_addr, len(df), source), datetime.now() - st_time)
-    dh_df.to_csv(f'{source}_dadata_request_{datetime.today().strftime(format="%d_%m_%Y")}')
+
+    local_save_dir_dadata = create_ddt_save_dir('dadata')
+    dh_df.to_csv(local_save_dir_dadata+f'/{source}_dadata_request_{datetime.today().strftime(format="%d_%m_%Y")}.csv')
     return dh_df
 
 # получение данных район, house_id, jkh_id, dadata_houses_id
