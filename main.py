@@ -1,7 +1,6 @@
 import time
 
 from main_utils import *
-from sql_utils import *
 
 if __name__ == '__main__':
     while True:
