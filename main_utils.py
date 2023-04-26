@@ -21,8 +21,6 @@ from dadata_update_utils import filter_addr_for_dadata, dadata_request, get_dist
 
 warnings.filterwarnings("ignore")
 
-not_found_distr = []
-
 dict_realty_cian_avito = {
     '1': ['Комната'],
     '2': ['Квартира-студия', 'Апартаменты-студия', 'Гостинка', 'Студия'],
@@ -34,6 +32,12 @@ dict_realty_cian_avito = {
     '7': ['5-к. квартира', '5-к. апартаменты', '5-комнатная', '5 комн', '5-комн. кв.', '5-комн. апарт.'],
     '8': ["6 комнат и более", '6 комн', '6-комн. кв.', '6-комн. апарт.']
     # 9 аукцион, доля
+}
+
+dict_offer_from_avito = {
+    'Агентство': 'Агентство недвижимости',
+    'Частное лицо': 'Собственник',
+    'Застройщик': 'Застройщик'
 }
 
 list_realty_cols = ['source_id', 'ad_id', 'city_id', 'district_id', 'type_id', 'addr', 'square', 'floor',
@@ -628,7 +632,11 @@ def get_date_from_name(fname):
         return datetime.strptime(Path(fname).stem.replace("(без дублей)", "").replace("циан", "").replace(" ", "")[:8],
                                  "%d-%m-%y")
 
-
+def create_offer_from_avito(offer_avito, offer_to_cian=dict_offer_from_avito):
+    try:
+        return offer_to_cian[offer_avito]
+    except:
+        return None
 
 
 def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_cian_avito):
@@ -681,7 +689,6 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             print('обработка district_id:')
             tqdm.pandas()
             df['district_id'] = df.progress_apply(lambda row: district_from_rn_mkrn(row, all_districts, sql_engine), axis=1)
-            not_found_distr.clear()
 
             # square
             df['square'] = df['Площадь'].apply(lambda x: square_from_ploshad(x))
@@ -711,7 +718,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             df['version'] = current_version
 
             # offer_from
-            df['offer_from'] = df['Тип продавца']
+            df['offer_from'] = df['Тип продавца'].apply(lambda x: create_offer_from_avito(x))
 
             # status_new
             df['status_new'] = 1
