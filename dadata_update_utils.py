@@ -7,6 +7,7 @@ from datetime import datetime
 
 from dadata import Dadata
 from sqlalchemy import text
+from tqdm import tqdm
 
 # запрос к дадата
 
@@ -46,7 +47,7 @@ def dadata_request(df, source):
     bad_addr = 0
     # dadata request
     if source == 'avito':
-        for i, row in df.iterrows():
+        for i, row in tqdm(df.iterrows(), total=df.shape[0]):
             addr = filter_addr_for_dadata(row.addr, source)
             if addr:
                 d_res = dadata.clean("address", addr)
@@ -55,7 +56,7 @@ def dadata_request(df, source):
             else:
                 bad_addr += 1
     else: # source == 'cian'
-        for i, row in df.iterrows():
+        for i, row in tqdm(df.iterrows(), total=df.shape[0]):
             addr = filter_addr_for_dadata(row.addr, source)
             if addr:
                 d_res = dadata.clean("address", addr)
