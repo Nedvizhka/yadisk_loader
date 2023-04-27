@@ -1,11 +1,6 @@
 import configparser
-import traceback
-
 from sqlalchemy import create_engine, NullPool
 from sshtunnel import SSHTunnelForwarder
-
-import logging
-
 
 def get_config(get_only_start_time=False):
     config = configparser.ConfigParser()
@@ -37,7 +32,7 @@ def get_config(get_only_start_time=False):
 
 def get_sql_engine():
     ssh_host, ssh_port, ssh_username, ssh_password, database_username, database_password, \
-        database_name, localhost, localhost_port, table_name, ya_token, ya_api, ya_link = get_config()
+    database_name, localhost, localhost_port, table_name, ya_token, ya_api, ya_link = get_config()
 
     sql_server = SSHTunnelForwarder(
         (ssh_host, ssh_port),
@@ -54,19 +49,8 @@ def get_sql_engine():
 
     return sql_server, sql_engine
 
-def load_df_into_sql_table(df, table_name, engine):
-    try:
-        con_obj = engine.connect()
-        con_obj.close()
-    except:
-        try:
-            server, engine = get_sql_engine()
-            logging.info('подключение к базе восстановлено')
-        except Exception as exc:
-            logging.error('не удается подключиться к базе {}'.format(traceback.format_exc()))
-    df.to_sql(name=table_name, con=engine, if_exists='append', chunksize=7000, method='multi', index=False)
+sql_server, sql_engine = get_sql_engine()
 
+print(sql_engine)
 
-def close_sql_connection(server, engine):
-    server.stop()
-    engine.dispose()
+sql_engine.connect()

@@ -1,0 +1,29 @@
+2023-04-28 00:48:22,826 [INFO    ] ok run log in oth
+2023-04-28 00:48:24,835 [INFO    ] 0
+2023-04-28 00:48:24,835 [INFO    ] 0.0
+2023-04-28 00:48:24,835 [ERROR   ] Traceback (most recent call last):
+  File "C:\Users\pnknv\Documents\GitHub\yadisk_loader\dev_check_jupyter\test_logging.py", line 37, in log_test_other
+    return 2 / val
+ZeroDivisionError: division by zero
+
+2023-04-28 00:48:27,841 [INFO    ] called f from 2 lvl
+2023-04-28 00:48:27,841 [INFO    ] this is whacha get None
+2023-04-28 00:48:27,841 [INFO    ] num is 0 so were not ready to tqdm
+2023-04-28 00:48:34,855 [INFO    ] ok run log in oth
+2023-04-28 00:48:36,855 [INFO    ] 1
+2023-04-28 00:48:36,855 [INFO    ] 0.5
+2023-04-28 00:48:36,855 [INFO    ] this is whacha get 2.0
+2023-04-28 00:48:36,856 [INFO    ] num is 1 so were not ready to tqdm
+2023-04-28 00:48:43,869 [INFO    ] ok run log in oth
+2023-04-28 00:48:45,874 [INFO    ] 2
+2023-04-28 00:48:45,874 [INFO    ] 1.0
+2023-04-28 00:48:45,874 [INFO    ] this is whacha get 1.0
+2023-04-28 00:48:45,879 [INFO    ] 0%|          | 0/7 [00:00<?, ?it/s]
+2023-04-28 00:48:57,925 [INFO    ] 57%|#####7    | 4/7 [00:12<00:09,  3.01s/it]
+2023-04-28 00:49:06,951 [INFO    ] 100%|##########| 7/7 [00:21<00:00,  3.01s/it]
+2023-04-28 00:49:06,951 [INFO    ] odd num list is: [0, 2, 4, 6]
+2023-04-28 00:49:08,966 [INFO    ] ok run log in oth
+2023-04-28 00:49:10,979 [INFO    ] 3
+2023-04-28 00:49:10,979 [INFO    ] 1.5
+2023-04-28 00:49:10,979 [INFO    ] this is whacha get 0.6666666666666666
+2023-04-28 00:49:10,979 [INFO    ] num is 3 so were not ready to tqdm
