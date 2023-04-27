@@ -308,7 +308,7 @@ def load_and_update_realty_db(engine, df, fname, source):
     df.ad_id = df.ad_id.astype(int)
     df_realty_exist = df[df.ad_id.isin(exist_ad_id)][list_realty_cols]
     df_realty_new = df[~df.ad_id.isin(exist_ad_id)][list_realty_cols]
-    logging.info(len(df_realty_exist), 'существующих и', len(df_realty_new), 'новых объявлений')
+    logging.info('{} существующих и {} новых объявлений'.format(len(df_realty_exist), len(df_realty_new)))
 
     # обновление данных
     if len(df_realty_exist) != 0:
@@ -326,10 +326,10 @@ def load_and_update_realty_db(engine, df, fname, source):
     # тест запуск
     if source != 'cian':
         df_realty_new = df_realty_new[df_realty_new['city_id'] == 7].sample(700, random_state=111)
-        logging.info('тестовый запуск - будет обработано', len(df_realty_new), 'новых объявлений для', source)
+        logging.info('тестовый запуск - будет обработано {} новых объявлений для {}'.format(len(df_realty_new), source))
     else:
         # df_realty_new = df_realty_new[df_realty_new['city_id'] == 20].sample(100, random_state=111)
-        logging.info('тестовый запуск - будет обработано', len(df_realty_new), 'новых объявлений для', source)
+        logging.info('тестовый запуск - будет обработано {} новых объявлений для {}'.format(len(df_realty_new), source))
 
     # выгрузка новых данных в таблицу на сервере
     try:

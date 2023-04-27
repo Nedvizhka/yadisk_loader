@@ -98,7 +98,7 @@ def dadata_request(df, file_date, source):
                 dadata = Dadata(token, secret)
         else:
             pass
-    logging.info('обращение к дадата по {}/{} записям из {} заняло'.format(len(df) - bad_addr, len(df), source), datetime.now() - st_time)
+    logging.info('обращение к дадата по {}/{} записям из {} заняло {}'.format(len(df) - bad_addr, len(df), source, datetime.now() - st_time))
     dh_df.to_csv(local_save_dir_data+f'/{source}_dadata_request_{datetime.today().strftime(format="%d_%m_%Y")}.csv', encoding='cp1251')
     return dh_df
 

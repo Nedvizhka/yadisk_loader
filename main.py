@@ -227,6 +227,6 @@ if __name__ == '__main__':
             except:
                 close_sql_connection(sql_server, sql_engine)
                 logging.info('нет новых данных для загрузки')
-                move_logfile(local_save_dir_data, 'success')
+                move_logfile(local_save_dir_data, 'error')
                 time.sleep(200)
                 continue
