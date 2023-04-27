@@ -1,7 +1,7 @@
 import time
 
 from main_utils import *
-from sql_utils import *
+from sql_config_utils import *
 
 
 def get_config_1(get_only_start_time=False):
