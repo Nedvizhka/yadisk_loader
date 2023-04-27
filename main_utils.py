@@ -68,7 +68,7 @@ def get_config(get_only_start_time=False):
     ssh_password = config['database']['ssh_password']
     database_username = config['database']['database_username']
     database_password = config['database']['database_password']
-    database_name = config['database']['preprod_database_name'] # переключить на database_name для работы на прод сервере
+    database_name = config['database']['database_name'] # переключить на database_name для работы на прод сервере
     localhost = config['database']['localhost']
     localhost_port = int(config['database']['localhost_port'])
     table_name = config['database']['table_name']
@@ -212,7 +212,7 @@ def load_df_into_sql_table(df, table_name, engine):
 
 def get_index_temp(engine):
     index_show_query = \
-        f"""SHOW indexes FROM temp_realty_new"""
+        """SHOW indexes FROM temp_realty_new"""
     try:
         con_obj = engine.connect()
         index_db = pd.read_sql(text(index_show_query), con=con_obj)
@@ -343,7 +343,7 @@ def update_realty(engine, df):
             return True
 
 
-def load_and_update_realty_db(engine, df, source):
+def load_and_update_realty_db(engine, df, fname, source):
     # создание временной таблицы для обновления данных
     error_create_temp_realty = create_temp_realty(engine)
     if error_create_temp_realty:
@@ -384,19 +384,31 @@ def load_and_update_realty_db(engine, df, source):
     # тест запуск
     if source != 'cian':
         df_realty_new = df_realty_new[df_realty_new['city_id'] == 7].sample(700, random_state=111)
-        print('тестовый запуск - будет обработано', len(df_realty_new), 'новых объявлений')
+        print('тестовый запуск - будет обработано', len(df_realty_new), 'новых объявлений для', source)
     else:
-        df_realty_new = df_realty_new[df_realty_new['city_id'] == 7]
-        print('тестовый запуск - будет обработано', len(df_realty_new), 'новых объявлений')
+        # df_realty_new = df_realty_new[df_realty_new['city_id'] == 20].sample(100, random_state=111)
+        print('тестовый запуск - будет обработано', len(df_realty_new), 'новых объявлений для', source)
 
     # выгрузка новых данных в таблицу на сервере
     try:
         # обновление dadata_houses
+        
+        fdate = get_date_from_name(fname)
+        df_dadata_houses = dadata_request(df_realty_new, fdate, source)
         try:
-            df_dadata_houses = dadata_request(df_realty_new, source)
             df_dadata_houses.to_sql(name='dadata_houses', con=engine, if_exists='append',
                                     chunksize=5000, method='multi', index=False)
-        except:
+        except Exception as exp:
+            print(exp)
+            print('не удалось отправить df в таблицу')
+            try:
+                
+        try:
+            df_dadata_houses = dadata_request(df_realty_new, fdate, source)
+            df_dadata_houses.to_sql(name='dadata_houses', con=engine, if_exists='append',
+                                    chunksize=5000, method='multi', index=False)
+        except Exception as exc:
+            print(exc)
             try:
                 print('не удалось собрать данные из дадата - попытка №2')
                 time.sleep(20)
@@ -436,7 +448,7 @@ def load_and_update_realty_db(engine, df, source):
             df_realty_new['jkh_id'] = None
             df_realty_new['dadata_houses_id'] = None
             load_df_into_sql_table(df_realty_new, 'realty', engine)
-
+            error_loading_into_realty = False
 
     except Exception as exc:
         print('новые объявления не добавлены')
@@ -629,8 +641,11 @@ def get_date_from_name(fname):
     try:
         return datetime.strptime(fname.replace("(без дублей)", "").replace("циан", "").replace(" ", "")[:8], "%d-%m-%y")
     except:
-        return datetime.strptime(Path(fname).stem.replace("(без дублей)", "").replace("циан", "").replace(" ", "")[:8],
-                                 "%d-%m-%y")
+        try:
+            return datetime.strptime(Path(fname).stem.replace("(без дублей)", "").replace("циан", "").replace(" ", "")[:8],
+                                     "%d-%m-%y")
+        except:
+            return None
 
 def create_offer_from_avito(offer_avito, offer_to_cian=dict_offer_from_avito):
     try:

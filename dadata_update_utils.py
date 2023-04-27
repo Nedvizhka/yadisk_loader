@@ -2,12 +2,22 @@ import traceback
 import time
 import pandas as pd
 import numpy as np
+from pathlib import Path
 from datetime import datetime
 
 from dadata import Dadata
 from sqlalchemy import text
+from tqdm import tqdm
 
 # запрос к дадата
+
+def create_ddt_save_dir(source):
+    try:
+        Path.mkdir(Path.cwd() / f'saved_{source}_csv')
+    except:
+        pass
+    save_dir = (Path.cwd() / f'saved_{source}_csv').as_posix()
+    return save_dir
 
 def filter_addr_for_dadata(addrString, source):
     addrList = addrString.split('; ')
@@ -25,7 +35,7 @@ def filter_addr_for_dadata(addrString, source):
             # addrList = list(filter(lambda c: 'мкр' in c, addrList))
         return '; '.join(addrList)
 
-def dadata_request(df, source):
+def dadata_request(df, file_date, source):
     st_time = datetime.now()
     # dadata_credentials
     token = "f288b25edb6d05b5ceb4d957376104a181c4adee"
@@ -33,29 +43,33 @@ def dadata_request(df, source):
     dadata = Dadata(token, secret)
     # create df for dadata_house_loading
     dh_df = pd.DataFrame(columns=['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street', 'house', 'qc', 'result', 'qc_geo', 'ad_id'])
-    # create var for bad addr count
-    bad_addr = 0
+    # create dir for bad_addr to store
+    local_save_dir_dadata = create_ddt_save_dir('dadata')
+    bad_addr_txt_root = (Path(local_save_dir_dadata)/f'{source}_bad_addr_{file_date}.txt').as_posix()
+    bad_req_txt_root = (Path(local_save_dir_dadata)/f'{source}_bad_request_{file_date}.txt').as_posix()
     # dadata request
-    if source == 'avito':
-        for i, row in df.iterrows():
+    for i, row in tqdm(df.iterrows(), total=df.shape[0]):
+        try:
             addr = filter_addr_for_dadata(row.addr, source)
             if addr:
                 d_res = dadata.clean("address", addr)
                 dh_df.loc[len(dh_df.index)] = [d_res['house_fias_id'], str(d_res), d_res['geo_lat'], d_res['geo_lon'], d_res['street'],
                                                d_res['house'], d_res['qc'], d_res['result'], d_res['qc_geo'], row.ad_id]
             else:
-                bad_addr += 1
-    else: # source == 'cian'
-        for i, row in df.iterrows():
-            addr = filter_addr_for_dadata(row.addr, source)
-            if addr:
-                d_res = dadata.clean("address", addr)
-                dh_df.loc[len(dh_df.index)] = [d_res['house_fias_id'], str(d_res), d_res['geo_lat'], d_res['geo_lon'], d_res['street'],
-                                               d_res['house'], d_res['qc'], d_res['result'], d_res['qc_geo'], row.ad_id]
-            else:
-                bad_addr += 1
+                with open(bad_addr_txt_root, 'a') as wr:
+                    wr.writelines(f"{row.ad_id}: {row.addr}" + '\n)
+                wr.close()
+        except Exception as exc:
+            print(exc, 'try reconnect')
+            with open(bad_req_txt_root, 'a') as wr:
+                wr.writelines(f"{row.ad_id}: {row.addr}" + '\n)
+            wr.close()
+            dadata.close()
+            token = "f288b25edb6d05b5ceb4d957376104a181c4adee"
+            secret = "9d337ae6b9901a6708802eaca6d7055ce2c64772"
+            dadata = Dadata(token, secret)
     print('обращение к дадата по {}/{} записям из {} заняло'.format(len(df) - bad_addr, len(df), source), datetime.now() - st_time)
-    dh_df.to_csv(f'{source}_dadata_request_{datetime.today().strftime(format="%d_%m_%Y")}')
+    dh_df.to_csv(local_save_dir_dadata+f'/{source}_dadata_request_{datetime.today().strftime(format="%d_%m_%Y")}.csv', encoding='cp1251')
     return dh_df
 
 # получение данных район, house_id, jkh_id, dadata_houses_id

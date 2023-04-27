@@ -1,7 +1,6 @@
 import time
 
 from main_utils import *
-from sql_utils import *
 
 if __name__ == '__main__':
     while True:
@@ -73,7 +72,7 @@ if __name__ == '__main__':
 
                 # выгрузка и обновление данных в таблице realty
                 error_create_temp_realty, error_getting_ad_id, error_loading_into_realty, error_updating_realty = \
-                    load_and_update_realty_db(sql_engine, df_cian_realty, 'cian')
+                    load_and_update_realty_db(sql_engine, df_cian_realty, filename, 'cian')
 
                 if any([error_create_temp_realty, error_getting_ad_id,
                         error_loading_into_realty,error_updating_realty]):
@@ -126,7 +125,7 @@ if __name__ == '__main__':
 
                 # выгрузка и обновление данных в таблице realty
                 error_create_temp_realty, error_getting_ad_id, error_loading_into_realty, error_updating_realty = \
-                    load_and_update_realty_db(sql_engine, df_avito_realty, 'avito')
+                    load_and_update_realty_db(sql_engine, df_avito_realty, filename 'avito')
 
                 if any([error_create_temp_realty, error_getting_ad_id,
                         error_loading_into_realty, error_updating_realty]):
