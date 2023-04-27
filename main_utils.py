@@ -402,21 +402,11 @@ def load_and_update_realty_db(engine, df, fname, source):
             print(exp)
             print('не удалось отправить df в таблицу')
             try:
-                
-        try:
-            df_dadata_houses = dadata_request(df_realty_new, fdate, source)
-            df_dadata_houses.to_sql(name='dadata_houses', con=engine, if_exists='append',
-                                    chunksize=5000, method='multi', index=False)
-        except Exception as exc:
-            print(exc)
-            try:
-                print('не удалось собрать данные из дадата - попытка №2')
-                time.sleep(20)
-                df_dadata_houses = dadata_request(df_realty_new, source)
-                df_dadata_houses.to_sql(name='dadata_houses', con=engine, if_exists='append',
-                                        chunksize=5000, method='multi', index=False)
-            except:
-                print('не удалось собрать данные из дадата - проверь баланс')
+                # reconnect
+                print('ДОДЕЛАЙ СКРИПТ ПЕРЕПОДКЛЮЧЕНИЯ')
+            except Exception as exp:
+                print(exp)
+                print('не удалось заполнить таблицу dadata_houses данными из dadata')
                 return False, False, True, False
 
         # добавление полей для realty
