@@ -3,6 +3,7 @@ from tqdm import tqdm
 from tqdm.contrib.logging import logging_redirect_tqdm
 import time
 import io
+import traceback
 
 from test_logging_deeper import *
 
@@ -35,7 +36,7 @@ def log_test_other(val):
         logging.info(val / 2)
         return 2 / val
     except Exception as exc:
-        logging.error(exc)
+        logging.error(traceback.format_exc())
         callfunc()
         return None
 

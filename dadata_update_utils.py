@@ -1,13 +1,14 @@
-import traceback
 import time
 import pandas as pd
 import numpy as np
-from pathlib import Path
-from datetime import datetime
 
 from dadata import Dadata
 from sqlalchemy import text
 from tqdm import tqdm
+
+
+from logging_utils import *
+from sql_config_utils import *
 
 # запрос к дадата
 
@@ -42,39 +43,63 @@ def dadata_request(df, file_date, source):
     secret = "9d337ae6b9901a6708802eaca6d7055ce2c64772"
     dadata = Dadata(token, secret)
     # create df for dadata_house_loading
-    dh_df = pd.DataFrame(columns=['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street', 'house', 'qc', 'result', 'qc_geo', 'ad_id'])
+    # ТЕСТОВЫЙ ЗАПУСК УДАЛИТЬ
+    # dh_df = pd.DataFrame(columns=['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street', 'house', 'qc', 'result', 'qc_geo', 'ad_id'])
+    try:
+        dh_df = pd.read_csv(Path.cwd() / 'saved_data_csv/cian_dadata_request_26_04_2023.csv', encoding='cp1251', index_col=0)
+        logging.info('удалось загрузить исторические данные dadata')
+    except:
+        logging.error('НЕ удалось загрузить исторические данные dadata')
+        time.sleep(10)
+    exist_ddt_ad_id = dh_df.ad_id.astype(int).to_list()
     # count bad addr and missed queries
     bad_addr = 0
+    # to upload dadata result right away when query crashes
+    uploading_cnt = 0
     # create dir for bad_addr to store
-    local_save_dir_dadata = create_ddt_save_dir('dadata')
-    bad_addr_txt_root = (Path(local_save_dir_dadata)/f'{source}_bad_addr_{file_date}.txt').as_posix()
-    bad_req_txt_root = (Path(local_save_dir_dadata)/f'{source}_bad_request_{file_date}.txt').as_posix()
+    local_save_dir_data = create_ddt_save_dir('data')
+    bad_addr_txt_root = (Path(local_save_dir_data)/f'{source}_bad_addr_{file_date}.txt').as_posix()
+    bad_req_txt_root = (Path(local_save_dir_data)/f'{source}_bad_request_{file_date}.txt').as_posix()
+    # tqdm to logger for dadata request
+    logger = logging.getLogger()
+    tqdm_out = TqdmToLogger(logger, level=logging.INFO)
     # dadata request
-    for i, row in tqdm(df.iterrows(), total=df.shape[0]):
-        try:
-            addr = filter_addr_for_dadata(row.addr, source)
-            if addr:
-                d_res = dadata.clean("address", addr)
-                dh_df.loc[len(dh_df.index)] = [d_res['house_fias_id'], str(d_res), d_res['geo_lat'], d_res['geo_lon'], d_res['street'],
-                                               d_res['house'], d_res['qc'], d_res['result'], d_res['qc_geo'], row.ad_id]
-            else:
-                with open(bad_addr_txt_root, 'a') as wr:
+    logging.info('количество запросов к dadata составит: {}'.format(len(set(df.ad_id.astype(int).to_list()) - set(dh_df.ad_id.astype(int).to_list()))))
+    time.sleep(10) # ТЕСТОВЫЙ ЗАПУСК УДАЛИТЬ
+    for i, row in tqdm(df.iterrows(), total=df.shape[0], file=tqdm_out, mininterval=10):
+        if int(row.ad_id) not in exist_ddt_ad_id:  # ТЕСТОВЫЙ ЗАПУСК УДАЛИТЬ
+            try:
+                addr = filter_addr_for_dadata(row.addr, source)
+                if addr:
+                    d_res = dadata.clean("address", addr)
+                    dh_df.loc[len(dh_df.index)] = [d_res['house_fias_id'], str(d_res), d_res['geo_lat'], d_res['geo_lon'], d_res['street'],
+                                                   d_res['house'], d_res['qc'], d_res['result'], d_res['qc_geo'], row.ad_id]
+                else:
+                    # write ad_id and addr to txt
+                    with open(bad_addr_txt_root, 'a') as wr:
+                        wr.writelines(f"{row.ad_id}: {row.addr}" + ',\n')
+                    wr.close()
+                    bad_addr += 1
+            except Exception as exc:
+                logging.error('{}, try reconnect'.format(traceback.format_exc()))
+                if uploading_cnt == 0:
+                    dh_df.to_csv(local_save_dir_data + f'/{source}_dadata_request_{datetime.today().strftime(format="%d_%m_%Y")}.csv',
+                                 encoding='cp1251')
+                    uploading_cnt += 1
+                # write ad_id and addr to txt
+                with open(bad_req_txt_root, 'a') as wr:
                     wr.writelines(f"{row.ad_id}: {row.addr}" + ',\n')
                 wr.close()
                 bad_addr += 1
-        except Exception as exc:
-            print(exc, 'try reconnect')
-            with open(bad_req_txt_root, 'a') as wr:
-                wr.writelines(f"{row.ad_id}: {row.addr}" + ',\n')
-            wr.close()
-            bad_addr += 1
-            time.sleep(3)
-            dadata.close()
-            token = "f288b25edb6d05b5ceb4d957376104a181c4adee"
-            secret = "9d337ae6b9901a6708802eaca6d7055ce2c64772"
-            dadata = Dadata(token, secret)
-    print('обращение к дадата по {}/{} записям из {} заняло'.format(len(df) - bad_addr, len(df), source), datetime.now() - st_time)
-    dh_df.to_csv(local_save_dir_dadata+f'/{source}_dadata_request_{datetime.today().strftime(format="%d_%m_%Y")}.csv', encoding='cp1251')
+                time.sleep(3)
+                dadata.close()
+                token = "f288b25edb6d05b5ceb4d957376104a181c4adee"
+                secret = "9d337ae6b9901a6708802eaca6d7055ce2c64772"
+                dadata = Dadata(token, secret)
+        else:
+            pass
+    logging.info('обращение к дадата по {}/{} записям из {} заняло'.format(len(df) - bad_addr, len(df), source), datetime.now() - st_time)
+    dh_df.to_csv(local_save_dir_data+f'/{source}_dadata_request_{datetime.today().strftime(format="%d_%m_%Y")}.csv', encoding='cp1251')
     return dh_df
 
 # получение данных район, house_id, jkh_id, dadata_houses_id
@@ -92,17 +117,26 @@ def get_districts_from_house(df, engine):
             and dh.house_fias_id in {}""".format(unique_fias)
 
     try:
+        con_obj = engine.connect()
+        con_obj.close()
+    except:
+        try:
+            server, engine = get_sql_engine()
+            logging.info('подключение к базе восстановлено')
+        except Exception as exc:
+            logging.error('не удается подключиться к базе: {}'.format(traceback.format_exc()))
+            return None, exc
+    try:
         time.sleep(3)
         con_obj = engine.connect()
         districts_db = pd.read_sql(text(get_districts_query), con=con_obj)
         con_obj.close()
-        exc_code = None
+        exc = None
     except Exception as exc:
-        print('get districts from house connection failed')
-        print(traceback.format_exc())
+        logging.error('get districts from house connection failed')
+        logging.error(traceback.format_exc())
         districts_db = None
-        exc_code = exc.code
-    return districts_db, exc_code
+    return districts_db, exc
 
 
 def get_index_temp_jkh_houses(engine):
@@ -115,8 +149,8 @@ def get_index_temp_jkh_houses(engine):
         con_obj.close()
         exc_code = None
     except Exception as exc:
-        print('get index connection failed')
-        print(traceback.format_exc())
+        logging.error('get index connection failed')
+        logging.error(traceback.format_exc())
         index_db = None
         exc_code = exc.code
     return index_db, exc_code
@@ -148,14 +182,14 @@ def create_temp_jkh_houses(engine):
         con_obj.commit()
         con_obj.close()
         if 'index_jkh_id_temp' in get_index_temp_jkh_houses(engine)[0].Key_name.to_list():
-            print('Временная таблица temp_jkh_houses уже была создана')
+            logging.info('Временная таблица temp_jkh_houses уже была создана')
             pass
         else:
             con_obj = engine.connect()
             con_obj.execute(text(index_create_query))
             con_obj.commit()
             con_obj.close()
-        print('Временная таблица temp_jkh_houses создана')
+        logging.info('Временная таблица temp_jkh_houses создана')
         return None
     except:
         try:
@@ -163,7 +197,7 @@ def create_temp_jkh_houses(engine):
             con_obj.execute(text(clear_temp_table_query))
             con_obj.commit()
             con_obj.close()
-            print('Временная таблица temp_jkh_houses очищена')
+            logging.info('Временная таблица temp_jkh_houses очищена')
             return None
         except:
             return True
@@ -172,6 +206,11 @@ def create_temp_jkh_houses(engine):
 def update_jkh_houses(engine, df):
     clear_temp_table_query = \
         """DELETE FROM temp_jkh_houses"""
+    try:
+        engine.connect()
+    except:
+        server, engine = get_sql_engine()
+
     try:
         # выгрузка данных в таблицу на сервере
         load_df_into_sql_table_jkh(df, 'temp_jkh_houses', engine)
@@ -196,7 +235,7 @@ def update_jkh_houses(engine, df):
         con_obj.close()
         return None
     except Exception as exc:
-        print(exc)
+        logging.error(traceback.format_exc())
         try:
             con_obj = engine.connect()
             con_obj.execute(text(clear_temp_table_query))
@@ -204,7 +243,7 @@ def update_jkh_houses(engine, df):
             con_obj.close()
             return True
         except:
-            print('Не удалось подключиться к БД')
+            logging.error('Не удалось подключиться к БД')
             return True
 
 def update_jkh_district(df_realty, df_districts, engine):
@@ -227,21 +266,32 @@ def update_jkh_district(df_realty, df_districts, engine):
                     distr_to_update.loc[len(distr_to_update)] = [int(val.jkh_id), val.district_id]
             except:
                 pass
-    print('Получены несовпадения районов c jkh, обновление районов в jkh_houses для', len(distr_to_update), 'записей')
+    logging.info('Получены несовпадения районов c jkh, обновление районов в jkh_houses для {} записей'.format(len(distr_to_update)))
+
+    try:
+        con_obj = engine.connect()
+        con_obj.close()
+    except:
+        try:
+            server, engine = get_sql_engine()
+            logging.info('подключение к базе восстановлено')
+        except Exception as exc:
+            logging.error('не удается подключиться к базе {}'.format(traceback.format_exc()))
+            return False, False
 
     error_create_temp_jkh_houses = create_temp_jkh_houses(engine)
     if error_create_temp_jkh_houses:
         error_create_temp_jkh_houses = True
-        return error_create_temp_jkh_houses
+        return error_create_temp_jkh_houses, False
     else:
         error_create_temp_jkh_houses = False
 
     error_updating_jkh_houses = update_jkh_houses(engine, distr_to_update)
     if error_updating_jkh_houses:
         error_updating_jkh_houses = True
-        return error_updating_jkh_houses
+        return False, error_updating_jkh_houses
     else:
-        print('Обновление данных jkh_houses завершено')
+        logging.info('Обновление данных jkh_houses завершено')
         error_updating_jkh_houses = False
 
     return error_create_temp_jkh_houses, error_updating_jkh_houses

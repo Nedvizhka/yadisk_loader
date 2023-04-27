@@ -1,23 +1,12 @@
-import configparser
-import io
 import os
-import shutil
-import traceback
 import warnings
 import zipfile
-from datetime import datetime
-from pathlib import Path
-import time
 
-import pandas as pd
-import numpy as np
 import requests
 import yadisk
-from sqlalchemy import create_engine, text, NullPool
-from sshtunnel import SSHTunnelForwarder
-from tqdm import tqdm
 
-from dadata_update_utils import filter_addr_for_dadata, dadata_request, get_districts_from_house, update_jkh_district
+from dadata_update_utils import *
+from sql_config_utils import *
 
 warnings.filterwarnings("ignore")
 
@@ -44,9 +33,8 @@ list_realty_cols = ['source_id', 'ad_id', 'city_id', 'district_id', 'type_id', '
                     'house_floors', 'link', 'date', 'status', 'version', 'offer_from', 'status_new']
 
 
-
 def get_today_date():
-    return datetime.today().strftime(format="%d/%m/%Y, %H:%M:%S")
+    return datetime.today().strftime(format="%d_%m_%Y_%H_%M_%S")
 
 
 def create_load_save_dir(source):
@@ -57,33 +45,6 @@ def create_load_save_dir(source):
     save_dir = (Path.cwd() / f'saved_{source}_csv').as_posix()
     return save_dir
 
-
-def get_config(get_only_start_time=False):
-    config = configparser.ConfigParser()
-    config.read('config.ini')
-
-    ssh_host = config['database']['ssh_host_main']  # переключить на ssh_host_main для работы на прод сервере
-    ssh_port = int(config['database']['ssh_port'])
-    ssh_username = config['database']['ssh_username']
-    ssh_password = config['database']['ssh_password']
-    database_username = config['database']['database_username']
-    database_password = config['database']['database_password']
-    database_name = config['database']['database_name'] # переключить на database_name для работы на прод сервере
-    localhost = config['database']['localhost']
-    localhost_port = int(config['database']['localhost_port'])
-    table_name = config['database']['table_name']
-
-    ya_token = config['yandex']['ya_token']
-    ya_api = config['yandex']['ya_api']
-    ya_link = config['yandex']['ya_link']
-
-    start_time = int(config['start_time']['daily_start_hour'])
-
-    if get_only_start_time == False:
-        return ssh_host, ssh_port, ssh_username, ssh_password, database_username, database_password, database_name, \
-               localhost, localhost_port, table_name, ya_token, ya_api, ya_link
-    else:
-        return start_time
 
 def show_error(list_errors):
     err_list = ['error_create_temp_realty',
@@ -96,23 +57,6 @@ def show_error(list_errors):
         return [err_list[i] for i in indices]
     except:
         return 'ошибок нет'
-
-def get_sql_engine(ssh_host, ssh_port, ssh_username, ssh_password, localhost,
-                   localhost_port, database_username, database_password, database_name):
-    sql_server = SSHTunnelForwarder(
-        (ssh_host, ssh_port),
-        ssh_username=ssh_username,
-        ssh_password=ssh_password,
-        remote_bind_address=(localhost, localhost_port)
-    )
-
-    sql_server.start()
-    local_port = str(sql_server.local_bind_port)
-    sql_engine = create_engine('mariadb+pymysql://{}:{}@{}:{}/{}'.format(database_username, database_password,
-                                                                         localhost, local_port, database_name),
-                               poolclass=NullPool)
-
-    return sql_server, sql_engine
 
 
 def get_direct_link(yandex_api, sharing_link):
@@ -141,7 +85,7 @@ def write_saved_file_names(filename, source):
 def download_local_yadisk_files(yandex_api_token, handled_files, save_dir):
     y = yadisk.YaDisk(token=yandex_api_token)
     if y.check_token():
-        print('yandex token valid')
+        logging.info('yandex token valid')
         disk_files_info = list(y.listdir("/cian"))
         disk_files_routes = [disk_files_info[i].path for i in range(len(disk_files_info))]
         saved_files = []
@@ -151,15 +95,14 @@ def download_local_yadisk_files(yandex_api_token, handled_files, save_dir):
                 y.download(file, save_dir + '/' + Path(file).name)
                 saved_files.append(Path(file).name)
                 cnt += 1
-        print('Успешно загружено {} файлов с личного диска: {}'.format(cnt, saved_files))
+        logging.info('Успешно загружено {} файлов с личного диска: {}'.format(cnt, saved_files))
         is_error = False
         return saved_files, is_error
     else:
-        print('yandex token invalid')
-        print(
-            'перейдите по ссылке: https://oauth.yandex.ru/authorize?response_type=token&client_id=<> вставив свой айди приложения')
-        print('id приложения можно получить в: https://oauth.yandex.ru/ - пользователь yanedvizhkatop')
-        print('мануал: https://ramziv.com/article/8')
+        logging.error('yandex token invalid')
+        logging.info('перейдите по ссылке: https://oauth.yandex.ru/authorize?response_type=token&client_id=<> вставив свой айди приложения')
+        logging.info('id приложения можно получить в: https://oauth.yandex.ru/ - пользователь yanedvizhkatop')
+        logging.info('мануал: https://ramziv.com/article/8')
         saved_files = []
         is_error = False
         return saved_files, is_error
@@ -186,16 +129,16 @@ def download_yadisk_files(yandex_api, sharing_link, handled_files, save_dir, mar
                     cnt += 1
                     saved_files.append(filename)
                 target.close()
-            print('Успешно загружено {} файлов с диска {}: {}'.format(cnt, sharing_link, saved_files))
+            logging.info('Успешно загружено {} файлов с диска {}: {}'.format(cnt, sharing_link, saved_files))
             is_error = False
             return saved_files, is_error
         else:
-            print('Failed to download files from "{}"'.format(sharing_link))
+            logging.error('Failed to download files from "{}"'.format(sharing_link))
             saved_files = []
             is_error = True
             return saved_files, is_error
     except Exception:
-        print(traceback.format_exc())
+        logging.error(traceback.format_exc())
         saved_files = []
         is_error = True
         return saved_files, is_error
@@ -206,9 +149,6 @@ def get_local_files(save_dir):
     saved_files_list = [x.as_posix() for x in p if x.is_file()]
     return saved_files_list
 
-def load_df_into_sql_table(df, table_name, engine):
-    df.to_sql(name=table_name, con=engine, if_exists='append', chunksize=7000, method='multi', index=False)
-    return
 
 def get_index_temp(engine):
     index_show_query = \
@@ -219,10 +159,11 @@ def get_index_temp(engine):
         con_obj.close()
         exc_code = None
     except Exception as exc:
-        print(traceback.format_exc())
+        logging.error(traceback.format_exc())
         index_db = None
         exc_code = exc.code
     return index_db, exc_code
+
 
 def create_temp_realty(engine):
     create_table_query = \
@@ -263,7 +204,7 @@ def create_temp_realty(engine):
             con_obj.execute(text(index_create_query))
         con_obj.commit()
         con_obj.close()
-        print('Временная таблица создана')
+        logging.info('Временная таблица создана')
         return None
     except:
         try:
@@ -271,13 +212,14 @@ def create_temp_realty(engine):
             con_obj.execute(text(clear_temp_table_query))
             con_obj.commit()
             con_obj.close()
-            print('Временная таблица очищена')
+            logging.info('Временная таблица очищена')
             return None
         except Exception as exc:
-            print(exc)
+            logging.error(traceback.format_exc())
             time.sleep(1)
-            print('не удалось очистить таблицу')
+            logging.error('не удалось очистить таблицу')
             return True
+
 
 def get_exist_ad_id(engine, source):
     source_id = 2 if source == 'cian' else 3
@@ -288,10 +230,11 @@ def get_exist_ad_id(engine, source):
         con_obj.close()
         exc_code = None
     except Exception as exc:
-        print(traceback.format_exc())
+        logging.error(traceback.format_exc())
         ad_id_db = None
         exc_code = exc.code
     return ad_id_db, exc_code
+
 
 def update_realty(engine, df):
     clear_temp_table_query = \
@@ -338,8 +281,8 @@ def update_realty(engine, df):
             con_obj.commit()
             con_obj.close()
             return True
-        except:
-            print('Не удалось подключиться к БД')
+        except Exception as exc:
+            logging.error('Не удалось подключиться к БД: {}'.format(traceback.format_exc()))
             return True
 
 
@@ -361,12 +304,11 @@ def load_and_update_realty_db(engine, df, fname, source):
         return False, error_getting_ad_id, False, False
     else:
         error_getting_ad_id = False
-        print('Загрузка новых объявлений в таблицу')
+        logging.info('Загрузка новых объявлений в таблицу')
     df.ad_id = df.ad_id.astype(int)
     df_realty_exist = df[df.ad_id.isin(exist_ad_id)][list_realty_cols]
     df_realty_new = df[~df.ad_id.isin(exist_ad_id)][list_realty_cols]
-    print(len(df_realty_exist), 'существующих и', len(df_realty_new), 'новых объявлений')
-
+    logging.info(len(df_realty_exist), 'существующих и', len(df_realty_new), 'новых объявлений')
 
     # обновление данных
     if len(df_realty_exist) != 0:
@@ -376,37 +318,36 @@ def load_and_update_realty_db(engine, df, fname, source):
             return False, False, False, error_updating_realty
         else:
             error_updating_realty = False
-            print('Обновление существующих данных realty завершено')
+            logging.info('Обновление существующих данных realty завершено')
     else:
         error_updating_realty = False
-        print('не было обнаружено пересечений в данных, переход к добавлению цен в prices')
+        logging.info('не было обнаружено пересечений в данных, переход к добавлению цен в prices')
 
     # тест запуск
     if source != 'cian':
         df_realty_new = df_realty_new[df_realty_new['city_id'] == 7].sample(700, random_state=111)
-        print('тестовый запуск - будет обработано', len(df_realty_new), 'новых объявлений для', source)
+        logging.info('тестовый запуск - будет обработано', len(df_realty_new), 'новых объявлений для', source)
     else:
         # df_realty_new = df_realty_new[df_realty_new['city_id'] == 20].sample(100, random_state=111)
-        print('тестовый запуск - будет обработано', len(df_realty_new), 'новых объявлений для', source)
+        logging.info('тестовый запуск - будет обработано', len(df_realty_new), 'новых объявлений для', source)
 
     # выгрузка новых данных в таблицу на сервере
     try:
         # обновление dadata_houses
-        
         fdate = get_date_from_name(fname)
         df_dadata_houses = dadata_request(df_realty_new, fdate, source)
         try:
-            df_dadata_houses.to_sql(name='dadata_houses', con=engine, if_exists='append',
-                                    chunksize=5000, method='multi', index=False)
+            load_df_into_sql_table(df_dadata_houses, 'dadata_houses', engine)
         except Exception as exp:
-            print(exp)
-            print('не удалось отправить df в таблицу')
+            logging.error(traceback.format_exc())
+            logging.error('не удалось отправить df в таблицу')
             try:
-                # reconnect
-                print('ДОДЕЛАЙ СКРИПТ ПЕРЕПОДКЛЮЧЕНИЯ')
+                server, engine = get_sql_engine()
+                load_df_into_sql_table(df_dadata_houses, 'dadata_houses', engine)
+                close_sql_connection(server, engine)
             except Exception as exp:
-                print(exp)
-                print('не удалось заполнить таблицу dadata_houses данными из dadata')
+                logging.error(traceback.format_exc())
+                logging.error('не удалось заполнить таблицу dadata_houses данными из dadata')
                 return False, False, True, False
 
         # добавление полей для realty
@@ -415,25 +356,26 @@ def load_and_update_realty_db(engine, df, fname, source):
         only_districts_df.drop_duplicates(subset=['house_fias_id', 'ad_id', 'district_id'], keep='last', inplace=True)
         only_districts_df['ad_id'] = only_districts_df['ad_id'].astype(int)
         df_realty_new['ad_id'] = df_realty_new['ad_id'].astype(int)
-        print('уникальных троек по h_fias_id, ad_id, d_id, в таблице с районами и houses_jkh_ddt/id: ',
-              len(only_districts_df))
+        logging.info('уникальных троек по h_fias_id, ad_id, d_id, в таблице с районами и houses_jkh_ddt/id: {}'
+                     .format(len(only_districts_df)))
         if len(only_districts_df != 0):
-            print('выгрузка данных в таблицу realty')
-            df_realty_new_extra = df_realty_new.merge(only_districts_df[['ad_id', 'house_id', 'jkh_id', 'dadata_houses_id']],
-                                                      on='ad_id', how='left')
+            logging.info('выгрузка данных в таблицу realty')
+            df_realty_new_extra = df_realty_new.merge(
+                only_districts_df[['ad_id', 'house_id', 'jkh_id', 'dadata_houses_id']],
+                on='ad_id', how='left')
             # обновление полей для jkh_id
             error_create_temp_jkh_houses, error_updating_jkh_houses = update_jkh_district(df_realty_new_extra,
                                                                                           only_districts_df, engine)
             if error_create_temp_jkh_houses or error_updating_jkh_houses:
-                print('не удалось обновить jkh_houses')
+                logging.error('не удалось обновить jkh_houses')
                 return False, False, False, error_updating_realty
 
             load_df_into_sql_table(df_realty_new_extra, 'realty', engine)
             error_loading_into_realty = False
-            print('новые объявления добавлены, переход к обновлению существующих')
+            logging.info('новые объявления добавлены, переход к обновлению существующих')
 
         else:
-            print('нет новых записей с  houses_jkh_ddt/id, добавляю результаты парсинга as is')
+            logging.info('нет новых записей с  houses_jkh_ddt/id, добавляю результаты парсинга as is')
             df_realty_new['house_id'] = None
             df_realty_new['jkh_id'] = None
             df_realty_new['dadata_houses_id'] = None
@@ -441,13 +383,12 @@ def load_and_update_realty_db(engine, df, fname, source):
             error_loading_into_realty = False
 
     except Exception as exc:
-        print('новые объявления не добавлены')
-        print(exc)
+        logging.error('новые объявления не добавлены')
+        logging.error(traceback.format_exc())
         error_loading_into_realty = True
         return False, False, error_loading_into_realty, False
 
     return error_create_temp_realty, error_getting_ad_id, error_loading_into_realty, error_updating_realty
-
 
 
 def get_tables_info(engine):
@@ -460,7 +401,7 @@ def get_tables_info(engine):
         con_obj.close()
         exc_code = None
     except Exception as exc:
-        print(traceback.format_exc())
+        logging.error(traceback.format_exc())
         city_db = None
         source_db = None
         exc_code = exc.code
@@ -475,7 +416,7 @@ def get_version_db(engine, today_date, source_id):
         con_obj.close()
         exc_code = None
     except Exception as exc:
-        print(traceback.format_exc())
+        logging.error(traceback.format_exc())
         last_version_db = None
         exc_code = exc.code
     return last_version_db, exc_code
@@ -562,10 +503,10 @@ def get_districts(engine):
     except Exception as exc:
         try:
             con_obj.close()
-            print(exc)
+            logging.error(traceback.format_exc())
             districts_query_db = None
         except:
-            print(exc)
+            logging.error(traceback.format_exc())
             districts_query_db = None
     return districts_query_db
 
@@ -593,13 +534,15 @@ def district_from_rn_mkrn(realty_row, all_districts, sql_engine):
             district_name = current_mkrn if current_mkrn != None else current_rn
             district_intersection = all_districts[
                 (all_districts.city_id == realty_row.city_id) & (all_districts.name == district_name)]
-            if len(district_intersection) == 0 and (realty_row.source_id != 3): # and (district_name not in not_found_distr): # УДАЛИТЬ not_found_distr
+            if len(district_intersection) == 0 and (
+                    realty_row.source_id != 3):  # and (district_name not in not_found_distr): # УДАЛИТЬ not_found_distr
                 current_max_id = int(all_districts.id.max())
                 # если в обновленном districts нет данных о районе - добавляем
-                if realty_row.source_id == 2: # добавляет район только если источник cian (source id == 2)
+                if realty_row.source_id == 2:  # добавляет район только если источник cian (source id == 2)
                     add_districts_df.loc[len(add_districts_df)] = [realty_row.city_id, district_name]
-                    add_districts_df.to_sql(name='districts', con=sql_engine, if_exists='append', chunksize=10, method='multi', index=False)
-                    print('добавлен новый район "{}" в districts функцией district_from_rn_mkrn'.format(district_name))
+                    add_districts_df.to_sql(name='districts', con=sql_engine, if_exists='append', chunksize=10,
+                                            method='multi', index=False)
+                    logging.info('добавлен новый район "{}" в districts функцией district_from_rn_mkrn'.format(district_name))
                     all_districts.loc[len(all_districts)] = [current_max_id + 1, realty_row.city_id, district_name]
                     return current_max_id + 1
                 else:
@@ -608,7 +551,7 @@ def district_from_rn_mkrn(realty_row, all_districts, sql_engine):
                 try:
                     return district_intersection.iloc[0, 0]
                 except:
-                    return None # УДАЛИТЬ
+                    return None  # УДАЛИТЬ
     else:
         return None
 
@@ -632,10 +575,12 @@ def get_date_from_name(fname):
         return datetime.strptime(fname.replace("(без дублей)", "").replace("циан", "").replace(" ", "")[:8], "%d-%m-%y")
     except:
         try:
-            return datetime.strptime(Path(fname).stem.replace("(без дублей)", "").replace("циан", "").replace(" ", "")[:8],
-                                     "%d-%m-%y")
+            return datetime.strptime(
+                Path(fname).stem.replace("(без дублей)", "").replace("циан", "").replace(" ", "")[:8],
+                "%d-%m-%y")
         except:
             return None
+
 
 def create_offer_from_avito(offer_avito, offer_to_cian=dict_offer_from_avito):
     try:
@@ -691,9 +636,11 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
 
             # district_id после addr потому что в нем используется адрес
             all_districts = get_districts(sql_engine)
-            print('обработка district_id:')
+            logging.info('обработка district_id:')
             tqdm.pandas()
-            df['district_id'] = df.progress_apply(lambda row: district_from_rn_mkrn(row, all_districts, sql_engine), axis=1)
+            df['district_id'] = df.progress_apply(lambda row: district_from_rn_mkrn(row, all_districts, sql_engine),
+                                                  axis=1)
+            logging.info('district_id обработаны')
 
             # square
             df['square'] = df['Площадь'].apply(lambda x: square_from_ploshad(x))
@@ -739,7 +686,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
                                          'square', 'floor', 'house_floors', 'link', 'date', 'status', 'version',
                                          'offer_from', 'status_new', 'Цена', 'Цена за м2']]
         except Exception as ex:
-            print(traceback.format_exc())
+            logging.error(traceback.format_exc())
             realty_avito_to_return = pd.DataFrame()
             file_date = None
         return realty_avito_to_return, file_date
@@ -793,12 +740,13 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
 
             # district_id после addr потому что в нем используется адрес
             all_districts = get_districts(sql_engine)
-            print('обработка district_id:')
+            logging.info('обработка district_id:')
             tqdm.pandas()
             cian_realty['district_id'] = cian_realty.progress_apply(lambda row: district_from_rn_mkrn(row,
                                                                                                       all_districts,
-                                                                                                      sql_engine), axis=1)
-            print('district add from realty')
+                                                                                                      sql_engine),
+                                                                    axis=1)
+            logging.info('district add from realty')
 
             # square
             cian_realty['square'] = df['Площадь'].apply(lambda x: square_from_ploshad(x))
@@ -848,7 +796,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
                                                  'status', 'version', 'offer_from', 'status_new', 'price',
                                                  'price_sqrm']]
         except Exception as ex:
-            print(traceback.format_exc())
+            logging.error(traceback.format_exc())
             cian_realty_to_return = pd.DataFrame()
             file_date = None
         return cian_realty_to_return, file_date
@@ -870,17 +818,17 @@ def process_realty(local_dir, file_to_process, sql_engine, source):
                     realty_df, file_date = create_realty(saved_file, Path(saved_files[f_ind]).stem,
                                                          sql_engine, 'cian')
             except Exception as ex:
-                print(traceback.format_exc())
-                print('Не удалось прочитать файл из {}: '.format(source), Path(saved_files[f_ind]))
+                logging.error(traceback.format_exc())
+                logging.error('Не удалось прочитать файл из {}: '.format(source), Path(saved_files[f_ind]))
         else:
             pass
     if len(realty_df) != 0:
-        print('Успешно обработан файл {} для realty'.format(file_to_process))
+        logging.info('Успешно обработан файл {} для realty'.format(file_to_process))
         error_status = False
         return realty_df, file_date, error_status
     else:
         error_status = True
-        print('Файл {} не удалось обнаружить для realty'.format(file_to_process))
+        logging.error('Файл {} не удалось обнаружить для realty'.format(file_to_process))
         return realty_df, file_date, error_status
 
 
@@ -892,7 +840,7 @@ def get_realty_ids(engine, today_date, source_id):
         con_obj.close()
         exc_code = None
     except Exception as exc:
-        print(traceback.format_exc())
+        logging.error(traceback.format_exc())
         id_db = None
         exc_code = exc.code
     return id_db, exc_code
@@ -906,11 +854,11 @@ def create_prices(df, filename, sql_engine, source):
             prices_df = get_realty_ids(sql_engine, get_date_from_name(filename), current_source_id)[0]
 
             # price
-            prices_df = pd.merge(prices_df, df[['link', 'Цена']], on='link', how='left')\
+            prices_df = pd.merge(prices_df, df[['link', 'Цена']], on='link', how='left') \
                 .rename(columns={'Цена': 'price'})
 
             # price_sqrm
-            prices_df = pd.merge(prices_df, df[['link', 'Цена за м2']], on='link', how='left')\
+            prices_df = pd.merge(prices_df, df[['link', 'Цена за м2']], on='link', how='left') \
                 .rename(columns={'Цена за м2': 'price_sqrm'})
 
             # date
@@ -940,16 +888,16 @@ def create_prices(df, filename, sql_engine, source):
 
     except Exception as ex:
         prices_df = pd.DataFrame()
-        print(traceback.format_exc())
-        print('Не удалось обработать для prices файл', filename)
+        logging.error(traceback.format_exc())
+        logging.error('Не удалось обработать для prices файл'.format(filename))
 
     if len(prices_df) != 0:
-        print('Успешно обработан файл {} для prices'.format(filename))
+        logging.info('Успешно обработан файл {} для prices'.format(filename))
         error_status = False
         return prices_df, error_status
     else:
         error_status = True
-        print('Файл {} не удалось обработать для prices'.format(filename))
+        logging.error('Файл {} не удалось обработать для prices'.format(filename))
         return prices_df, error_status
 
 
@@ -960,8 +908,3 @@ def delete_files(pth):
             child.unlink()
         else:
             shutil.rmtree(child)
-
-
-def close_sql_connection(server, engine):
-    server.stop()
-    engine.dispose()
