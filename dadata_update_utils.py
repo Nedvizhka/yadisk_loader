@@ -43,6 +43,8 @@ def dadata_request(df, file_date, source):
     dadata = Dadata(token, secret)
     # create df for dadata_house_loading
     dh_df = pd.DataFrame(columns=['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street', 'house', 'qc', 'result', 'qc_geo', 'ad_id'])
+    # count bad addr and missed queries
+    bad_addr = 0
     # create dir for bad_addr to store
     local_save_dir_dadata = create_ddt_save_dir('dadata')
     bad_addr_txt_root = (Path(local_save_dir_dadata)/f'{source}_bad_addr_{file_date}.txt').as_posix()
@@ -57,13 +59,16 @@ def dadata_request(df, file_date, source):
                                                d_res['house'], d_res['qc'], d_res['result'], d_res['qc_geo'], row.ad_id]
             else:
                 with open(bad_addr_txt_root, 'a') as wr:
-                    wr.writelines(f"{row.ad_id}: {row.addr}" + '\n)
+                    wr.writelines(f"{row.ad_id}: {row.addr}" + ',\n')
                 wr.close()
+                bad_addr += 1
         except Exception as exc:
             print(exc, 'try reconnect')
             with open(bad_req_txt_root, 'a') as wr:
-                wr.writelines(f"{row.ad_id}: {row.addr}" + '\n)
+                wr.writelines(f"{row.ad_id}: {row.addr}" + ',\n')
             wr.close()
+            bad_addr += 1
+            time.sleep(3)
             dadata.close()
             token = "f288b25edb6d05b5ceb4d957376104a181c4adee"
             secret = "9d337ae6b9901a6708802eaca6d7055ce2c64772"
