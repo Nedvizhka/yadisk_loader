@@ -12,7 +12,7 @@ if __name__ == '__main__':
         # если текущий час совпадает с заданным start_time - запускаем скрипт
         else:
             logging.basicConfig(filename='ya_loader.log', filemode='w', encoding='cp1251',
-                                level=logging.DEBUG, format='%(asctime)s [%(levelname)-8s] %(message)s')
+                                level=logging.INFO, format='%(asctime)s [%(levelname)-8s] %(message)s')
             st_time = datetime.now()
             print('Скрипт запущен: ', get_today_date(), 'выйди из скрина и сделай "tail -f ya_loader.log"')
 

@@ -46,7 +46,7 @@ def dadata_request(df, file_date, source):
     # ТЕСТОВЫЙ ЗАПУСК УДАЛИТЬ
     # dh_df = pd.DataFrame(columns=['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street', 'house', 'qc', 'result', 'qc_geo', 'ad_id'])
     try:
-        dh_df = pd.read_csv(Path.cwd() / 'saved_data_csv/cian_dadata_request_26_04_2023.csv', encoding='cp1251', index_col=0)
+        dh_df = pd.read_csv(Path.cwd() / 'saved_data_csv/cian_dadata_request_27_04_2023.csv', encoding='cp1251', index_col=0)
         logging.info('удалось загрузить исторические данные dadata')
     except:
         logging.error('НЕ удалось загрузить исторические данные dadata')

@@ -337,13 +337,13 @@ def load_and_update_realty_db(engine, df, fname, source):
         fdate = get_date_from_name(fname)
         df_dadata_houses = dadata_request(df_realty_new, fdate, source)
         try:
-            load_df_into_sql_table(df_dadata_houses, 'dadata_houses', engine)
+            load_df_into_sql_table(df_dadata_houses, 'dadata_houses', engine, bigsize=True)
         except Exception as exp:
             logging.error(traceback.format_exc())
             logging.error('не удалось отправить df в таблицу')
             try:
                 server, engine = get_sql_engine()
-                load_df_into_sql_table(df_dadata_houses, 'dadata_houses', engine)
+                load_df_into_sql_table(df_dadata_houses, 'dadata_houses', engine, bigsize=True)
                 close_sql_connection(server, engine)
             except Exception as exp:
                 logging.error(traceback.format_exc())
@@ -637,7 +637,11 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             # district_id после addr потому что в нем используется адрес
             all_districts = get_districts(sql_engine)
             logging.info('обработка district_id:')
-            tqdm.pandas()
+
+            # добавление прогресс бара в log
+            logg = logging.getLogger()
+            tqdm_out = TqdmToLogger(logg, level=logging.INFO)
+            tqdm.pandas(desc='districts_update', file=tqdm_out, mininterval=15)
             df['district_id'] = df.progress_apply(lambda row: district_from_rn_mkrn(row, all_districts, sql_engine),
                                                   axis=1)
             logging.info('district_id обработаны')
@@ -740,6 +744,12 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
 
             # district_id после addr потому что в нем используется адрес
             all_districts = get_districts(sql_engine)
+
+            # добавление прогресс бара в log
+            logg = logging.getLogger()
+            tqdm_out = TqdmToLogger(logg, level=logging.INFO)
+            tqdm.pandas(desc='districts_update', file=tqdm_out, mininterval=15)
+
             logging.info('обработка district_id:')
             tqdm.pandas()
             cian_realty['district_id'] = cian_realty.progress_apply(lambda row: district_from_rn_mkrn(row,
