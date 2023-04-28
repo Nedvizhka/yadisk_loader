@@ -44,62 +44,59 @@ def dadata_request(df, file_date, source):
     dadata = Dadata(token, secret)
     # create df for dadata_house_loading
     # ТЕСТОВЫЙ ЗАПУСК УДАЛИТЬ
-    # dh_df = pd.DataFrame(columns=['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street', 'house', 'qc', 'result', 'qc_geo', 'ad_id'])
-    try:
-        dh_df = pd.read_csv(Path.cwd() / 'saved_data_csv/cian_dadata_request_27_04_2023.csv', encoding='cp1251', index_col=0)
-        logging.info('удалось загрузить исторические данные dadata')
-    except:
-        logging.error('НЕ удалось загрузить исторические данные dadata')
-        time.sleep(10)
-    exist_ddt_ad_id = dh_df.ad_id.astype(int).to_list()
+    dh_df = pd.DataFrame(columns=['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street', 'house', 'qc', 'result', 'qc_geo', 'ad_id'])
+    # try:
+    #     dh_df = pd.read_csv(Path.cwd() / 'saved_data_csv/cian_dadata_request_27_04_2023.csv', encoding='cp1251', index_col=0)
+    #     logging.info('удалось загрузить исторические данные dadata')
+    # except:
+    #     logging.error('НЕ удалось загрузить исторические данные dadata')
+    #     time.sleep(10)
+    # exist_ddt_ad_id = dh_df.ad_id.astype(int).to_list()
+    
     # count bad addr and missed queries
     bad_addr = 0
     # to upload dadata result right away when query crashes
     uploading_cnt = 0
     # create dir for bad_addr to store
     local_save_dir_data = create_ddt_save_dir('data')
-    bad_addr_txt_root = (Path(local_save_dir_data)/f'{source}_bad_addr_{file_date}.txt').as_posix()
-    bad_req_txt_root = (Path(local_save_dir_data)/f'{source}_bad_request_{file_date}.txt').as_posix()
+    bad_addr_txt_root = (Path(local_save_dir_data)/f'{source}_bad_addr_{file_date[:10].replace("-", "_")}.txt').as_posix()
+    bad_req_txt_root = (Path(local_save_dir_data)/f'{source}_bad_request_{file_date[:10].replace("-", "_")}.txt').as_posix()
     # tqdm to logger for dadata request
     logger = logging.getLogger()
     tqdm_out = TqdmToLogger(logger, level=logging.INFO)
     # dadata request
-    logging.info('количество запросов к dadata составит: {}'.format(len(set(df.ad_id.astype(int).to_list()) - set(dh_df.ad_id.astype(int).to_list()))))
-    time.sleep(10) # ТЕСТОВЫЙ ЗАПУСК УДАЛИТЬ
+    time.sleep(10) 
     for i, row in tqdm(df.iterrows(), total=df.shape[0], file=tqdm_out, mininterval=10):
-        if int(row.ad_id) not in exist_ddt_ad_id:  # ТЕСТОВЫЙ ЗАПУСК УДАЛИТЬ
-            try:
-                addr = filter_addr_for_dadata(row.addr, source)
-                if addr:
-                    d_res = dadata.clean("address", addr)
-                    dh_df.loc[len(dh_df.index)] = [d_res['house_fias_id'], str(d_res), d_res['geo_lat'], d_res['geo_lon'], d_res['street'],
-                                                   d_res['house'], d_res['qc'], d_res['result'], d_res['qc_geo'], row.ad_id]
-                else:
-                    # write ad_id and addr to txt
-                    with open(bad_addr_txt_root, 'a') as wr:
-                        wr.writelines(f"{row.ad_id}: {row.addr}" + ',\n')
-                    wr.close()
-                    bad_addr += 1
-            except Exception as exc:
-                logging.error('{}, try reconnect'.format(traceback.format_exc()))
-                if uploading_cnt == 0:
-                    dh_df.to_csv(local_save_dir_data + f'/{source}_dadata_request_{datetime.today().strftime(format="%d_%m_%Y")}.csv',
-                                 encoding='cp1251')
-                    uploading_cnt += 1
+        try:
+            addr = filter_addr_for_dadata(row.addr, source)
+            if addr:
+                d_res = dadata.clean("address", addr)
+                dh_df.loc[len(dh_df.index)] = [d_res['house_fias_id'], str(d_res), d_res['geo_lat'], d_res['geo_lon'], d_res['street'],
+                                               d_res['house'], d_res['qc'], d_res['result'], d_res['qc_geo'], row.ad_id]
+            else:
                 # write ad_id and addr to txt
-                with open(bad_req_txt_root, 'a') as wr:
+                with open(bad_addr_txt_root, 'a') as wr:
                     wr.writelines(f"{row.ad_id}: {row.addr}" + ',\n')
                 wr.close()
                 bad_addr += 1
-                time.sleep(3)
-                dadata.close()
-                token = "f288b25edb6d05b5ceb4d957376104a181c4adee"
-                secret = "9d337ae6b9901a6708802eaca6d7055ce2c64772"
-                dadata = Dadata(token, secret)
-        else:
-            pass
+        except Exception as exc:
+            logging.error('{}, try reconnect'.format(traceback.format_exc()))
+            if uploading_cnt == 0:
+                dh_df.to_csv(local_save_dir_data + f'/{source}_dadata_request_{file_date[:10].replace("-", "_")}.csv',
+                             encoding='cp1251')
+                uploading_cnt += 1
+            # write ad_id and addr to txt
+            with open(bad_req_txt_root, 'a') as wr:
+                wr.writelines(f"{row.ad_id}: {row.addr}" + ',\n')
+            wr.close()
+            bad_addr += 1
+            time.sleep(3)
+            dadata.close()
+            token = "f288b25edb6d05b5ceb4d957376104a181c4adee"
+            secret = "9d337ae6b9901a6708802eaca6d7055ce2c64772"
+            dadata = Dadata(token, secret)
     logging.info('обращение к дадата по {}/{} записям из {} заняло {}'.format(len(df) - bad_addr, len(df), source, datetime.now() - st_time))
-    dh_df.to_csv(local_save_dir_data+f'/{source}_dadata_request_{datetime.today().strftime(format="%d_%m_%Y")}.csv', encoding='cp1251')
+    dh_df.to_csv(local_save_dir_data+f'/{source}_dadata_request_{file_date[:10].replace("-", "_")}.csv', encoding='cp1251')
     return dh_df
 
 # получение данных район, house_id, jkh_id, dadata_houses_id
