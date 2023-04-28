@@ -1,4 +1,4 @@
-#!/root/yadisk_loader/yadisk_venv/bin/python3.8
+#!/root/yadisk_loader/yadisk_venv/bin/python3.9
 # -*- coding: utf-8 -*-
 import re
 import sys
