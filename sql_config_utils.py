@@ -17,7 +17,7 @@ def get_config(get_only_start_time=False):
     ssh_password = config['database']['ssh_password']
     database_username = config['database']['database_username']
     database_password = config['database']['database_password']
-    database_name = config['database']['preprod_database_name']
+    database_name = config['database']['database_name']
     localhost = config['database']['localhost']
     localhost_port = int(config['database']['localhost_port'])
     table_name = config['database']['table_name']
@@ -51,7 +51,9 @@ def get_sql_engine():
     sql_engine = create_engine('mariadb+pymysql://{}:{}@{}:{}/{}'.format(database_username, database_password,
                                                                          localhost, local_port, database_name),
                                poolclass=NullPool)
-
+    
+    logging.info('connected to host {} base {}'.format(ssh_host, database_name))
+    
     return sql_server, sql_engine
 
 def load_df_into_sql_table(df, table_name, engine, bigsize=False):
