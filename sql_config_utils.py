@@ -24,7 +24,7 @@ def get_config(get_only_start_time=False):
 
     ya_token = config['yandex']['ya_token']
     ya_api = config['yandex']['ya_api']
-    ya_link = config['yandex']['ya_link_test']
+    ya_link = config['yandex']['ya_link']
 
     start_time = int(config['start_time']['daily_start_hour'])
 
@@ -54,7 +54,7 @@ def get_sql_engine():
 
     return sql_server, sql_engine
 
-def load_df_into_sql_table(df, table_name, engine):
+def load_df_into_sql_table(df, table_name, engine, bigsize=False):
     try:
         con_obj = engine.connect()
         con_obj.close()
@@ -62,9 +62,11 @@ def load_df_into_sql_table(df, table_name, engine):
         try:
             server, engine = get_sql_engine()
             logging.info('подключение к базе восстановлено')
-        except Exception as exc:
+        except Exception:
             logging.error('не удается подключиться к базе {}'.format(traceback.format_exc()))
-    df.to_sql(name=table_name, con=engine, if_exists='append', chunksize=7000, method='multi', index=False)
+    chunk_s = 2500 if bigsize else 5000
+
+    df.to_sql(name=table_name, con=engine, if_exists='append', chunksize=chunk_s, method='multi', index=False)
 
 
 def close_sql_connection(server, engine):
