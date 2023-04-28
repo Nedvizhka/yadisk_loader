@@ -11,7 +11,7 @@ if __name__ == '__main__':
             continue
         # если текущий час совпадает с заданным start_time - запускаем скрипт
         else:
-            logging.basicConfig(filename='ya_loader.log', filemode='w', encoding='cp1251',
+            logging.basicConfig(filename='ya_loader.log', filemode='w',
                                 level=logging.INFO, format='%(asctime)s [%(levelname)-8s] %(message)s')
             st_time = datetime.now()
             print('Скрипт запущен: ', get_today_date(), 'выйди из скрина и сделай "tail -f ya_loader.log"')
@@ -110,7 +110,7 @@ if __name__ == '__main__':
                     break
                 else:
                     error_processing_files = False
-                    logging.info('Выгрузка в таблицу prices обработанного файла из cian:', filename)
+                    logging.info('Выгрузка в таблицу prices обработанного файла из cian: {}'.format(filename))
                 # загрузка и обновление prices в таблицу на сервере, запись названия файла в .txt
                 try:
                     df_cian_prices.to_sql(name='prices', con=sql_engine, if_exists='append',

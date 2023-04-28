@@ -751,7 +751,6 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             tqdm.pandas(desc='districts_update', file=tqdm_out, mininterval=15)
 
             logging.info('обработка district_id:')
-            tqdm.pandas()
             cian_realty['district_id'] = cian_realty.progress_apply(lambda row: district_from_rn_mkrn(row,
                                                                                                       all_districts,
                                                                                                       sql_engine),
