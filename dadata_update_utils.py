@@ -38,6 +38,7 @@ def filter_addr_for_dadata(addrString, source):
 
 def dadata_request(df, file_date, source):
     st_time = datetime.now()
+    file_date = str(file_date)
     # dadata_credentials
     token = "f288b25edb6d05b5ceb4d957376104a181c4adee"
     secret = "9d337ae6b9901a6708802eaca6d7055ce2c64772"
