@@ -33,16 +33,18 @@ if __name__ == '__main__':
             handled_files_cian = get_saved_files_names('cian')
 
             # чтение и сохранение в local_save_dir файлов из ядиска avito
-            # files_to_process_avito, error_file_loading_avito = download_yadisk_files(ya_api, ya_link,
-            #                                                                          handled_files_avito,
-            #                                                                          local_save_dir_avito, 'avito')
+            files_to_process_avito, error_file_loading_avito = download_yadisk_files(ya_api, ya_link,
+                                                                                     handled_files_avito,
+                                                                                     local_save_dir_avito, 'avito')
             # заглушка загрузки avito
-            files_to_process_avito, error_file_loading_avito = [], False
+            # files_to_process_avito, error_file_loading_avito = [], False
 
             # чтение и сохранение в local_save_dir файлов из ядиска cian
-            files_to_process_cian, error_file_loading_cian = download_yadisk_files(ya_api, ya_link,
-                                                                                   handled_files_cian,
-                                                                                   local_save_dir_cian, 'cian')
+            # files_to_process_cian, error_file_loading_cian = download_yadisk_files(ya_api, ya_link,
+            #                                                                        handled_files_cian,
+            #                                                                        local_save_dir_cian, 'cian')
+            # заглушка загрузки cian
+            files_to_process_cian, error_file_loading_cian = [], False
 
             # проверка состояния
             if error_file_loading_avito or error_file_loading_cian:
@@ -124,11 +126,24 @@ if __name__ == '__main__':
                     error_writing_files = True
                     break
 
+            try:
+                con_obj = sql_engine.connect()
+                con_obj.close()
+            except:
+                try:
+                    sql_server, sql_engine = get_sql_engine()
+                    logging.info('подключение к базе восстановлено')
+                except Exception as exc:
+                    logging.error('не удается подключиться к базе')
+                    error_updating_realty = True
+                    break
+
             for filename in files_to_process_avito:
                 # обработка realty avito
                 logging.info('обработка файла {} для авито'.format(filename))
                 df_avito_realty, file_date, error_file_processing = process_realty(local_save_dir_avito, filename,
                                                                                    sql_engine, 'avito')
+                df_avito_realty.to_csv(local_save_dir_data+f'/avito_processed_realty_{file_date[:10].replace("-", "_")}.csv', encoding='cp1251')
 
                 # проверка состояния
                 if error_file_processing:
