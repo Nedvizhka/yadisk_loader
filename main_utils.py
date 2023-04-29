@@ -325,7 +325,7 @@ def load_and_update_realty_db(engine, df, fname, source):
 
     # тест запуск
     if source != 'cian':
-        df_realty_new = df_realty_new[df_realty_new['city_id'] == 7].sample(700, random_state=111)
+        df_realty_new = df_realty_new[df_realty_new['city_id'] == 12]
         logging.info('тестовый запуск - будет обработано {} новых объявлений для {}'.format(len(df_realty_new), source))
     else:
         # df_realty_new = df_realty_new[df_realty_new['city_id'] == 20].sample(100, random_state=111)
