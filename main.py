@@ -143,7 +143,7 @@ if __name__ == '__main__':
                 logging.info('обработка файла {} для авито'.format(filename))
                 df_avito_realty, file_date, error_file_processing = process_realty(local_save_dir_avito, filename,
                                                                                    sql_engine, 'avito')
-                df_avito_realty.to_csv(local_save_dir_data+f'/avito_processed_realty_{str(file_date)[:10].replace("-", "_")}.csv', encoding='cp1251')
+                df_avito_realty.to_csv(local_save_dir_data+f'/avito_processed_realty_{str(file_date)[:10].replace("-", "_")}.csv')
 
                 # проверка состояния
                 if error_file_processing:
