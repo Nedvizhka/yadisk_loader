@@ -82,20 +82,23 @@ def write_saved_file_names(filename, source):
     uploaded_txt.close()
 
 
-def download_local_yadisk_files(yandex_api_token, handled_files, save_dir):
+def download_local_yadisk_files(yandex_api_token, handled_files, save_dir, marketplace):
     y = yadisk.YaDisk(token=yandex_api_token)
     if y.check_token():
         logging.info('yandex token valid')
-        disk_files_info = list(y.listdir("/cian"))
+        disk_files_info = list(y.listdir("/avito-cian"))
         disk_files_routes = [disk_files_info[i].path for i in range(len(disk_files_info))]
         saved_files = []
         cnt = 0
         for file in disk_files_routes:
             if Path(file).stem not in handled_files:
-                y.download(file, save_dir + '/' + Path(file).name)
-                saved_files.append(Path(file).name)
-                cnt += 1
-        logging.info('Успешно загружено {} файлов с личного диска: {}'.format(cnt, saved_files))
+                if 'циан' in Path(file).stem if marketplace == 'avito' else 'циан' not in Path(file).stem:
+                    continue
+                else:
+                    y.download(file, save_dir + '/' + Path(file).name)
+                    saved_files.append(Path(file).name)
+                    cnt += 1
+        logging.info('Успешно загружено {} файлов с личного диска: {} для {}'.format(cnt, saved_files, marketplace))
         is_error = False
         return saved_files, is_error
     else:
