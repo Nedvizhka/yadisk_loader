@@ -103,17 +103,15 @@ def dadata_request(df, file_date, source):
 # получение данных район, house_id, jkh_id, dadata_houses_id
 
 def get_districts_from_house(df, engine):
-    unique_fias = tuple(df.dropna(subset='house_fias_id').house_fias_id.unique())
+    unique_ad_id = tuple(df.dropna(subset='ad_id').ad_id.unique())
     get_districts_query = \
-        """select dh.house_fias_id, dh.ad_id, jh.district_id, h.id as house_id, jh.id as jkh_id, dh.id as dadata_houses_id
+    """select dh.house_fias_id, dh.ad_id, jh.district_id, h.id as house_id, jh.id as jkh_id, dh.id as dadata_houses_id
             from dadata_houses dh 
-            left join jkh_houses jh on jh.house_fias_id = dh.house_fias_id 
-            left join houses h on h.jkh_id = jh.id
-            where h.jkh_id != 0
-            and jh.district_id is not null
-            and dh.ad_id is not null
-            and dh.house_fias_id in {}""".format(unique_fias)
-
+            left outer join jkh_houses jh 
+            on (jh.house_fias_id = dh.house_fias_id and dh.ad_id is not null)
+            left outer join houses h 
+            on (h.jkh_id = jh.id and jh.id is not null and h.jkh_id is not null)
+            where dh.ad_id in {}""".format(unique_ad_id)
     try:
         con_obj = engine.connect()
         con_obj.close()
@@ -245,6 +243,7 @@ def update_jkh_houses(engine, df):
             return True
 
 def update_jkh_district(df_realty, df_districts, engine):
+    df_realty_check_upd = df_realty.copy()
     distr_to_update = pd.DataFrame(columns=['jkh_id', 'new_distr'])
     for i, val in df_realty.iterrows():
         try:
@@ -259,12 +258,20 @@ def update_jkh_district(df_realty, df_districts, engine):
         else:
             try:
                 new_district = df_districts[df_districts.ad_id == val.ad_id].district_id.iloc[0]
-                if val.district_id != str(new_district):
+                if val.district_id != new_district:
                     # print('distr', val.district_id, 'in current', val.ad_id, 'but', new_district, 'in new_df')
                     distr_to_update.loc[len(distr_to_update)] = [int(val.jkh_id), val.district_id]
             except:
                 pass
-    logging.info('Получены несовпадения районов c jkh, обновление районов в jkh_houses для {} записей'.format(len(distr_to_update)))
+    distr_to_update.drop_duplicates(inplace=True)
+    # для статистики
+    pre_distr_cnt = len(df_realty_check_upd[df_realty_check_upd.district_id.isna()])
+    post_distr_cnt = len(df_realty[df_realty.district_id.isna()])
+    distr_diff_cnt = post_distr_cnt - pre_distr_cnt
+    logging.info('Добавлено районов к объявлениям realty: {} - было {} стало {}'.format(distr_diff_cnt,
+                                                                                        pre_distr_cnt,
+                                                                                        post_distr_cnt))
+    logging.info('Есть несовпадения районов c jkh, обновление районов в jkh для {} записей'.format(len(distr_to_update)))
 
     try:
         con_obj = engine.connect()
@@ -273,7 +280,7 @@ def update_jkh_district(df_realty, df_districts, engine):
         try:
             server, engine = get_sql_engine()
             logging.info('подключение к базе восстановлено')
-        except Exception as exc:
+        except Exception:
             logging.error('не удается подключиться к базе {}'.format(traceback.format_exc()))
             return False, False
 
