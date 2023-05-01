@@ -352,10 +352,9 @@ def load_and_update_realty_db(engine, df, fname, source):
 
         # добавление полей для realty
         only_districts_df, error_loading_districts_from_houses = get_districts_from_house(df_dadata_houses, engine)
-        only_districts_df = only_districts_df[~only_districts_df.ad_id.isna()]
-        only_districts_df.drop_duplicates(subset=['house_fias_id', 'ad_id', 'district_id'], keep='last', inplace=True)
-        only_districts_df['ad_id'] = only_districts_df['ad_id'].astype(int)
-        df_realty_new['ad_id'] = df_realty_new['ad_id'].astype(int)
+        only_districts_df = only_districts_df[0].sort_values('district_id', ascending=False).drop_duplicates('ad_id', keep='first').sort_index()
+        only_districts_df['ad_id'] = only_districts_df['ad_id'].astype('int64')
+        df_realty_new['ad_id'] = df_realty_new['ad_id'].astype('int64')
         logging.info('уникальных троек по h_fias_id, ad_id, d_id, в таблице с районами и houses_jkh_ddt/id: {}'
                      .format(len(only_districts_df)))
         if len(only_districts_df != 0):
