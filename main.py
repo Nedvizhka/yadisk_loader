@@ -41,12 +41,12 @@ if __name__ == '__main__':
             # files_to_process_avito, error_file_loading_avito = [], False
 
             # чтение и сохранение в local_save_dir файлов из ядиска cian
-            # files_to_process_cian, error_file_loading_cian = download_local_yadisk_files(ya_token,
-            #                                                                              handled_files_cian,
-            #                                                                              local_save_dir_cian,
-            #                                                                              'cian')
+            files_to_process_cian, error_file_loading_cian = download_local_yadisk_files(ya_token,
+                                                                                         handled_files_cian,
+                                                                                         local_save_dir_cian,
+                                                                                         'cian')
             # заглушка загрузки cian
-            files_to_process_cian, error_file_loading_cian = [], False
+            # files_to_process_cian, error_file_loading_cian = [], False
 
             # проверка состояния
             if error_file_loading_avito or error_file_loading_cian:
@@ -145,7 +145,7 @@ if __name__ == '__main__':
                 logging.info('обработка файла {} для авито'.format(filename))
                 df_avito_realty, file_date, error_file_processing = process_realty(local_save_dir_avito, filename,
                                                                                    sql_engine, 'avito')
-                df_avito_realty.to_csv(local_save_dir_data+f'/avito_processed_realty_{str(file_date)[:10].replace("-", "_")}.csv')
+                # df_avito_realty.to_csv(local_save_dir_data+f'/avito_processed_realty_{str(file_date)[:10].replace("-", "_")}.csv')
 
                 # проверка состояния
                 if error_file_processing:
@@ -239,11 +239,11 @@ if __name__ == '__main__':
                     print('Новые данные загружены по файлам {} из авито и {} из циана за {}'
                           .format(files_to_process_avito, files_to_process_cian, datetime.now() - st_time))
                     move_logfile(local_save_dir_data, 'success')
-                    time.sleep(300)
+                    time.sleep(3500)
                     continue
             except:
                 close_sql_connection(sql_server, sql_engine)
                 logging.info('нет новых данных для загрузки')
-                move_logfile(local_save_dir_data, 'error')
-                time.sleep(200)
+                move_logfile(local_save_dir_data, 'no_new_file')
+                time.sleep(1700)
                 continue
