@@ -12,9 +12,10 @@ if __name__ == '__main__':
         # если текущий час совпадает с заданным start_time - запускаем скрипт
         else:
             logging.basicConfig(filename='ya_loader.log', filemode='w',
-                                level=logging.INFO, format='%(asctime)s [%(levelname)-8s] %(message)s')
+                                level=logging.INFO, format='%(asctime)s [%(levelname)-8s] %(message)s', encoding='utf8')
             st_time = datetime.now()
             print('Скрипт запущен: ', get_today_date(), 'выйди из скрина и сделай "tail -f ya_loader.log"')
+            logging.info('Скрипт запущен: {}'.format(st_time))
 
             # получение данных для подключения к базам
             ssh_host, ssh_port, ssh_username, ssh_password, database_username, database_password, database_name, \
@@ -61,6 +62,7 @@ if __name__ == '__main__':
 
             if len(files_to_process_avito) == 0 and len(files_to_process_cian) == 0:
                 move_logfile(local_save_dir_data, 'error')
+                time.sleep(1100)
                 continue
 
             # обработка файлов и загрузка данных в таблицу
@@ -245,5 +247,5 @@ if __name__ == '__main__':
                 close_sql_connection(sql_server, sql_engine)
                 logging.info('нет новых данных для загрузки')
                 move_logfile(local_save_dir_data, 'no_new_file')
-                time.sleep(1700)
+                time.sleep(1100)
                 continue

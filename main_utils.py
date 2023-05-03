@@ -252,7 +252,6 @@ def update_realty(engine, df, source):
         update_table_query = f"""update realty join temp_realty_new on realty.ad_id=temp_realty_new.ad_id
                                             set realty.source_id = temp_realty_new.source_id,
                                                 realty.city_id = temp_realty_new.city_id,
-                                                {'realty.district_id = temp_realty_new.district_id,' if source == 'cian' else ''}
                                                 realty.type_id = temp_realty_new.type_id,
                                                 realty.addr = temp_realty_new.addr,
                                                 realty.square = temp_realty_new.square,
@@ -341,6 +340,7 @@ def load_and_update_realty_db(engine, df, fname, source):
         df_realty_new = df_realty_new[df_realty_new['city_id'] == 12]
         logging.info('тестовый запуск - будет обработано {} новых объявлений для {}'.format(len(df_realty_new), source))
     else:
+        df_realty_new = df_realty_new[df_realty_new['city_id'] == 12]
         # df_realty_new = df_realty_new[df_realty_new['city_id'] == 20].sample(100, random_state=111)
         logging.info('тестовый запуск - будет обработано {} новых объявлений для {}'.format(len(df_realty_new), source))
 
