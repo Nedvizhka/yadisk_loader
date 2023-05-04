@@ -323,24 +323,29 @@ def load_and_update_realty_db(engine, df, fname, source):
     logging.info('{} существующих и {} новых объявлений'.format(len(df_realty_exist), len(df_realty_new)))
 
     # обновление данных
-    if len(df_realty_exist) != 0:
-        error_updating_realty = update_realty(engine, df_realty_exist, source)
-        if error_updating_realty:
-            error_updating_realty = True
-            return False, False, False, error_updating_realty
-        else:
-            error_updating_realty = False
-            logging.info('Обновление существующих данных realty завершено')
-    else:
-        error_updating_realty = False
-        logging.info('не было обнаружено пересечений в данных, переход к добавлению цен в prices')
+    # if len(df_realty_exist) != 0:
+    #     error_updating_realty = update_realty(engine, df_realty_exist, source)
+    #     if error_updating_realty:
+    #         error_updating_realty = True
+    #         return False, False, False, error_updating_realty
+    #     else:
+    #         error_updating_realty = False
+    #         logging.info('Обновление существующих данных realty завершено')
+    # else:
+    #     error_updating_realty = False
+    #     logging.info('не было обнаружено пересечений в данных, переход к добавлению цен в prices')
+    
+    error_updating_realty = False
+    logging.info('не было обнаружено пересечений в данных, переход к добавлению цен в prices')
 
     # тест запуск
     if source != 'cian':
-        df_realty_new = df_realty_new[df_realty_new['city_id'] == 12]
+        # df_realty_new = df_realty_new[df_realty_new['city_id'] == 12]
+        df_realty_new = df[df['city_id'] == 12][list_realty_cols]
         logging.info('тестовый запуск - будет обработано {} новых объявлений для {}'.format(len(df_realty_new), source))
     else:
-        df_realty_new = df_realty_new[df_realty_new['city_id'] == 12]
+        # df_realty_new = df_realty_new[df_realty_new['city_id'] == 12]
+        df_realty_new = df[df['city_id'] == 12][list_realty_cols]
         # df_realty_new = df_realty_new[df_realty_new['city_id'] == 20].sample(100, random_state=111)
         logging.info('тестовый запуск - будет обработано {} новых объявлений для {}'.format(len(df_realty_new), source))
 
@@ -647,16 +652,17 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             df['addr'] = df.apply(lambda row: avito_addr_from_row(row, city_df), axis=1)
 
             # district_id после addr потому что в нем используется адрес
-            all_districts = get_districts(sql_engine)
-            logging.info('обработка district_id:')
+            # all_districts = get_districts(sql_engine)
+            # logging.info('обработка district_id:')
 
             # добавление прогресс бара в log
-            logg = logging.getLogger()
-            tqdm_out = TqdmToLogger(logg, level=logging.INFO)
-            tqdm.pandas(desc='districts_update', file=tqdm_out, mininterval=15)
-            df['district_id'] = df.progress_apply(lambda row: district_from_rn_mkrn(row, all_districts, sql_engine),
-                                                  axis=1)
-            logging.info('district_id обработаны')
+            # logg = logging.getLogger()
+            # tqdm_out = TqdmToLogger(logg, level=logging.INFO)
+            # tqdm.pandas(desc='districts_update', file=tqdm_out, mininterval=15)
+            # df['district_id'] = df.progress_apply(lambda row: district_from_rn_mkrn(row, all_districts, sql_engine),
+            #                                       axis=1)
+            # logging.info('district_id обработаны')
+            df['district_id'] = None
 
             # square
             df['square'] = df['Площадь'].apply(lambda x: square_from_ploshad(x))
