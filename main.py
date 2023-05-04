@@ -213,26 +213,31 @@ if __name__ == '__main__':
                     logging.error('Ошибка при загрузке файлов')
                     close_sql_connection(sql_server, sql_engine)
                     move_logfile(local_save_dir_data, 'error')
+                    time.sleep(1000)
                     continue
                 elif error_getting_ad_id:
                     logging.error('Ошибка при получении ad_id')
                     close_sql_connection(sql_server, sql_engine)
                     move_logfile(local_save_dir_data, 'error')
+                    time.sleep(1000)
                     continue
                 elif error_processing_files:
                     logging.error('Ошибка при обработке файлов')
                     close_sql_connection(sql_server, sql_engine)
                     move_logfile(local_save_dir_data, 'error')
+                    time.sleep(1000)
                     continue
                 elif error_updating_realty:
                     logging.error('Ошибка при обновлении объявлений в таблице realty')
                     close_sql_connection(sql_server, sql_engine)
                     move_logfile(local_save_dir_data, 'error')
+                    time.sleep(1000)
                     continue
                 elif error_writing_files:
                     logging.error('Ошибка при записи файлов в базу')
                     close_sql_connection(sql_server, sql_engine)
                     move_logfile(local_save_dir_data, 'error')
+                    time.sleep(1000)
                     continue
                 else:
                     close_sql_connection(sql_server, sql_engine)

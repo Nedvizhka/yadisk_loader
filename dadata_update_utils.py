@@ -51,7 +51,38 @@ def dadata_request(df, file_date, source):
         dh_df = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_{file_date[:10].replace("-", "_")}.csv',
                             index_col=0,
                             encoding='cp1251')
-        exist_ddt_ad_id = dh_df.ad_id.astype('int64').to_list()
+        if source == 'avito':
+            dh_df_2 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_05_02.csv',
+                            index_col=0,
+                            encoding='cp1251')
+            dh_df_3 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_04_28.csv',
+                            index_col=0,
+                            encoding='cp1251')
+            dh_df = dh_df.append(dh_df_2)
+            dh_df = dh_df.append(dh_df_3)
+            dh_df.drop_duplicates(inplace=True)
+            exist_ddt_ad_id = dh_df.ad_id.astype('int64').to_list()
+        elif source == 'cian':
+            dh_df_2 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_04_28.csv',
+                            index_col=0,
+                            encoding='cp1251')
+            dh_df_3 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_05_01.csv',
+                            index_col=0,
+                            encoding='cp1251')
+            dh_df_4 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_05_02.csv',
+                            index_col=0,
+                            encoding='cp1251')
+            dh_df_5 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_04_30.csv',
+                            index_col=0,
+                            encoding='cp1251')
+            dh_df = dh_df.append(dh_df_2)
+            dh_df = dh_df.append(dh_df_3)
+            dh_df = dh_df.append(dh_df_4)
+            dh_df = dh_df.append(dh_df_5)
+            dh_df.drop_duplicates(inplace=True)
+            exist_ddt_ad_id = dh_df.ad_id.astype('int64').to_list()
+        else:
+            logging.info('где-то проебался AAAAAAAAAAAАААААААААААААААА')
         logging.info('удалось загрузить исторические данные dadata')
     except:
         logging.error('нет исторических данных {} - будет создан новый df для запросов к dadata'.format(local_save_dir_data + f'/{source}_dadata_request_{file_date[:10].replace("-", "_")}.csv'))
@@ -114,6 +145,8 @@ def dadata_request(df, file_date, source):
         logging.error('dadata con was not closed succesfully')
     
     logging.info('обращение к дадата по {}/{} записям из {} заняло {}'.format(len(df) - bad_addr, len(df), source, datetime.now() - st_time))
+    dh_df['ad_id'] = dh_df['ad_id'].astype('int64')
+    dh_df = dh_df[dh_df['ad_id'].isin(df.ad_id.astype('int64').to_list())]
     dh_df.to_csv(local_save_dir_data+f'/{source}_dadata_request_{file_date[:10].replace("-", "_")}.csv', encoding='cp1251')
     return dh_df
 
@@ -235,7 +268,8 @@ def update_jkh_houses(engine, df):
         update_table_query = f"""update jkh_houses join temp_jkh_houses on jkh_houses.id=temp_jkh_houses.jkh_id
                                             set jkh_houses.district_id = temp_jkh_houses.new_distr,
                                                 jkh_houses.geo_district = 0 
-                                            WHERE jkh_houses.id in {common_ids}"""
+                                            WHERE jkh_houses.id in {common_ids if len(common_ids) != 0 else '(0)'}
+                                            and (isnull(jkh_houses.geo_district) = 1 or jkh_houses.geo_district = 1)"""
 
         con_obj.execute(text(update_table_query))
         con_obj.commit()
