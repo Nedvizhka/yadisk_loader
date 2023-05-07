@@ -1,0 +1,7 @@
+2023-05-03 12:39:53,705 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-05-03 12:39:53,815 [INFO    ] Authentication (publickey) failed.
+2023-05-03 12:39:53,823 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-05-03 12:39:53,933 [INFO    ] Authentication (password) successful!
+2023-05-03 12:39:54,064 [INFO    ] connected to host 92.53.64.66 base app_nedvizhka_db
+2023-05-03 12:39:54,699 [INFO    ] Успешно загружено 0 файлов с диска https://disk.yandex.ru/d/sVgz0GiqjhCsNg: []
+2023-05-03 12:39:54,700 [INFO    ] ready to process files [], []
