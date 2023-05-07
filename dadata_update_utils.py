@@ -63,7 +63,7 @@ def dadata_request(df, file_date, source):
             dh_df.drop_duplicates(inplace=True)
             exist_ddt_ad_id = dh_df.ad_id.astype('int64').to_list()
         elif source == 'cian':
-            dh_df_2 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_04_28.csv',
+            dh_df_2 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_28_04_2023.csv',
                             index_col=0,
                             encoding='cp1251')
             dh_df_3 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_05_01.csv',
@@ -125,7 +125,7 @@ def dadata_request(df, file_date, source):
         except Exception as exc:
             logging.error('{}, try reconnect'.format(traceback.format_exc()))
             if uploading_cnt == 0:
-                dh_df.to_csv(local_save_dir_data + f'/{source}_dadata_request_err{file_date[:10].replace("-", "_")}.csv',
+                dh_df.to_csv(local_save_dir_data + f'/{source}_dadata_request_err_{file_date[:10].replace("-", "_")}.csv',
                              encoding='cp1251')
                 uploading_cnt += 1
             # write ad_id and addr to txt
@@ -161,7 +161,7 @@ def get_districts_from_house(df, engine):
             on (jh.house_fias_id = dh.house_fias_id and dh.ad_id is not null)
             left outer join houses h 
             on (h.jkh_id = jh.id and jh.id is not null and h.jkh_id is not null)
-            where dh.ad_id in {}""".format(unique_ad_id)
+            where dh.ad_id in {}""".format(unique_ad_id if len(unique_ad_id) != 0 else '(0)')
     try:
         con_obj = engine.connect()
         con_obj.close()
