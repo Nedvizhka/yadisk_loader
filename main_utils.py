@@ -265,11 +265,11 @@ def update_realty(engine, df, source):
                                                 realty.offer_from = temp_realty_new.offer_from,
                                                 realty.status_new = temp_realty_new.status_new,
                                                 realty.house_id = temp_realty_new.house_id
-                                            WHERE realty.ad_id in {common_ids}"""
+                                            WHERE realty.ad_id in {common_ids if len(common_ids) != 0 else '(0)'}"""
 
         update_district_query = f"""update realty join temp_realty_new on realty.ad_id=temp_realty_new.ad_id
                                                     set realty.district_id = temp_realty_new.district_id
-                                                    WHERE realty.ad_id in {common_ids}
+                                                    WHERE realty.ad_id in {common_ids if len(common_ids) != 0 else '(0)'}
                                                     and temp_realty_new.district_id is not null"""
 
         con_obj.execute(text(update_table_query))
