@@ -1,0 +1,415 @@
+2023-04-29 14:18:58,744 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-04-29 14:18:58,795 [INFO    ] Authentication (publickey) failed.
+2023-04-29 14:18:58,799 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-04-29 14:18:58,850 [INFO    ] Authentication (password) successful!
+2023-04-29 14:18:58,880 [INFO    ] connected to host 92.53.64.66 base preprod_nedvizhka_db
+2023-04-29 14:19:19,005 [INFO    ] Успешно загружено 1 файлов с диска https://disk.yandex.ru/d/sVgz0GiqjhCsNg: ['циан 28-04-23 (без дублей).csv']
+2023-04-29 14:19:19,008 [INFO    ] ready to process files [], ['циан 28-04-23 (без дублей).csv']
+2023-04-29 14:19:19,008 [INFO    ] обработка файла циан 28-04-23 (без дублей).csv для cian
+2023-04-29 14:19:20,137 [INFO    ] обработка district_id:
+2023-04-29 14:19:20,139 [INFO    ] districts_update:   0%|          | 0/121672 [00:00<?, ?it/s]
+2023-04-29 14:19:35,140 [INFO    ] districts_update:  12%|#2        | 14879/121672 [00:15<01:47, 991.91it/s]
+2023-04-29 14:19:50,146 [INFO    ] districts_update:  24%|##4       | 29732/121672 [00:30<01:32, 991.91it/s]
+2023-04-29 14:19:50,146 [INFO    ] districts_update:  24%|##4       | 29733/121672 [00:30<01:32, 990.68it/s]
+2023-04-29 14:20:00,151 [INFO    ] districts_update:  33%|###2      | 39660/121672 [00:40<01:22, 990.68it/s]
+2023-04-29 14:20:05,147 [INFO    ] districts_update:  37%|###6      | 44693/121672 [00:45<01:17, 993.70it/s]
+2023-04-29 14:20:20,148 [INFO    ] districts_update:  49%|####9     | 59676/121672 [01:00<01:02, 995.72it/s]
+2023-04-29 14:20:30,159 [INFO    ] districts_update:  57%|#####7    | 69764/121672 [01:10<00:52, 995.72it/s]
+2023-04-29 14:20:35,148 [INFO    ] districts_update:  61%|######1   | 74727/121672 [01:15<00:47, 998.48it/s]
+2023-04-29 14:20:50,149 [INFO    ] districts_update:  74%|#######3  | 89985/121672 [01:30<00:31, 1004.82it/s]
+2023-04-29 14:21:00,186 [INFO    ] districts_update:  82%|########2 | 100298/121672 [01:40<00:21, 1004.82it/s]
+2023-04-29 14:21:05,150 [INFO    ] districts_update:  87%|########6 | 105430/121672 [01:45<00:16, 1012.92it/s]
+2023-04-29 14:21:20,150 [INFO    ] districts_update: 100%|#########9| 121114/121672 [02:00<00:00, 1023.32it/s]
+2023-04-29 14:21:20,754 [INFO    ] districts_update: 100%|##########| 121672/121672 [02:00<00:00, 1008.77it/s]
+2023-04-29 14:21:20,754 [INFO    ] district add from realty
+2023-04-29 14:21:21,498 [INFO    ] Успешно обработан файл циан 28-04-23 (без дублей).csv для realty
+2023-04-29 14:21:21,506 [INFO    ] Выгрузка в таблицу realty обработанного файла из cian: циан 28-04-23 (без дублей).csv
+2023-04-29 14:21:21,594 [INFO    ] Временная таблица очищена
+2023-04-29 14:21:26,914 [INFO    ] Загрузка новых объявлений в таблицу
+2023-04-29 14:21:26,989 [INFO    ] 0 существующих и 7882 новых объявлений
+2023-04-29 14:21:26,989 [INFO    ] не было обнаружено пересечений в данных, переход к добавлению цен в prices
+2023-04-29 14:21:26,989 [INFO    ] тестовый запуск - будет обработано 300 новых объявлений для cian
+2023-04-29 14:21:37,013 [INFO    ] 0%|          | 0/300 [00:00<?, ?it/s]
+2023-04-29 14:21:37,285 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:37,361 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:37,480 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:37,562 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:37,635 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:37,702 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:37,782 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:37,852 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:37,917 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:37,978 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:38,129 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:38,179 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:38,335 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:38,399 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:38,449 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:38,578 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:38,651 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:38,778 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:38,913 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:39,026 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:39,130 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:39,233 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:39,373 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:39,444 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:39,509 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:39,630 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:39,703 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:39,805 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:39,985 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:40,096 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:40,186 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:40,301 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:40,377 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:40,428 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:40,584 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:40,631 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:40,873 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:40,973 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:41,039 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:41,146 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:41,262 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:41,419 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:41,512 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:41,658 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:41,729 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:41,819 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:41,961 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:42,100 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:42,186 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:42,364 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:42,445 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:42,492 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:42,628 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:42,880 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:42,998 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:43,092 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:43,160 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:43,315 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:43,469 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:43,535 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:43,634 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:43,717 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:43,905 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:44,255 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:44,330 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:44,390 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:44,474 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:44,590 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:44,677 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:44,742 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:44,839 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:44,903 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:45,160 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:45,206 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:45,301 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:45,459 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:45,553 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:45,662 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:45,708 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:45,944 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:46,089 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:46,175 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:46,473 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:46,526 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:46,688 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:46,755 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:46,975 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:47,073 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:47,075 [INFO    ] 33%|###2      | 98/300 [00:10<00:20,  9.74it/s]
+2023-04-29 14:21:47,252 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:47,322 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:47,436 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:47,626 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:47,715 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:47,828 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:48,136 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:48,260 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:48,411 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:48,495 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:48,629 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:48,903 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:49,097 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:49,181 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:49,308 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:49,488 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:49,565 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:49,673 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:49,736 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:49,851 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:49,961 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:50,059 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:50,143 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:50,327 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:50,388 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:50,505 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:50,600 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:50,724 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:50,813 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:50,948 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:51,059 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:51,243 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:51,312 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:51,391 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:51,468 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:51,571 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:51,653 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:51,899 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:52,129 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:52,233 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:52,301 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:52,435 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:52,503 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:52,750 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:52,840 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:52,999 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:53,068 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:53,144 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:53,217 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:53,379 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:53,544 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:53,725 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:53,814 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:53,978 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:54,067 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:54,223 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:54,287 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:54,391 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:54,450 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:54,891 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:54,953 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:55,121 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:55,225 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:55,332 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:55,531 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:55,686 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:55,740 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:55,863 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:56,019 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:56,251 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:56,359 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:56,444 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:56,580 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:56,783 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:56,851 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:56,940 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:57,145 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:57,254 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:57,514 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:57,517 [INFO    ] 65%|######5   | 196/300 [00:20<00:10,  9.53it/s]
+2023-04-29 14:21:57,607 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:57,659 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:57,840 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:57,923 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:58,020 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:58,113 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:58,187 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:58,362 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:58,412 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:58,575 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:58,636 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:58,905 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:58,988 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:59,169 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:59,307 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:59,383 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:59,508 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:59,591 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:59,644 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:59,750 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:59,810 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:21:59,941 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:00,065 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:00,205 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:00,302 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:00,413 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:00,551 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:00,617 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:00,738 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:00,945 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:01,131 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:01,248 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:01,330 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:01,518 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:01,608 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:01,764 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:01,905 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:02,009 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:02,075 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:02,194 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:02,254 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:02,382 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:02,592 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:02,771 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:02,876 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:03,055 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:03,137 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:03,233 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:03,383 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:03,508 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:03,688 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:03,794 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:03,903 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:03,958 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:04,117 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:04,219 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:04,327 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:04,590 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:04,705 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:04,763 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:04,882 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:05,009 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:05,094 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:05,199 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:05,295 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:05,383 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:05,512 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:05,633 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:05,733 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:05,818 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:05,871 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:05,994 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:06,152 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:06,302 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:06,433 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:06,521 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:06,683 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:06,834 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:07,013 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:07,107 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:07,233 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-04-29 14:22:07,235 [INFO    ] 100%|##########| 300/300 [00:30<00:00,  9.93it/s]
+2023-04-29 14:22:07,235 [INFO    ] обращение к дадата по 248/300 записям из cian заняло 0:00:40.245466
+2023-04-29 14:22:11,880 [INFO    ] уникальных троек по h_fias_id, ad_id, d_id, в таблице с районами и houses_jkh_ddt/id: 503
+2023-04-29 14:22:11,880 [INFO    ] выгрузка данных в таблицу realty
+2023-04-29 14:22:12,027 [INFO    ] Получены несовпадения районов c jkh, обновление районов в jkh_houses для 93 записей
+2023-04-29 14:22:15,163 [INFO    ] Временная таблица temp_jkh_houses очищена
+2023-04-29 14:22:25,258 [ERROR   ] Could not establish connection from local ('127.0.0.1', 34105) to remote ('127.0.0.1', 3306) side of the tunnel: open new channel ssh error: Timeout opening channel.
+2023-04-29 14:22:25,261 [ERROR   ] Traceback (most recent call last):
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 145, in __init__
+    self._dbapi_connection = engine.raw_connection()
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 3288, in raw_connection
+    return self.pool.connect()
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 452, in connect
+    return _ConnectionFairy._checkout(self)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 1268, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 716, in checkout
+    rec = pool._do_get()
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/impl.py", line 283, in _do_get
+    return self._create_connection()
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 393, in _create_connection
+    return _ConnectionRecord(self)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 678, in __init__
+    self.__connect()
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 903, in __connect
+    pool.logger.debug("Error on connect(): %s", e)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/util/langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 898, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/create.py", line 637, in connect
+    return dialect.connect(*cargs, **cparams)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 616, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 352, in __init__
+    self.connect()
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 635, in connect
+    self._get_server_information()
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 1056, in _get_server_information
+    packet = self._read_packet()
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 696, in _read_packet
+    packet_header = self._read_bytes(4)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 752, in _read_bytes
+    raise err.OperationalError(
+pymysql.err.OperationalError: (2013, 'Lost connection to MySQL server during query')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/yadisk_loader/dadata_update_utils.py", line 214, in update_jkh_houses
+    load_df_into_sql_table_jkh(df, 'temp_jkh_houses', engine)
+  File "/root/yadisk_loader/dadata_update_utils.py", line 157, in load_df_into_sql_table_jkh
+    df.to_sql(name=table_name, con=engine, if_exists='append', chunksize=5000, method='multi', index=False)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pandas/core/generic.py", line 2987, in to_sql
+    return sql.to_sql(
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pandas/io/sql.py", line 695, in to_sql
+    return pandas_sql.to_sql(
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pandas/io/sql.py", line 1728, in to_sql
+    table = self.prep_table(
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pandas/io/sql.py", line 1631, in prep_table
+    table.create()
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pandas/io/sql.py", line 827, in create
+    if self.exists():
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pandas/io/sql.py", line 814, in exists
+    return self.pd_sql.has_table(self.name, self.schema)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pandas/io/sql.py", line 1760, in has_table
+    insp = sqlalchemy_inspect(self.connectable)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/inspection.py", line 111, in inspect
+    ret = reg(subject)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/reflection.py", line 304, in _engine_insp
+    return Inspector._construct(Inspector._init_engine, bind)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/reflection.py", line 237, in _construct
+    init(self, bind)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/reflection.py", line 248, in _init_engine
+    engine.connect().close()
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 3264, in connect
+    return self._connection_cls(self)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 147, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 2426, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 145, in __init__
+    self._dbapi_connection = engine.raw_connection()
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 3288, in raw_connection
+    return self.pool.connect()
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 452, in connect
+    return _ConnectionFairy._checkout(self)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 1268, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 716, in checkout
+    rec = pool._do_get()
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/impl.py", line 283, in _do_get
+    return self._create_connection()
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 393, in _create_connection
+    return _ConnectionRecord(self)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 678, in __init__
+    self.__connect()
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 903, in __connect
+    pool.logger.debug("Error on connect(): %s", e)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/util/langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 898, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/create.py", line 637, in connect
+    return dialect.connect(*cargs, **cparams)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 616, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 352, in __init__
+    self.connect()
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 635, in connect
+    self._get_server_information()
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 1056, in _get_server_information
+    packet = self._read_packet()
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 696, in _read_packet
+    packet_header = self._read_bytes(4)
+  File "/root/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 752, in _read_bytes
+    raise err.OperationalError(
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (2013, 'Lost connection to MySQL server during query')
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+2023-04-29 14:22:35,269 [ERROR   ] Could not establish connection from local ('127.0.0.1', 34105) to remote ('127.0.0.1', 3306) side of the tunnel: open new channel ssh error: Timeout opening channel.
+2023-04-29 14:22:35,269 [ERROR   ] Не удалось подключиться к БД
+2023-04-29 14:22:35,269 [ERROR   ] не удалось обновить jkh_houses
+2023-04-29 14:22:45,277 [ERROR   ] Could not establish connection from local ('127.0.0.1', 34105) to remote ('127.0.0.1', 3306) side of the tunnel: open new channel ssh error: Timeout opening channel.
+2023-04-29 14:22:45,311 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-04-29 14:22:45,359 [INFO    ] Authentication (publickey) failed.
+2023-04-29 14:22:45,362 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-04-29 14:22:45,413 [INFO    ] Authentication (password) successful!
+2023-04-29 14:22:45,414 [INFO    ] connected to host 92.53.64.66 base preprod_nedvizhka_db
+2023-04-29 14:22:45,414 [INFO    ] подключение к базе восстановлено
+2023-04-29 14:22:45,473 [ERROR   ] Файл циан 28-04-23 (без дублей).csv не удалось обработать для prices
+2023-04-29 14:22:45,474 [ERROR   ] Ошибка при обработке файлов для prices из cian циан 28-04-23 (без дублей).csv. Перезапуск скрипта...
+2023-04-29 14:22:45,562 [ERROR   ] Ошибка при обработке файлов
