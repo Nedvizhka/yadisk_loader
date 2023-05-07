@@ -5,16 +5,17 @@ import time
 
 if __name__ == '__main__':
     while True:
-        # ежедневный запуск скрипта происходит только в определенный час start_time в config-файле
+        # ежедневный запуск скрипта происходит только в определенный час start_time в config файле
         if datetime.now().hour != get_config(get_only_start_time=True):
             time.sleep(100)
             continue
         # если текущий час совпадает с заданным start_time - запускаем скрипт
         else:
             logging.basicConfig(filename='ya_loader.log', filemode='w',
-                                level=logging.INFO, format='%(asctime)s [%(levelname)-8s] %(message)s')
+                                level=logging.INFO, format='%(asctime)s [%(levelname)-8s] %(message)s', encoding='utf8')
             st_time = datetime.now()
             print('Скрипт запущен: ', get_today_date(), 'выйди из скрина и сделай "tail -f ya_loader.log"')
+            logging.info('Скрипт запущен: {}'.format(st_time))
 
             # получение данных для подключения к базам
             ssh_host, ssh_port, ssh_username, ssh_password, database_username, database_password, database_name, \
@@ -33,16 +34,20 @@ if __name__ == '__main__':
             handled_files_cian = get_saved_files_names('cian')
 
             # чтение и сохранение в local_save_dir файлов из ядиска avito
-            # files_to_process_avito, error_file_loading_avito = download_yadisk_files(ya_api, ya_link,
-            #                                                                          handled_files_avito,
-            #                                                                          local_save_dir_avito, 'avito')
+            files_to_process_avito, error_file_loading_avito = download_local_yadisk_files(ya_token,
+                                                                                           handled_files_avito,
+                                                                                           local_save_dir_avito,
+                                                                                           'avito')
             # заглушка загрузки avito
-            files_to_process_avito, error_file_loading_avito = [], False
+            # files_to_process_avito, error_file_loading_avito = [], False
 
             # чтение и сохранение в local_save_dir файлов из ядиска cian
-            files_to_process_cian, error_file_loading_cian = download_yadisk_files(ya_api, ya_link,
-                                                                                   handled_files_cian,
-                                                                                   local_save_dir_cian, 'cian')
+            files_to_process_cian, error_file_loading_cian = download_local_yadisk_files(ya_token,
+                                                                                         handled_files_cian,
+                                                                                         local_save_dir_cian,
+                                                                                         'cian')
+            # заглушка загрузки cian
+            # files_to_process_cian, error_file_loading_cian = [], False
 
             # проверка состояния
             if error_file_loading_avito or error_file_loading_cian:
@@ -57,6 +62,7 @@ if __name__ == '__main__':
 
             if len(files_to_process_avito) == 0 and len(files_to_process_cian) == 0:
                 move_logfile(local_save_dir_data, 'error')
+                time.sleep(1100)
                 continue
 
             # обработка файлов и загрузка данных в таблицу
@@ -124,11 +130,24 @@ if __name__ == '__main__':
                     error_writing_files = True
                     break
 
+            try:
+                con_obj = sql_engine.connect()
+                con_obj.close()
+            except:
+                try:
+                    sql_server, sql_engine = get_sql_engine()
+                    logging.info('подключение к базе восстановлено')
+                except Exception as exc:
+                    logging.error('не удается подключиться к базе')
+                    error_updating_realty = True
+                    break
+
             for filename in files_to_process_avito:
                 # обработка realty avito
                 logging.info('обработка файла {} для авито'.format(filename))
                 df_avito_realty, file_date, error_file_processing = process_realty(local_save_dir_avito, filename,
                                                                                    sql_engine, 'avito')
+                # df_avito_realty.to_csv(local_save_dir_data+f'/avito_processed_realty_{str(file_date)[:10].replace("-", "_")}.csv')
 
                 # проверка состояния
                 if error_file_processing:
@@ -194,26 +213,31 @@ if __name__ == '__main__':
                     logging.error('Ошибка при загрузке файлов')
                     close_sql_connection(sql_server, sql_engine)
                     move_logfile(local_save_dir_data, 'error')
+                    time.sleep(1000)
                     continue
                 elif error_getting_ad_id:
                     logging.error('Ошибка при получении ad_id')
                     close_sql_connection(sql_server, sql_engine)
                     move_logfile(local_save_dir_data, 'error')
+                    time.sleep(1000)
                     continue
                 elif error_processing_files:
                     logging.error('Ошибка при обработке файлов')
                     close_sql_connection(sql_server, sql_engine)
                     move_logfile(local_save_dir_data, 'error')
+                    time.sleep(1000)
                     continue
                 elif error_updating_realty:
                     logging.error('Ошибка при обновлении объявлений в таблице realty')
                     close_sql_connection(sql_server, sql_engine)
                     move_logfile(local_save_dir_data, 'error')
+                    time.sleep(1000)
                     continue
                 elif error_writing_files:
                     logging.error('Ошибка при записи файлов в базу')
                     close_sql_connection(sql_server, sql_engine)
                     move_logfile(local_save_dir_data, 'error')
+                    time.sleep(1000)
                     continue
                 else:
                     close_sql_connection(sql_server, sql_engine)
@@ -222,11 +246,11 @@ if __name__ == '__main__':
                     print('Новые данные загружены по файлам {} из авито и {} из циана за {}'
                           .format(files_to_process_avito, files_to_process_cian, datetime.now() - st_time))
                     move_logfile(local_save_dir_data, 'success')
-                    time.sleep(300)
+                    time.sleep(3500)
                     continue
             except:
                 close_sql_connection(sql_server, sql_engine)
                 logging.info('нет новых данных для загрузки')
-                move_logfile(local_save_dir_data, 'error')
-                time.sleep(200)
+                move_logfile(local_save_dir_data, 'no_new_file')
+                time.sleep(1100)
                 continue
