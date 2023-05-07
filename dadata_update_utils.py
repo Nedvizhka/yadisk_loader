@@ -72,7 +72,7 @@ def dadata_request(df, file_date, source):
             dh_df_4 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_05_02.csv',
                             index_col=0,
                             encoding='cp1251')
-            dh_df_5 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_04_30.csv',
+            dh_df_5 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_05_02.csv',
                             index_col=0,
                             encoding='cp1251')
             dh_df = dh_df.append(dh_df_2)

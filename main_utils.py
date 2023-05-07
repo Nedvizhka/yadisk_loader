@@ -319,7 +319,6 @@ def load_and_update_realty_db(engine, df, fname, source):
         logging.info('Загрузка новых объявлений в таблицу')
     df.ad_id = df.ad_id.astype('int64')
     df_realty_exist = df[df.ad_id.isin(exist_ad_id)][list_realty_cols]
-    df_realty_exist = df_realty_exist[df_realty_exist['city_id'] == 12]
     df_realty_new = df[~df.ad_id.isin(exist_ad_id)][list_realty_cols]
     logging.info('{} существующих и {} новых объявлений'.format(len(df_realty_exist), len(df_realty_new)))
 
@@ -330,25 +329,14 @@ def load_and_update_realty_db(engine, df, fname, source):
             error_updating_realty = True
             return False, False, False, error_updating_realty
         else:
-            error_updating_realty = False
             logging.info('Обновление существующих данных realty завершено')
     else:
-        error_updating_realty = False
         logging.info('не было обнаружено пересечений в данных, переход к добавлению цен в prices')
     
     error_updating_realty = False
     logging.info('не было обнаружено пересечений в данных, переход к добавлению цен в prices')
 
-    # тест запуск
-    if source != 'cian':
-        df_realty_new = df_realty_new[df_realty_new['city_id'] == 12]
-        # df_realty_new = df[df['city_id'] == 12][list_realty_cols]
-        logging.info('тестовый запуск - будет обработано {} новых объявлений для {}'.format(len(df_realty_new), source))
-    else:
-        df_realty_new = df_realty_new[df_realty_new['city_id'] == 12]
-        # df_realty_new = df[df['city_id'] == 12][list_realty_cols]
-        # df_realty_new = df_realty_new[df_realty_new['city_id'] == 20].sample(100, random_state=111)
-        logging.info('тестовый запуск - будет обработано {} новых объявлений для {}'.format(len(df_realty_new), source))
+    logging.info('тестовый запуск - будет обработано {} новых объявлений для {}'.format(len(df_realty_new), source))
 
     # выгрузка новых данных в таблицу на сервере
     try:
