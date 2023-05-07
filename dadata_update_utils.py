@@ -48,10 +48,14 @@ def dadata_request(df, file_date, source):
     local_save_dir_data = create_ddt_save_dir('data')
     try:
         logging.info('попытка загрузить данные dadata из {}'.format(local_save_dir_data + f'/{source}_dadata_request_{file_date[:10].replace("-", "_")}.csv'))
-        dh_df = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_{file_date[:10].replace("-", "_")}.csv',
+        
+        if source == 'avito':
+            # dh_df = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_{file_date[:10].replace("-", "_")}.csv',
+            #                 index_col=0,
+            #                 encoding='cp1251')
+            dh_df = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_05_04.csv',
                             index_col=0,
                             encoding='cp1251')
-        if source == 'avito':
             dh_df_2 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_05_02.csv',
                             index_col=0,
                             encoding='cp1251')
@@ -63,6 +67,9 @@ def dadata_request(df, file_date, source):
             dh_df.drop_duplicates(inplace=True)
             exist_ddt_ad_id = dh_df.ad_id.astype('int64').to_list()
         elif source == 'cian':
+            dh_df = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_{file_date[:10].replace("-", "_")}.csv',
+                            index_col=0,
+                            encoding='cp1251')
             dh_df_2 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_28_04_2023.csv',
                             index_col=0,
                             encoding='cp1251')
@@ -72,7 +79,7 @@ def dadata_request(df, file_date, source):
             dh_df_4 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_05_02.csv',
                             index_col=0,
                             encoding='cp1251')
-            dh_df_5 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_05_02.csv',
+            dh_df_5 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_05_04.csv',
                             index_col=0,
                             encoding='cp1251')
             dh_df = dh_df.append(dh_df_2)
