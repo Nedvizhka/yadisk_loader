@@ -319,7 +319,6 @@ def load_and_update_realty_db(engine, df, fname, source):
         error_getting_ad_id = False
         logging.info('Загрузка новых объявлений в таблицу')
     df.ad_id = df.ad_id.astype('int64')
-    df = df[~df.city_id.isin([4, 18, 12])]
     df_realty_exist = df[df.ad_id.isin(exist_ad_id)][list_realty_cols]
     df_realty_new = df[~df.ad_id.isin(exist_ad_id)][list_realty_cols]
     logging.info('{} существующих и {} новых объявлений'.format(len(df_realty_exist), len(df_realty_new)))
