@@ -337,7 +337,7 @@ def load_and_update_realty_db(engine, df, fname, source):
     error_updating_realty = False
     logging.info('не было обнаружено пересечений в данных, переход к добавлению цен в prices')
 
-    logging.info('тестовый запуск - будет обработано {} новых объявлений для {}'.format(len(df_realty_new), source))
+    logging.info('будет обработано {} новых объявлений для {}'.format(len(df_realty_new), source))
 
     # выгрузка новых данных в таблицу на сервере
     try:

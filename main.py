@@ -34,12 +34,12 @@ if __name__ == '__main__':
             handled_files_cian = get_saved_files_names('cian')
 
             # чтение и сохранение в local_save_dir файлов из ядиска avito
-            # files_to_process_avito, error_file_loading_avito = download_local_yadisk_files(ya_token,
-            #                                                                               handled_files_avito,
-            #                                                                                local_save_dir_avito,
-            #                                                                                'avito')
+            files_to_process_avito, error_file_loading_avito = download_local_yadisk_files(ya_token,
+                                                                                          handled_files_avito,
+                                                                                           local_save_dir_avito,
+                                                                                           'avito')
             # заглушка загрузки avito
-            files_to_process_avito, error_file_loading_avito = [], False
+            # files_to_process_avito, error_file_loading_avito = [], False
 
             # чтение и сохранение в local_save_dir файлов из ядиска cian
             files_to_process_cian, error_file_loading_cian = download_local_yadisk_files(ya_token,
@@ -151,7 +151,7 @@ if __name__ == '__main__':
                 df_avito_realty, file_date, error_file_processing = process_realty(local_save_dir_avito, filename,
                                                                                    sql_engine, 'avito')
                 # убрать при запуске
-                df_avito_realty = df_avito_realty[~df_avito_realty.city_id.isin([4, 18, 12])]
+                df_avito_realty = df_avito_realty[df_avito_realty.city_id.isin([4, 18, 12])]
                 # df_avito_realty.to_csv(local_save_dir_data+f'/avito_processed_realty_{str(file_date)[:10].replace("-", "_")}.csv')
 
                 # проверка состояния
