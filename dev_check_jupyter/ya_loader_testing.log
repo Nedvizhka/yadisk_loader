@@ -1,38 +1,442 @@
-2023-05-02 22:44:24,358 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
-2023-05-02 22:44:25,036 [INFO    ] Authentication (publickey) failed.
-2023-05-02 22:44:25,287 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
-2023-05-02 22:44:25,964 [INFO    ] Authentication (password) successful!
-2023-05-02 22:44:25,989 [INFO    ] connected to host 92.53.64.66 base preprod_nedvizhka_db
-2023-05-02 22:44:35,693 [INFO    ] обработка district_id:
-2023-05-02 22:44:35,698 [INFO    ] districts_update:   0%|          | 0/123171 [00:00<?, ?it/s]
-2023-05-02 22:44:50,699 [INFO    ] districts_update:  15%|#5        | 18701/123171 [00:15<01:23, 1246.67it/s]
-2023-05-02 22:45:05,722 [INFO    ] districts_update:  30%|###       | 37336/123171 [00:30<01:08, 1246.67it/s]
-2023-05-02 22:45:05,722 [INFO    ] districts_update:  30%|###       | 37337/123171 [00:30<01:09, 1243.06it/s]
-2023-05-02 22:45:15,730 [INFO    ] districts_update:  40%|####      | 49817/123171 [00:40<00:59, 1243.06it/s]
-2023-05-02 22:45:20,722 [INFO    ] districts_update:  46%|####5     | 56127/123171 [00:45<00:53, 1247.42it/s]
-2023-05-02 22:45:35,723 [INFO    ] districts_update:  61%|######1   | 75171/123171 [01:00<00:38, 1256.16it/s]
-2023-05-02 22:45:45,781 [INFO    ] districts_update:  71%|#######1  | 87757/123171 [01:10<00:28, 1256.16it/s]
-2023-05-02 22:45:50,723 [INFO    ] districts_update:  76%|#######6  | 93997/123171 [01:15<00:23, 1255.74it/s]
-2023-05-02 22:46:05,723 [INFO    ] districts_update:  92%|#########1| 112928/123171 [01:30<00:08, 1257.89it/s]
-2023-05-02 22:46:13,879 [INFO    ] districts_update: 100%|##########| 123171/123171 [01:38<00:00, 1254.53it/s]
-2023-05-02 22:46:13,880 [INFO    ] district add from realty
-2023-05-02 22:46:15,570 [INFO    ] Успешно обработан файл циан 30-04-23 (без дублей).csv для realty
-2023-05-03 00:42:19,190 [INFO    ] обработка district_id:
-2023-05-03 00:42:19,194 [INFO    ] districts_update:   0%|          | 0/177950 [00:00<?, ?it/s]
-2023-05-03 00:42:34,194 [INFO    ] districts_update:  13%|#2        | 22729/177950 [00:15<01:42, 1515.18it/s]
-2023-05-03 00:42:51,713 [INFO    ] districts_update:  25%|##5       | 45368/177950 [00:32<01:27, 1515.18it/s]
-2023-05-03 00:42:51,713 [INFO    ] districts_update:  25%|##5       | 45369/177950 [00:32<01:36, 1375.83it/s]
-2023-05-03 00:43:01,740 [INFO    ] districts_update:  32%|###2      | 57172/177950 [00:42<01:27, 1375.83it/s]
-2023-05-03 00:43:06,714 [INFO    ] districts_update:  35%|###5      | 62996/177950 [00:47<01:29, 1288.85it/s]
-2023-05-03 00:43:21,714 [INFO    ] districts_update:  45%|####5     | 80702/177950 [01:02<01:17, 1247.37it/s]
-2023-05-03 00:43:31,808 [INFO    ] districts_update:  52%|#####2    | 92669/177950 [01:12<01:08, 1247.37it/s]
-2023-05-03 00:43:36,715 [INFO    ] districts_update:  55%|#####5    | 98597/177950 [01:17<01:04, 1228.13it/s]
-2023-05-03 00:43:51,715 [INFO    ] districts_update:  69%|######8   | 122049/177950 [01:32<00:41, 1340.60it/s]
-2023-05-03 00:44:01,865 [INFO    ] districts_update:  76%|#######5  | 134560/177950 [01:42<00:32, 1340.60it/s]
-2023-05-03 00:44:06,716 [INFO    ] districts_update:  79%|#######9  | 140870/177950 [01:47<00:28, 1312.76it/s]
-2023-05-03 00:44:21,911 [INFO    ] districts_update:  90%|########9 | 159614/177950 [02:02<00:13, 1312.76it/s]
-2023-05-03 00:44:21,911 [INFO    ] districts_update:  90%|########9 | 159615/177950 [02:02<00:14, 1287.49it/s]
-2023-05-03 00:44:31,949 [INFO    ] districts_update:  97%|#########6| 172178/177950 [02:12<00:04, 1287.49it/s]
-2023-05-03 00:44:36,701 [INFO    ] districts_update: 100%|##########| 177950/177950 [02:17<00:00, 1294.12it/s]
-2023-05-03 00:44:36,702 [INFO    ] district_id обработаны
-2023-05-03 00:44:38,586 [INFO    ] Успешно обработан файл 30-04-23 (без дублей).csv для realty
+2023-05-21 21:28:17,742 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-05-21 21:28:18,389 [INFO    ] Authentication (publickey) failed.
+2023-05-21 21:28:18,633 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-05-21 21:28:19,290 [INFO    ] Authentication (password) successful!
+2023-05-21 21:28:19,326 [INFO    ] connected to host 92.53.64.66 base app_nedvizhka_db
+2023-05-21 21:28:29,805 [INFO    ] обработка district_id:
+2023-05-21 21:28:29,814 [INFO    ] districts_update:   0%|          | 0/121065 [00:00<?, ?it/s]
+2023-05-21 21:28:44,815 [INFO    ] districts_update:  16%|#5        | 18991/121065 [00:15<01:20, 1266.04it/s]
+2023-05-21 21:28:59,833 [INFO    ] districts_update:  31%|###1      | 37982/121065 [00:30<01:05, 1265.15it/s]
+2023-05-21 21:29:09,910 [INFO    ] districts_update:  42%|####2     | 50882/121065 [00:40<00:55, 1265.15it/s]
+2023-05-21 21:29:14,834 [INFO    ] districts_update:  47%|####7     | 57181/121065 [00:45<00:50, 1271.86it/s]
+2023-05-21 21:29:29,834 [INFO    ] districts_update:  63%|######3   | 76409/121065 [01:00<00:35, 1275.79it/s]
+2023-05-21 21:29:39,993 [INFO    ] districts_update:  74%|#######3  | 89329/121065 [01:10<00:24, 1275.79it/s]
+2023-05-21 21:29:44,835 [INFO    ] districts_update:  79%|#######8  | 95599/121065 [01:15<00:19, 1277.04it/s]
+2023-05-21 21:29:59,836 [INFO    ] districts_update:  95%|#########4| 114870/121065 [01:30<00:04, 1279.65it/s]
+2023-05-21 21:30:04,760 [INFO    ] districts_update: 100%|##########| 121065/121065 [01:34<00:00, 1275.10it/s]
+2023-05-21 21:30:04,761 [INFO    ] district add from realty
+2023-05-21 21:30:06,400 [INFO    ] Успешно обработан файл циан 17-05-23 (без дублей).csv для realty
+2023-05-21 21:30:43,838 [INFO    ] Успешно обработан файл 17-05-23 (без дублей).csv для realty
+2023-05-21 21:58:06,017 [ERROR   ] Traceback (most recent call last):
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\default.py", line 747, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\cursors.py", line 148, in execute
+    result = self._query(query)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\cursors.py", line 310, in _query
+    conn.query(q)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 548, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 775, in _read_query_result
+    result.read()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 1156, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 725, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.OperationalError: (1054, "Unknown column 'h.district_id' in 'field list'")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pnknv\AppData\Local\Temp\ipykernel_11932\1012095477.py", line 7, in find_empty_districts
+    distr_db = pd.read_sql(text(find_distr_query), con=con_obj)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pandas\io\sql.py", line 593, in read_sql
+    return pandas_sql.read_query(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pandas\io\sql.py", line 1560, in read_query
+    result = self.execute(*args)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pandas\io\sql.py", line 1405, in execute
+    return self.connectable.execution_options().execute(*args, **kwargs)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1414, in execute
+    return meth(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\sql\elements.py", line 485, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1842, in _execute_context
+    return self._exec_single_context(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 2325, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\default.py", line 747, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\cursors.py", line 148, in execute
+    result = self._query(query)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\cursors.py", line 310, in _query
+    conn.query(q)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 548, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 775, in _read_query_result
+    result.read()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 1156, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 725, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (1054, "Unknown column 'h.district_id' in 'field list'")
+[SQL: SELECT h.district_id as houses_district_id, h.id
+                        from houses 
+                        where h.id in (60139, 72443, 59840, 84501, 84457, 59990, 60713, 84559, 59800, 59879, 92918, 84769, 59833, 60099, 50579, 59772, 61032, 60025, 60318, 60621, 59920, 60646, 60124, 59836, 60474, 59935, 61248, 84388, 84480, 84690, 69575, 60310, 60101, 60497, 60300, 59926, 60317, 84401, 84905, 85162, 84790, 84472, 92931, 60378, 60187, 60886, 60017, 60931, 60920, 59808, 60663, 84432, 84878, 84856, 92913, 59842, 60963, 59845, 60521, 59743, 60329, 60418, 60113, 60015, 59853, 60021, 60958, 84605, 84811, 84904, 84709, 84563, 60967, 59850, 60831, 61232, 59738, 59737, 59882, 84794, 84576, 84963, 74727, 85099, 84607, 84541, 84603, 60611, 60793, 59861, 60268, 60059, 60074, 60164, 60765, 59946, 60778, 60037, 85502, 74809, 84580, 84978, 84425, 59750, 59802, 60632, 60896, 59954, 59749, 59838, 60744, 85079, 84479, 84766, 84979, 92903, 85371, 84846, 85332, 84604, 84554, 84679, 84545, 84568, 84826, 76913, 84936, 84670, 85270, 84798, 74730, 84897, 84765, 84458, 84736, 84854)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+2023-05-21 21:58:14,727 [ERROR   ] Traceback (most recent call last):
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\default.py", line 747, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\cursors.py", line 148, in execute
+    result = self._query(query)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\cursors.py", line 310, in _query
+    conn.query(q)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 548, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 775, in _read_query_result
+    result.read()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 1156, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 725, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.OperationalError: (1054, "Unknown column 'h.district_id' in 'field list'")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pnknv\AppData\Local\Temp\ipykernel_11932\4106233951.py", line 7, in find_empty_districts
+    distr_db = pd.read_sql(text(find_distr_query), con=con_obj)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pandas\io\sql.py", line 593, in read_sql
+    return pandas_sql.read_query(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pandas\io\sql.py", line 1560, in read_query
+    result = self.execute(*args)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pandas\io\sql.py", line 1405, in execute
+    return self.connectable.execution_options().execute(*args, **kwargs)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1414, in execute
+    return meth(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\sql\elements.py", line 485, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1842, in _execute_context
+    return self._exec_single_context(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 2325, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\default.py", line 747, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\cursors.py", line 148, in execute
+    result = self._query(query)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\cursors.py", line 310, in _query
+    conn.query(q)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 548, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 775, in _read_query_result
+    result.read()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 1156, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 725, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (1054, "Unknown column 'h.district_id' in 'field list'")
+[SQL: SELECT h.district_id as houses_district_id, h.id
+                        from houses 
+                        where h.id in (60139, 72443, 59840, 84501, 84457, 59990, 60713, 84559, 59800, 59879, 92918, 84769, 59833, 60099, 50579, 59772, 61032, 60025, 60318, 60621, 59920, 60646, 60124, 59836, 60474, 59935, 61248, 84388, 84480, 84690, 69575, 60310, 60101, 60497, 60300, 59926, 60317, 84401, 84905, 85162, 84790, 84472, 92931, 60378, 60187, 60886, 60017, 60931, 60920, 59808, 60663, 84432, 84878, 84856, 92913, 59842, 60963, 59845, 60521, 59743, 60329, 60418, 60113, 60015, 59853, 60021, 60958, 84605, 84811, 84904, 84709, 84563, 60967, 59850, 60831, 61232, 59738, 59737, 59882, 84794, 84576, 84963, 74727, 85099, 84607, 84541, 84603, 60611, 60793, 59861, 60268, 60059, 60074, 60164, 60765, 59946, 60778, 60037, 85502, 74809, 84580, 84978, 84425, 59750, 59802, 60632, 60896, 59954, 59749, 59838, 60744, 85079, 84479, 84766, 84979, 92903, 85371, 84846, 85332, 84604, 84554, 84679, 84545, 84568, 84826, 76913, 84936, 84670, 85270, 84798, 74730, 84897, 84765, 84458, 84736, 84854)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+2023-05-21 22:00:06,373 [ERROR   ] Traceback (most recent call last):
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\default.py", line 747, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\cursors.py", line 148, in execute
+    result = self._query(query)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\cursors.py", line 310, in _query
+    conn.query(q)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 548, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 775, in _read_query_result
+    result.read()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 1156, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 725, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '11111' at line 3")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pnknv\AppData\Local\Temp\ipykernel_11932\709422044.py", line 7, in find_empty_districts
+    distr_db = pd.read_sql(text(find_distr_query), con=con_obj)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pandas\io\sql.py", line 593, in read_sql
+    return pandas_sql.read_query(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pandas\io\sql.py", line 1560, in read_query
+    result = self.execute(*args)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pandas\io\sql.py", line 1405, in execute
+    return self.connectable.execution_options().execute(*args, **kwargs)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1414, in execute
+    return meth(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\sql\elements.py", line 485, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1842, in _execute_context
+    return self._exec_single_context(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 2325, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\default.py", line 747, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\cursors.py", line 148, in execute
+    result = self._query(query)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\cursors.py", line 310, in _query
+    conn.query(q)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 548, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 775, in _read_query_result
+    result.read()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 1156, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 725, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.ProgrammingError: (pymysql.err.ProgrammingError) (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '11111' at line 3")
+[SQL: SELECT h.district_id as houses_district_id, h.id
+                        from houses h
+                        where h.id in 11111]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+2023-05-21 22:00:38,277 [ERROR   ] Traceback (most recent call last):
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\default.py", line 747, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\cursors.py", line 148, in execute
+    result = self._query(query)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\cursors.py", line 310, in _query
+    conn.query(q)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 548, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 775, in _read_query_result
+    result.read()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 1156, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 725, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '11111' at line 3")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pnknv\AppData\Local\Temp\ipykernel_11932\1813361225.py", line 7, in find_empty_districts
+    distr_db = pd.read_sql(text(find_distr_query), con=con_obj)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pandas\io\sql.py", line 593, in read_sql
+    return pandas_sql.read_query(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pandas\io\sql.py", line 1560, in read_query
+    result = self.execute(*args)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pandas\io\sql.py", line 1405, in execute
+    return self.connectable.execution_options().execute(*args, **kwargs)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1414, in execute
+    return meth(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\sql\elements.py", line 485, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1842, in _execute_context
+    return self._exec_single_context(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 2325, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\sqlalchemy\engine\default.py", line 747, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\cursors.py", line 148, in execute
+    result = self._query(query)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\cursors.py", line 310, in _query
+    conn.query(q)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 548, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 775, in _read_query_result
+    result.read()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 1156, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\connections.py", line 725, in _read_packet
+    packet.raise_for_error()
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "C:\Users\pnknv\AppData\Roaming\Python\Python310\site-packages\pymysql\err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.ProgrammingError: (pymysql.err.ProgrammingError) (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '11111' at line 3")
+[SQL: SELECT h.district_id as houses_district_id, h.id
+                        from houses h
+                        where h.id in 11111]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+2023-05-21 22:02:17,307 [ERROR   ] Traceback (most recent call last):
+  File "C:\Users\pnknv\AppData\Local\Temp\ipykernel_11932\2961814942.py", line 7, in find_empty_districts
+    1/0
+ZeroDivisionError: division by zero
+
+2023-05-21 22:59:40,120 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_17_05_2023.csv
+2023-05-21 22:59:40,120 [ERROR   ] нет исторических данных C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_17_05_2023.csv - будет создан новый df для запросов к dadata
+2023-05-21 23:00:03,162 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_17_05_2023.csv
+2023-05-21 23:00:03,162 [ERROR   ] нет исторических данных C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_17_05_2023.csv - будет создан новый df для запросов к dadata
+2023-05-21 23:00:13,165 [INFO    ] количество запросов к dadata составит: 762
+2023-05-21 23:00:16,175 [INFO    ] 0%|          | 0/2740 [00:00<?, ?it/s]
+2023-05-21 23:00:26,421 [INFO    ] 2%|1         | 45/2740 [00:10<10:13,  4.39it/s]
+2023-05-21 23:00:36,671 [INFO    ] 3%|3         | 89/2740 [00:20<10:11,  4.33it/s]
+2023-05-21 23:00:46,702 [INFO    ] 5%|4         | 132/2740 [00:30<10:04,  4.31it/s]
+2023-05-21 23:00:57,943 [INFO    ] 6%|6         | 175/2740 [00:41<10:24,  4.11it/s]
+2023-05-21 23:01:00,436 [INFO    ] 7%|6         | 185/2740 [00:44<10:11,  4.18it/s]
+2023-05-21 23:04:32,513 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_17_05_2023.csv
+2023-05-21 23:04:32,513 [ERROR   ] нет исторических данных C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_17_05_2023.csv - будет создан новый df для запросов к dadata
+2023-05-21 23:04:42,519 [INFO    ] количество запросов к dadata составит: 762
+2023-05-21 23:04:45,534 [INFO    ] 0%|          | 0/762 [00:00<?, ?it/s]
+2023-05-21 23:04:55,681 [INFO    ] 6%|5         | 45/762 [00:10<02:41,  4.43it/s]
+2023-05-21 23:05:06,260 [INFO    ] 12%|#1        | 90/762 [00:20<02:35,  4.33it/s]
+2023-05-21 23:05:16,286 [INFO    ] 17%|#7        | 133/762 [00:30<02:25,  4.31it/s]
+2023-05-21 23:05:27,004 [INFO    ] 23%|##3       | 176/762 [00:41<02:19,  4.19it/s]
+2023-05-21 23:05:37,320 [INFO    ] 29%|##8       | 220/762 [00:51<02:08,  4.22it/s]
+2023-05-21 23:05:48,121 [INFO    ] 35%|###4      | 263/762 [01:02<02:00,  4.13it/s]
+2023-05-21 23:05:59,571 [INFO    ] 40%|###9      | 303/762 [01:14<01:57,  3.91it/s]
+2023-05-21 23:06:09,659 [INFO    ] 45%|####5     | 344/762 [01:24<01:45,  3.96it/s]
+2023-05-21 23:06:20,968 [INFO    ] 51%|#####     | 385/762 [01:35<01:37,  3.85it/s]
+2023-05-21 23:06:31,246 [INFO    ] 55%|#####5    | 422/762 [01:45<01:30,  3.78it/s]
+2023-05-21 23:06:41,779 [INFO    ] 60%|######    | 458/762 [01:56<01:22,  3.67it/s]
+2023-05-21 23:06:52,154 [INFO    ] 65%|######4   | 493/762 [02:06<01:15,  3.58it/s]
+2023-05-21 23:07:03,270 [INFO    ] 69%|######9   | 527/762 [02:17<01:08,  3.42it/s]
+2023-05-21 23:07:13,340 [INFO    ] 73%|#######3  | 559/762 [02:27<01:00,  3.35it/s]
+2023-05-21 23:07:23,416 [INFO    ] 79%|#######8  | 601/762 [02:37<00:44,  3.59it/s]
+2023-05-21 23:07:34,985 [INFO    ] 79%|#######8  | 601/762 [02:49<00:44,  3.59it/s]
+2023-05-21 23:07:35,157 [INFO    ] 84%|########4 | 642/762 [02:49<00:33,  3.56it/s]
+2023-05-21 23:07:45,224 [INFO    ] 89%|########8 | 677/762 [02:59<00:24,  3.53it/s]
+2023-05-21 23:07:55,404 [INFO    ] 94%|#########3| 713/762 [03:09<00:13,  3.53it/s]
+2023-05-21 23:08:05,569 [INFO    ] 98%|#########8| 749/762 [03:20<00:03,  3.54it/s]
+2023-05-21 23:08:09,164 [INFO    ] 100%|##########| 762/762 [03:23<00:00,  3.74it/s]
+2023-05-21 23:08:09,164 [INFO    ] dadata con closed succesfully
+2023-05-21 23:08:09,164 [INFO    ] обращение к дадата по 2592/2740 записям из cian заняло 0:03:36.671115
+2023-05-21 23:37:28,791 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_17_05_2023.csv
+2023-05-21 23:37:28,820 [INFO    ] удалось загрузить исторические данные dadata
+2023-05-21 23:37:28,822 [INFO    ] количество запросов к dadata составит: 148
+2023-05-21 23:37:31,835 [INFO    ] 0%|          | 0/762 [00:00<?, ?it/s]
+2023-05-21 23:37:31,836 [INFO    ] 0%|          | 0/762 [00:00<?, ?it/s]
+2023-05-21 23:38:12,621 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_17_05_2023.csv
+2023-05-21 23:38:12,654 [INFO    ] удалось загрузить исторические данные dadata
+2023-05-21 23:38:12,656 [INFO    ] количество запросов к dadata составит: 148
+2023-05-21 23:38:15,671 [INFO    ] 0%|          | 0/762 [00:00<?, ?it/s]
+2023-05-21 23:38:15,730 [INFO    ] 100%|##########| 762/762 [00:00<00:00, 12994.44it/s]
+2023-05-21 23:38:15,730 [INFO    ] dadata con closed succesfully
+2023-05-21 23:38:15,733 [INFO    ] обращение к дадата по 614/762 записям из cian заняло 0:00:03.138901
+2023-05-21 23:38:45,886 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_17_05_2023.csv
+2023-05-21 23:38:45,917 [INFO    ] удалось загрузить исторические данные dadata
+2023-05-21 23:38:45,918 [INFO    ] количество запросов к dadata составит: 148
+2023-05-21 23:38:48,935 [INFO    ] 0%|          | 0/762 [00:00<?, ?it/s]
+2023-05-21 23:38:48,994 [INFO    ] 100%|##########| 762/762 [00:00<00:00, 13010.09it/s]
+2023-05-21 23:38:48,994 [INFO    ] dadata con closed succesfully
+2023-05-21 23:38:48,997 [INFO    ] обращение к дадата по 614/762 записям из cian заняло 0:00:03.130642
+2023-05-21 23:41:59,658 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_17_05_2023.csv
+2023-05-21 23:41:59,688 [INFO    ] удалось загрузить исторические данные dadata
+2023-05-21 23:41:59,689 [INFO    ] количество запросов к dadata составит: 148
+2023-05-21 23:42:02,707 [INFO    ] 0%|          | 0/762 [00:00<?, ?it/s]
+2023-05-21 23:42:02,766 [INFO    ] 100%|##########| 762/762 [00:00<00:00, 12998.03it/s]
+2023-05-21 23:42:02,766 [INFO    ] dadata con closed succesfully
+2023-05-21 23:42:02,769 [INFO    ] обращение к дадата по 614/762 записям из cian заняло 0:00:03.132206
+2023-05-21 23:42:23,876 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_17_05_2023.csv
+2023-05-21 23:42:23,906 [INFO    ] удалось загрузить исторические данные dadata
+2023-05-21 23:42:23,907 [INFO    ] количество запросов к dadata составит: 148
+2023-05-21 23:42:26,922 [INFO    ] 0%|          | 0/762 [00:00<?, ?it/s]
+2023-05-21 23:42:26,980 [INFO    ] 100%|##########| 762/762 [00:00<00:00, 13209.86it/s]
+2023-05-21 23:42:26,980 [INFO    ] dadata con closed succesfully
+2023-05-21 23:42:26,983 [INFO    ] обращение к дадата по 614/762 записям из cian заняло 0:00:03.125943
+2023-05-22 00:07:13,237 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_17_05_2023.csv
+2023-05-22 00:07:13,287 [INFO    ] удалось загрузить исторические данные dadata
+2023-05-22 00:07:13,289 [INFO    ] количество запросов к dadata составит: 0
+2023-05-22 00:07:16,297 [INFO    ] 0%|          | 0/762 [00:00<?, ?it/s]
+2023-05-22 00:07:16,318 [INFO    ] 100%|##########| 762/762 [00:00<00:00, 36186.86it/s]
+2023-05-22 00:07:16,318 [INFO    ] dadata con closed succesfully
+2023-05-22 00:07:16,321 [INFO    ] обращение к дадата по 762/762 записям из cian заняло 0:00:03.104795
+2023-05-22 00:08:48,324 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_17_05_2023.csv
+2023-05-22 00:08:48,374 [INFO    ] удалось загрузить исторические данные dadata
+2023-05-22 00:08:48,375 [INFO    ] количество запросов к dadata составит: 0
+2023-05-22 00:08:51,387 [INFO    ] 0%|          | 0/762 [00:00<?, ?it/s]
+2023-05-22 00:08:51,413 [INFO    ] 100%|##########| 762/762 [00:00<00:00, 30473.49it/s]
+2023-05-22 00:08:51,413 [INFO    ] dadata con closed succesfully
+2023-05-22 00:08:51,416 [INFO    ] обращение к дадата по 762/762 записям из cian заняло 0:00:03.112460
+2023-05-22 00:13:31,371 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_17_05_2023.csv
+2023-05-22 00:13:31,419 [INFO    ] удалось загрузить исторические данные dadata
+2023-05-22 00:13:31,421 [INFO    ] количество запросов к dadata составит: 0
+2023-05-22 00:13:34,431 [INFO    ] 0%|          | 0/762 [00:00<?, ?it/s]
+2023-05-22 00:13:34,451 [INFO    ] 100%|##########| 762/762 [00:00<00:00, 37507.15it/s]
+2023-05-22 00:13:34,451 [INFO    ] dadata con closed succesfully
+2023-05-22 00:13:34,454 [INFO    ] обращение к дадата по 762/762 записям из cian заняло 0:00:03.102713
+2023-05-22 00:14:47,214 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_17_05_2023.csv
+2023-05-22 00:14:47,262 [INFO    ] удалось загрузить исторические данные dadata
+2023-05-22 00:14:47,264 [INFO    ] количество запросов к dadata составит: 0
+2023-05-22 00:14:50,275 [INFO    ] 0%|          | 0/762 [00:00<?, ?it/s]
+2023-05-22 00:14:50,295 [INFO    ] 100%|##########| 762/762 [00:00<00:00, 37117.73it/s]
+2023-05-22 00:14:50,295 [INFO    ] dadata con closed succesfully
+2023-05-22 00:14:50,298 [INFO    ] обращение к дадата по 762/762 записям из cian заняло 0:00:03.104508
+2023-05-22 00:15:03,751 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_17_05_2023.csv
+2023-05-22 00:15:03,798 [INFO    ] удалось загрузить исторические данные dadata
+2023-05-22 00:15:03,799 [INFO    ] количество запросов к dadata составит: 0
+2023-05-22 00:15:06,808 [INFO    ] 0%|          | 0/762 [00:00<?, ?it/s]
+2023-05-22 00:15:06,828 [INFO    ] 100%|##########| 762/762 [00:00<00:00, 38097.31it/s]
+2023-05-22 00:15:06,828 [INFO    ] dadata con closed succesfully
+2023-05-22 00:15:06,831 [INFO    ] обращение к дадата по 762/762 записям из cian заняло 0:00:03.100549
+2023-05-22 00:25:39,960 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_17_05_2023.csv
+2023-05-22 00:25:40,018 [INFO    ] удалось загрузить исторические данные dadata
+2023-05-22 00:25:40,020 [INFO    ] количество запросов к dadata составит: 148
+2023-05-22 00:25:43,038 [INFO    ] 0%|          | 0/762 [00:00<?, ?it/s]
+2023-05-22 00:25:43,096 [INFO    ] 100%|##########| 762/762 [00:00<00:00, 13110.32it/s]
+2023-05-22 00:25:43,096 [INFO    ] dadata con closed succesfully
+2023-05-22 00:25:43,099 [INFO    ] обращение к DDT по 614/762 адресам из cian заняло 0:00:03.158286
+2023-05-22 00:25:43,104 [INFO    ] обращение к DDT выполнено для 1334 объявлений
+2023-05-22 00:27:24,341 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_17_05_2023.csv
+2023-05-22 00:27:24,396 [INFO    ] удалось загрузить исторические данные dadata
+2023-05-22 00:27:24,397 [INFO    ] количество запросов к dadata составит: 148
+2023-05-22 00:27:27,411 [INFO    ] 0%|          | 0/762 [00:00<?, ?it/s]
+2023-05-22 00:27:27,470 [INFO    ] 100%|##########| 762/762 [00:00<00:00, 13065.62it/s]
+2023-05-22 00:27:27,470 [INFO    ] dadata con closed succesfully
+2023-05-22 00:27:27,473 [INFO    ] обращение к DDT по 614/762 адресам из cian заняло 0:00:03.152057
+2023-05-22 00:27:27,479 [INFO    ] обращение к DDT выполнено для 1334 объявлений, найден fias для 943
+2023-05-22 00:29:25,141 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_17_05_2023.csv
+2023-05-22 00:29:25,193 [INFO    ] удалось загрузить исторические данные dadata
+2023-05-22 00:29:25,194 [INFO    ] количество запросов к dadata составит: 148
+2023-05-22 00:29:28,200 [INFO    ] 0%|          | 0/762 [00:00<?, ?it/s]
+2023-05-22 00:29:28,258 [INFO    ] 100%|##########| 762/762 [00:00<00:00, 13020.11it/s]
+2023-05-22 00:29:28,258 [INFO    ] dadata con closed succesfully
+2023-05-22 00:29:28,261 [INFO    ] обращение к DDT по 614/762 адресам из cian заняло 0:00:03.139624
+2023-05-22 00:29:28,267 [INFO    ] обращение к DDT выполнено для 1334/2740 новых объявлений, найден fias для 943

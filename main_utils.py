@@ -1,3 +1,4 @@
+import logging
 import os
 import warnings
 import zipfile
@@ -332,12 +333,52 @@ def load_and_update_realty_db(engine, df, fname, source):
         else:
             logging.info('Обновление существующих данных realty завершено')
     else:
-        logging.info('не было обнаружено пересечений в данных, переход к добавлению цен в prices')
-    
-    error_updating_realty = False
-    logging.info('не было обнаружено пересечений в данных, переход к добавлению цен в prices')
+        logging.info('не было обнаружено пересечений в данных, переход к добавлению новых объявлений')
 
-    logging.info('будет обработано {} новых объявлений для {}'.format(len(df_realty_new), source))
+    error_updating_realty = False
+
+    # поиск существующих адресов в новых объявлениях
+    addr_df, exc_str = find_new_addr(tuple(int(i) for i in filter(lambda v: v == v, df_realty_new.city_id.unique())), engine)
+    if exc_str:
+        error_updating_realty = True
+        return False, False, False, error_updating_realty
+    addr_df = addr_df.sort_values(by=['house_id', 'jkh_id'],
+                                  ascending=False).drop_duplicates(subset=['city_id', 'addr'], keep="first").reset_index(drop=True)
+    if len(df_realty_new[df_realty_new.addr.isin(addr_df.addr.to_list())]) != 0:
+        df_realty_new = df_realty_new.merge(addr_df[['city_id', 'addr', 'house_id', 'jkh_id', 'dadata_houses_id']],
+                                            on=['city_id', 'addr'], how='left')
+        df_realty_new_found = df_realty_new.query('not house_id.isnull() & not jkh_id.isnull()')
+        df_realty_new = df_realty_new.query('house_id.isnull() or jkh_id.isnull()')
+        logging.info('из новых объявлений удалось найти по адресу {}, запрос в ddt для {}'.format(len(df_realty_new_found),
+                                                                                                  len(df_realty_new)))
+
+        # проставление районов новым объявлениям, адрес которых существует в realty
+        logging.info('обновление районов для найденных в realty по адресу новых объявлений:')
+        empty_districts_of_exist = tuple(int(i) for i in filter(lambda v: v == v, df_realty_new_found.query('district_id.isnull()').house_id.unique()))
+        found_empty_distr_df, exc_str = find_empty_districts(empty_districts_of_exist, engine)
+        if exc_str:
+            error_updating_realty = True
+            return False, False, False, error_updating_realty
+        logging.info('обнаружено {} районов для {} новых объявлений, найденных по адресу из {}'.format(len(found_empty_distr_df),
+                                                                                                       len(df_realty_new_found.query('district_id.isnull()').house_id.unique()),
+                                                                                                       len(df_realty_new_found.query('district_id.isnull()'))))
+        if len(found_empty_distr_df) != 0:
+            df_realty_new_found = df_realty_new_found.merge(found_empty_distr_df, on=['house_id'], how='left')
+            df_realty_new_found['district_id_x'] = df_realty_new_found['district_id_x'].fillna(df_realty_new_found['district_id_y'])
+            df_realty_new_found.rename(columns={'district_id_x': 'district_id'}, inplace=True)
+            df_realty_new_found.drop(['district_id_y'], axis=1, inplace=True)
+        else:
+            pass
+        logging.info('{} районов осталось незаполнено'.format(len(df_realty_new_found.query('district_id.isnull()').house_id.unique())))
+
+        logging.info('переход к обновлению оставшихся (не найденных по адресу) {} новых объявлений для {}'.format(len(df_realty_new), source))
+
+    else:
+        df_realty_new_found = pd.DataFrame(columns=['source_id', 'ad_id', 'city_id', 'district_id', 'type_id', 'addr',
+                                                    'square', 'floor', 'house_floors', 'link', 'date', 'status',
+                                                    'version', 'offer_from', 'status_new', 'house_id', 'jkh_id',
+                                                    'dadata_houses_id'])
+        logging.info('не удалось найти совпадения по адресу для новых объявлений, переход к запросу в dadata')
 
     # выгрузка новых данных в таблицу на сервере
     try:
@@ -369,24 +410,28 @@ def load_and_update_realty_db(engine, df, fname, source):
             logging.info('выгрузка данных в таблицу realty')
             df_realty_new_merged = df_realty_new.merge(only_districts_df[['ad_id', 'house_id', 'jkh_id', 'dadata_houses_id']],
                                                        on='ad_id', how='left')
+            # соединение df получившегося после dadata и после поиска по адресу
+            df_realty_new_merged_add_by_addr = df_realty_new_found.append(df_realty_new_merged, ignore_index=True)
             # обновление полей для jkh_id
             df_realty_new_merged_w_dist, \
             error_create_temp_jkh_houses, \
-            error_updating_jkh_houses = update_jkh_district(df_realty_new_merged, only_districts_df, engine)
+            error_updating_jkh_houses = update_jkh_district(df_realty_new_merged_add_by_addr, only_districts_df, engine)
             if error_create_temp_jkh_houses or error_updating_jkh_houses:
                 logging.error('не удалось обновить jkh_houses')
                 return False, False, False, error_updating_realty
 
             load_df_into_sql_table(df_realty_new_merged_w_dist, 'realty', engine)
             error_loading_into_realty = False
-            logging.info('новые объявления добавлены, переход к обновлению существующих')
+            logging.info('все новые объявления добавлены')
 
         else:
-            logging.info('нет новых записей с  houses_jkh_ddt/id, добавляю результаты парсинга as is')
+            logging.info('нет новых записей с houses_jkh_ddt/id, добавляю результаты парсинга as is')
             df_realty_new['house_id'] = None
             df_realty_new['jkh_id'] = None
             df_realty_new['dadata_houses_id'] = None
-            load_df_into_sql_table(df_realty_new, 'realty', engine)
+            # соединение df получившегося после dadata и после поиска по адресу
+            df_realty_new_merged_add_by_addr = df_realty_new_found.append(df_realty_new, ignore_index=True)
+            load_df_into_sql_table(df_realty_new_merged_add_by_addr, 'realty', engine)
             error_loading_into_realty = False
 
     except Exception as exc:
