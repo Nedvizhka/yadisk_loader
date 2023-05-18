@@ -60,8 +60,8 @@ if __name__ == '__main__':
                 error_loading_files = False
                 logging.info('ready to process files {}, {}'.format(files_to_process_avito, files_to_process_cian))
 
-            if len(files_to_process_avito) == 0 or len(files_to_process_cian) == 0:
-                logging.info('{} файлов для загрузки авито и {} файлов для циан'.format(len(files_to_process_avito), len(files_to_process_cian))
+            if len(files_to_process_avito) == 0 and len(files_to_process_cian) == 0:
+                logging.info('{} файлов для загрузки авито и {} файлов для циан'.format(len(files_to_process_avito), len(files_to_process_cian)))
                 move_logfile(local_save_dir_data, 'no_new_file')
                 time.sleep(900)
                 continue
