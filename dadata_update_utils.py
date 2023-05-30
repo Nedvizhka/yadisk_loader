@@ -55,14 +55,17 @@ def dadata_request(df, file_date, source):
         dh_df.drop_duplicates(inplace=True)
         exist_ddt_addr = dh_df.addr.unique().tolist()
         logging.info('удалось загрузить исторические данные dadata')
+        df_for_count = df.drop_duplicates(subset='addr')
+        count_zapros = df_for_count[~df_for_count.addr.isin(exist_ddt_addr)]
     except:
         logging.error('нет исторических данных {} - будет создан новый df для запросов к dadata'.format(
             local_save_dir_data + f'/{source}_dadata_request_{file_date[:10].replace("-", "_")}.csv'))
         dh_df = pd.DataFrame(columns=['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street', 'house', 'qc', 'result', 'qc_geo', 'addr'])
         exist_ddt_addr = False
+        count_zapros = df.drop_duplicates(subset='addr')
         time.sleep(10)
-    logging.info('количество запросов к dadata составит: {}'.format(
-        len(set(df.addr.unique().tolist()) - set(dh_df.addr.unique().tolist()))))
+    # logging.info('количество запросов к dadata составит: {}'.format(
+        # len(set(df.addr.unique().tolist()) - set(dh_df.addr.unique().tolist()))))
     # count bad addr and missed queries
     bad_addr = 0
     # to upload dadata result right away when query crashes
@@ -77,7 +80,8 @@ def dadata_request(df, file_date, source):
     tqdm_out = TqdmToLogger(logger, level=logging.INFO)
     # dadata request
     time.sleep(3)
-    for i, row in tqdm(df.drop_duplicates(subset='addr').iterrows(), total=df.drop_duplicates(subset='addr').shape[0],
+    logging.info('количество запросов к dadata составит: {}'.format(len(set(df.addr.unique().tolist()) - set(dh_df.addr.unique().tolist()))))
+    for i, row in tqdm(df.drop_duplicates(subset='addr').iterrows(), total=count_zapros.shape[0],
                        file=tqdm_out, mininterval=10):
         if exist_ddt_addr:
             if row.addr in exist_ddt_addr:

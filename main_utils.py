@@ -349,8 +349,10 @@ def load_and_update_realty_db(engine, df, fname, source):
                                             on=['city_id', 'addr'], how='left')
         df_realty_new_found = df_realty_new.query('not house_id.isnull() & not jkh_id.isnull()')
         df_realty_new = df_realty_new.query('house_id.isnull() or jkh_id.isnull()')
-        logging.info('из новых объявлений удалось найти по адресу {}, запрос в ddt для {}'.format(len(df_realty_new_found),
-                                                                                                  len(df_realty_new)))
+        df_realty_new = df_realty_new[list_realty_cols]
+        logging.info('из новых объявлений удалось найти по адресу {}, запрос в ddt для {} по уник. адресу из {}'.format(len(df_realty_new_found), 
+                                                                                                                len(df_realty_new.addr.unique()), 
+                                                                                                                len(df_realty_new)))
 
         # проставление районов новым объявлениям, адрес которых существует в realty
         logging.info('обновление районов для найденных в realty по адресу новых объявлений:')
@@ -371,7 +373,9 @@ def load_and_update_realty_db(engine, df, fname, source):
             pass
         logging.info('{} районов осталось незаполнено'.format(len(df_realty_new_found.query('district_id.isnull()').house_id.unique())))
 
-        logging.info('переход к обновлению оставшихся (не найденных по адресу) {} новых объявлений для {}'.format(len(df_realty_new), source))
+        logging.info('переход к обновлению оставшихся (не найденных по адресу) {} новых объявлений ({} адресов) для {}'.format(len(df_realty_new), 
+                                                                                                                        len(df_realty_new.addr.unique()), 
+                                                                                                                        source))
 
     else:
         df_realty_new_found = pd.DataFrame(columns=['source_id', 'ad_id', 'city_id', 'district_id', 'type_id', 'addr',
@@ -411,16 +415,16 @@ def load_and_update_realty_db(engine, df, fname, source):
             df_realty_new_merged = df_realty_new.merge(only_districts_df[['ad_id', 'house_id', 'jkh_id', 'dadata_houses_id']],
                                                        on='ad_id', how='left')
             # соединение df получившегося после dadata и после поиска по адресу
-            df_realty_new_merged_add_by_addr = df_realty_new_found.append(df_realty_new_merged, ignore_index=True)
+            # df_realty_new_merged_add_by_addr = df_realty_new_found.append(df_realty_new_merged, ignore_index=True)
             # обновление полей для jkh_id
             df_realty_new_merged_w_dist, \
             error_create_temp_jkh_houses, \
-            error_updating_jkh_houses = update_jkh_district(df_realty_new_merged_add_by_addr, only_districts_df, engine)
+            error_updating_jkh_houses = update_jkh_district(df_realty_new_merged, only_districts_df, engine)
             if error_create_temp_jkh_houses or error_updating_jkh_houses:
                 logging.error('не удалось обновить jkh_houses')
                 return False, False, False, error_updating_realty
-
-            load_df_into_sql_table(df_realty_new_merged_w_dist, 'realty', engine)
+            df_realty_new_merged_add_by_addr = df_realty_new_merged_w_dist.append(df_realty_new_found, ignore_index=True)
+            load_df_into_sql_table(df_realty_new_merged_add_by_addr, 'realty', engine)
             error_loading_into_realty = False
             logging.info('все новые объявления добавлены')
 

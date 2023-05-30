@@ -11,13 +11,13 @@ def get_config(get_only_start_time=False):
     config = configparser.ConfigParser()
     config.read('config.ini')
 
-    ssh_host = config['database']['ssh_host_main']  # переключить на ssh_host_main для работы на прод сервере
+    ssh_host = config['database']['ssh_host_test']  # переключить на ssh_host_main для работы на прод сервере
     ssh_port = int(config['database']['ssh_port'])
     ssh_username = config['database']['ssh_username']
     ssh_password = config['database']['ssh_password']
     database_username = config['database']['database_username']
     database_password = config['database']['database_password']
-    database_name = config['database']['preprod_database_name']
+    database_name = config['database']['database_name']
     localhost = config['database']['localhost']
     localhost_port = int(config['database']['localhost_port'])
     table_name = config['database']['table_name']
