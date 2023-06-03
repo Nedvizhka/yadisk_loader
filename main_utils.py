@@ -52,7 +52,8 @@ def show_error(list_errors):
     err_list = ['error_create_temp_realty',
                 'error_getting_ad_id',
                 'error_loading_into_realty',
-                'error_updating_realty']
+                'error_updating_realty',
+                'error_db_con']
     try:
         array = np.array(list_errors)
         indices = np.where(array == True)[0]
