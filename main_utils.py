@@ -301,7 +301,7 @@ def update_realty(engine, df, source):
             return True
 
 
-def load_and_update_realty_db(engine, df, fname, source):
+def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, source):
     # создание временной таблицы для обновления данных
     error_create_temp_realty = create_temp_realty(engine)
     if error_create_temp_realty:
@@ -325,6 +325,12 @@ def load_and_update_realty_db(engine, df, fname, source):
     df_realty_new = df[~df.ad_id.isin(exist_ad_id)][list_realty_cols]
     logging.info('{} существующих и {} новых объявлений'.format(len(df_realty_exist), len(df_realty_new)))
 
+    # добавление данных о новых ad_id в отчет
+    if source == 'avito':
+        report_df_append(rep_df, 'av_new', len(df_realty_new))
+    else:
+        report_df_append(rep_df, 'c_new', len(df_realty_new))
+
     # обновление данных
     if len(df_realty_exist) != 0:
         error_updating_realty = update_realty(engine, df_realty_exist, source)
@@ -343,17 +349,26 @@ def load_and_update_realty_db(engine, df, fname, source):
     if exc_str:
         error_updating_realty = True
         return False, False, False, error_updating_realty
-    addr_df = addr_df.sort_values(by=['house_id', 'jkh_id'],
-                                  ascending=False).drop_duplicates(subset=['city_id', 'addr'], keep="first").reset_index(drop=True)
+    # форматирование df с существующими адресами
+    addr_df = addr_df.sort_values(by=['house_id', 'jkh_id'], ascending=False)\
+                     .drop_duplicates(subset=['city_id', 'addr'], keep="first")\
+                     .reset_index(drop=True)
     if len(df_realty_new[df_realty_new.addr.isin(addr_df.addr.to_list())]) != 0:
         df_realty_new = df_realty_new.merge(addr_df[['city_id', 'addr', 'house_id', 'jkh_id', 'dadata_houses_id']],
-                                            on=['city_id', 'addr'], how='left')
+                                            on=['city_id', 'addr'],
+                                            how='left')
         df_realty_new_found = df_realty_new.query('not house_id.isnull() & not jkh_id.isnull()')
         df_realty_new = df_realty_new.query('house_id.isnull() or jkh_id.isnull()')
         df_realty_new = df_realty_new[list_realty_cols]
-        logging.info('из новых объявлений удалось найти по адресу {}, запрос в ddt для {} по уник. адресу из {}'.format(len(df_realty_new_found), 
-                                                                                                                len(df_realty_new.addr.unique()), 
-                                                                                                                len(df_realty_new)))
+        logging.info('из новых объяв найдено по адресу {}, запрос в ddt для {} уник. адресов из {}'.format(len(df_realty_new_found),
+                                                                                                           len(df_realty_new.addr.unique()),
+                                                                                                           len(df_realty_new)))
+
+        # добавление данных о новых addr в отчет
+        if source == 'avito':
+            report_df_append(rep_df, 'av_adr_new', len(df_realty_new.addr.unique()))
+        else:
+            report_df_append(rep_df, 'c_adr_new', len(df_realty_new.addr.unique()))
 
         # проставление районов новым объявлениям, адрес которых существует в realty
         logging.info('обновление районов для найденных в realty по адресу новых объявлений:')
@@ -383,6 +398,11 @@ def load_and_update_realty_db(engine, df, fname, source):
                                                     'square', 'floor', 'house_floors', 'link', 'date', 'status',
                                                     'version', 'offer_from', 'status_new', 'house_id', 'jkh_id',
                                                     'dadata_houses_id'])
+        # добавление данных об отсутствии существующих addr в отчет
+        if source == 'avito':
+            report_df_append(rep_df, 'av_adr_new', len(df_realty_new))
+        else:
+            report_df_append(rep_df, 'c_adr_new', len(df_realty_new))
         logging.info('не удалось найти совпадения по адресу для новых объявлений, переход к запросу в dadata')
 
     # выгрузка новых данных в таблицу на сервере
@@ -390,6 +410,12 @@ def load_and_update_realty_db(engine, df, fname, source):
         # обновление dadata_houses
         fdate = get_date_from_name(fname)
         df_dadata_houses = dadata_request(df_realty_new, fdate, source)
+
+        # дополнение tg отчета
+        err_filling_report = fill_dadata_report(rep_ddt_df, df_dadata_houses, source)
+        if err_filling_report:
+            return False, False, False, True
+
         try:
             load_df_into_sql_table(df_dadata_houses, 'dadata_houses', engine, bigsize=True)
         except Exception as exp:

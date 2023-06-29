@@ -69,12 +69,29 @@ if __name__ == '__main__':
                 time.sleep(900)
                 continue
 
+            # создание df для отправки txt отчета в tg
+            common_rep_df = create_common_rep()
+            dadata_rep_df, error_loading_files = create_dadata_rep(sql_engine)
+            if error_loading_files:
+                time.sleep(300)
+                logging.error('Ошибка при создании отчета для tg. Перезапуск скрипта...')
+                error_loading_files = True
+                # сохранение log файла
+                move_logfile(local_save_dir_data, 'error')
+                continue
+
             ### обработка файлов и загрузка данных в таблицу
             for filename in files_to_process_cian:
                 # обработка realty циан
                 logging.info('обработка файла {} для cian'.format(filename))
                 df_cian_realty, file_date, error_file_processing = process_realty(local_save_dir_cian, filename,
                                                                                   sql_engine, 'cian')
+
+                # добавление инфо к отчету
+                report_df_append(common_rep_df, 'parse_date', file_date)
+                report_df_append(common_rep_df, 'c_total', len(df_cian_realty))
+                report_df_append(common_rep_df, 'c_adr_total', len(df_cian_realty.addr.unique()))
+
 
                 # проверка состояния
                 if error_file_processing:
@@ -87,7 +104,7 @@ if __name__ == '__main__':
 
                 # выгрузка и обновление данных в таблице realty
                 error_create_temp_realty, error_getting_ad_id, error_loading_into_realty, error_updating_realty = \
-                    load_and_update_realty_db(sql_engine, df_cian_realty, filename, 'cian')
+                    load_and_update_realty_db(sql_engine, df_cian_realty, filename, common_rep_df, dadata_rep_df, 'cian')
 
                 if any([error_create_temp_realty, error_getting_ad_id,
                         error_loading_into_realty, error_updating_realty]):
@@ -139,7 +156,10 @@ if __name__ == '__main__':
                                                                                    sql_engine, 'avito')
                 # убрать при запуске
                 df_avito_realty = df_avito_realty[df_avito_realty.city_id.isin([4, 18, 12])]
-                # df_avito_realty.to_csv(local_save_dir_data+f'/avito_processed_realty_{str(file_date)[:10].replace("-", "_")}.csv')
+
+                # добавление инфо к отчету
+                report_df_append(common_rep_df, 'av_total', len(df_avito_realty))
+                report_df_append(common_rep_df, 'av_adr_total', len(df_avito_realty.addr.unique()))
 
                 # проверка состояния
                 if error_file_processing:
@@ -153,7 +173,7 @@ if __name__ == '__main__':
 
                 # выгрузка и обновление данных в таблице realty
                 error_create_temp_realty, error_getting_ad_id, error_loading_into_realty, error_updating_realty = \
-                    load_and_update_realty_db(sql_engine, df_avito_realty, filename, 'avito')
+                    load_and_update_realty_db(sql_engine, df_avito_realty, filename, common_rep_df, dadata_rep_df, 'avito')
 
                 if any([error_create_temp_realty, error_getting_ad_id,
                         error_loading_into_realty, error_updating_realty]):
@@ -237,6 +257,12 @@ if __name__ == '__main__':
                     print('Новые данные загружены по файлам {} из авито и {} из циана за {}'
                           .format(files_to_process_avito, files_to_process_cian, datetime.now() - st_time))
                     move_logfile(local_save_dir_data, 'success')
+                    # создание и отправка отчета
+                    report_txt = report_text(common_rep_df, dadata_rep_df)
+                    if report_txt:
+                        run_bot_send_msg(report_txt)
+                    else:
+                        pass
                     time.sleep(3500)
                     continue
             except:

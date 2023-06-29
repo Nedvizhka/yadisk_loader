@@ -1,75 +1,61 @@
-2023-06-02 19:51:16,236 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
-2023-06-02 19:51:16,895 [INFO    ] Authentication (publickey) failed.
-2023-06-02 19:51:17,151 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
-2023-06-02 19:51:17,849 [INFO    ] Authentication (password) successful!
-2023-06-02 19:51:17,881 [INFO    ] connected to host 5.188.28.225 base app_nedvizhka_db
-2023-06-02 19:53:06,372 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
-2023-06-02 19:53:07,034 [INFO    ] Authentication (publickey) failed.
-2023-06-02 19:53:07,298 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
-2023-06-02 19:53:07,997 [INFO    ] Authentication (password) successful!
-2023-06-02 19:53:07,998 [INFO    ] connected to host 5.188.28.225 base app_nedvizhka_db
-2023-06-02 19:53:17,548 [INFO    ] обработка district_id:
-2023-06-02 19:53:17,558 [INFO    ] districts_update:   0%|          | 0/117074 [00:00<?, ?it/s]
-2023-06-02 19:53:32,558 [INFO    ] districts_update:  16%|#6        | 19192/117074 [00:15<01:16, 1279.43it/s]
-2023-06-02 19:53:47,559 [INFO    ] districts_update:  33%|###2      | 38481/117074 [00:30<01:01, 1283.20it/s]
-2023-06-02 19:53:57,649 [INFO    ] districts_update:  44%|####4     | 51675/117074 [00:40<00:50, 1283.20it/s]
-2023-06-02 19:54:02,560 [INFO    ] districts_update:  50%|####9     | 58161/117074 [00:45<00:45, 1296.34it/s]
-2023-06-02 19:54:17,697 [INFO    ] districts_update:  66%|######6   | 77689/117074 [01:00<00:30, 1296.34it/s]
-2023-06-02 19:54:17,698 [INFO    ] districts_update:  66%|######6   | 77690/117074 [01:00<00:30, 1293.84it/s]
-2023-06-02 19:54:27,707 [INFO    ] districts_update:  77%|#######7  | 90724/117074 [01:10<00:20, 1293.84it/s]
-2023-06-02 19:54:32,698 [INFO    ] districts_update:  83%|########2 | 97106/117074 [01:15<00:15, 1294.04it/s]
-2023-06-02 19:54:47,740 [INFO    ] districts_update:  99%|#########9| 116396/117074 [01:30<00:00, 1294.04it/s]
-2023-06-02 19:54:47,741 [INFO    ] districts_update:  99%|#########9| 116397/117074 [01:30<00:00, 1290.06it/s]
-2023-06-02 19:54:48,298 [INFO    ] districts_update: 100%|##########| 117074/117074 [01:30<00:00, 1290.21it/s]
-2023-06-02 19:54:48,299 [INFO    ] district add from realty
-2023-06-02 19:54:51,991 [INFO    ] Успешно обработан файл циан 01-06-23 (без дублей).csv для realty
-2023-06-02 19:55:29,765 [INFO    ] Успешно обработан файл 01-06-23 (без дублей).csv для realty
-2023-06-02 20:12:03,821 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_01_06_2023.csv
-2023-06-02 20:12:03,821 [ERROR   ] нет исторических данных C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_01_06_2023.csv - будет создан новый df для запросов к dadata
-2023-06-02 20:12:16,845 [INFO    ] количество запросов к dadata составит: 4723
-2023-06-02 20:12:16,850 [INFO    ] 0%|          | 0/4723 [00:00<?, ?it/s]
-2023-06-02 20:12:17,147 [INFO    ] 100%|##########| 4723/4723 [00:00<00:00, 15901.75it/s]
-2023-06-02 20:12:17,147 [INFO    ] dadata con closed succesfully
-2023-06-02 20:12:17,156 [INFO    ] обращение к DDT по 4081/4723 адресам из cian заняло 0:00:13.362335
-2023-06-02 20:22:54,990 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_01_06_2023.csv
-2023-06-02 20:22:54,990 [ERROR   ] нет исторических данных C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_01_06_2023.csv - будет создан новый df для запросов к dadata
-2023-06-02 20:23:08,010 [INFO    ] количество запросов к dadata составит: 4723
-2023-06-02 20:23:08,014 [INFO    ] 0%|          | 0/4723 [00:00<?, ?it/s]
-2023-06-02 20:23:08,307 [INFO    ] 100%|##########| 4723/4723 [00:00<00:00, 16124.40it/s]
-2023-06-02 20:23:08,307 [INFO    ] dadata con closed succesfully
-2023-06-02 20:23:08,315 [INFO    ] обращение к DDT по 4081/4723 адресам из cian заняло 0:00:13.345298
-2023-06-02 20:24:21,477 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_01_06_2023.csv
-2023-06-02 20:24:21,477 [ERROR   ] нет исторических данных C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_01_06_2023.csv - будет создан новый df для запросов к dadata
-2023-06-02 20:24:34,503 [INFO    ] количество запросов к dadata составит: 4723
-2023-06-02 20:24:34,507 [INFO    ] 0%|          | 0/4723 [00:00<?, ?it/s]
-2023-06-02 20:24:34,817 [INFO    ] 100%|##########| 4723/4723 [00:00<00:00, 15283.10it/s]
-2023-06-02 20:24:34,818 [INFO    ] dadata con closed succesfully
-2023-06-02 20:24:34,825 [INFO    ] обращение к DDT по 4081/4723 адресам из cian заняло 0:00:13.371427
-2023-06-02 20:24:44,585 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_01_06_2023.csv
-2023-06-02 20:24:44,585 [ERROR   ] нет исторических данных C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_01_06_2023.csv - будет создан новый df для запросов к dadata
-2023-06-02 20:24:57,617 [INFO    ] количество запросов к dadata составит: 4723
-2023-06-02 20:24:57,621 [INFO    ] 0%|          | 0/4723 [00:00<?, ?it/s]
-2023-06-02 20:24:57,932 [INFO    ] 100%|##########| 4723/4723 [00:00<00:00, 15187.53it/s]
-2023-06-02 20:24:57,932 [INFO    ] dadata con closed succesfully
-2023-06-02 20:24:57,940 [INFO    ] обращение к DDT по 4081/4723 адресам из cian заняло 0:00:13.374499
-2023-06-02 20:25:37,812 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_01_06_2023.csv
-2023-06-02 20:25:37,812 [ERROR   ] нет исторических данных C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_01_06_2023.csv - будет создан новый df для запросов к dadata
-2023-06-02 20:25:50,831 [INFO    ] количество запросов к dadata составит: 4723
-2023-06-02 20:25:50,835 [INFO    ] 0%|          | 0/4723 [00:00<?, ?it/s]
-2023-06-02 20:25:51,145 [INFO    ] 100%|##########| 4723/4723 [00:00<00:00, 15261.76it/s]
-2023-06-02 20:25:51,145 [INFO    ] dadata con closed succesfully
-2023-06-02 20:25:51,153 [INFO    ] обращение к DDT по 4081/4723 адресам из cian заняло 0:00:13.360419
-2023-06-02 20:29:03,453 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_01_06_2023.csv
-2023-06-02 20:29:03,454 [ERROR   ] нет исторических данных C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_01_06_2023.csv - будет создан новый df для запросов к dadata
-2023-06-02 20:29:16,487 [INFO    ] количество запросов к dadata составит: 4723
-2023-06-02 20:29:16,490 [INFO    ] 0%|          | 0/4723 [00:00<?, ?it/s]
-2023-06-02 20:29:16,805 [INFO    ] 100%|##########| 4723/4723 [00:00<00:00, 14969.88it/s]
-2023-06-02 20:29:16,805 [INFO    ] dadata con closed succesfully
-2023-06-02 20:29:16,814 [INFO    ] обращение к DDT по 4081/4723 адресам из cian заняло 0:00:13.382618
-2023-06-02 20:33:49,893 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/avito_dadata_request_01_06_2023.csv
-2023-06-02 20:33:49,893 [ERROR   ] нет исторических данных C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/avito_dadata_request_01_06_2023.csv - будет создан новый df для запросов к dadata
-2023-06-02 20:34:02,915 [INFO    ] количество запросов к dadata составит: 2035
-2023-06-02 20:34:02,917 [INFO    ] 0%|          | 0/2035 [00:00<?, ?it/s]
-2023-06-02 20:34:03,034 [INFO    ] 100%|##########| 2035/2035 [00:00<00:00, 17340.74it/s]
-2023-06-02 20:34:03,034 [INFO    ] dadata con closed succesfully
-2023-06-02 20:34:03,037 [INFO    ] обращение к DDT по 1876/2035 адресам из avito заняло 0:00:13.164536
+2023-06-29 22:11:06,476 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-06-29 22:11:07,136 [INFO    ] Authentication (publickey) failed.
+2023-06-29 22:11:07,379 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-06-29 22:11:08,030 [INFO    ] Authentication (password) successful!
+2023-06-29 22:11:08,052 [INFO    ] connected to host 92.53.64.66 base app_nedvizhka_db
+2023-06-29 22:12:54,102 [INFO    ] обработка district_id:
+2023-06-29 22:12:54,113 [INFO    ] districts_update:   0%|          | 0/117016 [00:00<?, ?it/s]
+2023-06-29 22:13:02,645 [INFO    ] добавлен новый район "Углевка" в districts функцией district_from_rn_mkrn
+2023-06-29 22:13:05,812 [INFO    ] добавлен новый район "Нефтяников" в districts функцией district_from_rn_mkrn
+2023-06-29 22:13:09,113 [INFO    ] districts_update:  10%|9         | 11375/117016 [00:15<02:19, 758.32it/s]
+2023-06-29 22:13:24,114 [INFO    ] districts_update:  26%|##5       | 30080/117016 [00:30<01:23, 1045.74it/s]
+2023-06-29 22:13:34,156 [INFO    ] districts_update:  36%|###5      | 42041/117016 [00:40<01:11, 1045.74it/s]
+2023-06-29 22:13:39,115 [INFO    ] districts_update:  41%|####      | 47879/117016 [00:45<01:02, 1110.04it/s]
+2023-06-29 22:13:54,115 [INFO    ] districts_update:  57%|#####6    | 66155/117016 [01:00<00:44, 1152.81it/s]
+2023-06-29 22:14:04,174 [INFO    ] districts_update:  67%|######7   | 78896/117016 [01:10<00:33, 1152.81it/s]
+2023-06-29 22:14:09,115 [INFO    ] districts_update:  73%|#######2  | 85017/117016 [01:15<00:26, 1190.54it/s]
+2023-06-29 22:14:24,216 [INFO    ] districts_update:  89%|########8 | 103809/117016 [01:30<00:11, 1190.54it/s]
+2023-06-29 22:14:24,217 [INFO    ] districts_update:  89%|########8 | 103810/117016 [01:30<00:10, 1208.97it/s]
+2023-06-29 22:14:34,234 [INFO    ] districts_update:  99%|#########9| 116277/117016 [01:40<00:00, 1208.97it/s]
+2023-06-29 22:14:34,880 [INFO    ] districts_update: 100%|##########| 117016/117016 [01:40<00:00, 1161.25it/s]
+2023-06-29 22:14:34,881 [INFO    ] district add from realty
+2023-06-29 22:14:36,559 [INFO    ] Успешно обработан файл циан 28-06-23 (без дублей).csv для realty
+2023-06-29 22:15:11,969 [INFO    ] Успешно обработан файл 28-06-23 (без дублей).csv для realty
+2023-06-29 22:15:48,303 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_28_06_2023.csv
+2023-06-29 22:15:48,303 [ERROR   ] нет исторических данных C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_28_06_2023.csv - будет создан новый df для запросов к dadata
+2023-06-29 22:16:01,321 [INFO    ] количество запросов к dadata составит: 4130
+2023-06-29 22:16:01,327 [INFO    ] 0%|          | 0/4130 [00:00<?, ?it/s]
+2023-06-29 22:16:01,616 [INFO    ] 100%|##########| 4130/4130 [00:00<00:00, 14291.61it/s]
+2023-06-29 22:16:01,616 [INFO    ] dadata con closed succesfully
+2023-06-29 22:16:01,624 [INFO    ] обращение к DDT по 3520/4130 адресам из cian заняло 0:00:13.345620
+2023-06-29 22:16:05,270 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/avito_dadata_request_01_06_2023.csv
+2023-06-29 22:16:05,270 [ERROR   ] нет исторических данных C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/avito_dadata_request_01_06_2023.csv - будет создан новый df для запросов к dadata
+2023-06-29 22:16:18,288 [INFO    ] количество запросов к dadata составит: 2545
+2023-06-29 22:16:18,291 [INFO    ] 0%|          | 0/2545 [00:00<?, ?it/s]
+2023-06-29 22:16:18,421 [ERROR   ] Traceback (most recent call last):
+  File "C:\Users\pnknv\AppData\Local\Temp\ipykernel_2316\717108773.py", line 70, in dadata_request_dev
+    wr.writelines(f"{row.ad_id}: {row.addr}" + ',\n')
+  File "C:\Program Files\Python310\lib\encodings\cp1251.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+UnicodeEncodeError: 'charmap' codec can't encode character '\u200e' in position 0: character maps to <undefined>
+, try reconnect
+2023-06-29 22:16:18,424 [INFO    ] 87%|########7 | 2222/2545 [00:00<00:00, 16795.42it/s]
+2023-06-29 22:16:41,003 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/avito_dadata_request_28_06_2023.csv
+2023-06-29 22:16:41,003 [ERROR   ] нет исторических данных C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/avito_dadata_request_28_06_2023.csv - будет создан новый df для запросов к dadata
+2023-06-29 22:16:54,023 [INFO    ] количество запросов к dadata составит: 2545
+2023-06-29 22:16:54,026 [INFO    ] 0%|          | 0/2545 [00:00<?, ?it/s]
+2023-06-29 22:16:54,145 [ERROR   ] Traceback (most recent call last):
+  File "C:\Users\pnknv\AppData\Local\Temp\ipykernel_2316\717108773.py", line 70, in dadata_request_dev
+    wr.writelines(f"{row.ad_id}: {row.addr}" + ',\n')
+  File "C:\Program Files\Python310\lib\encodings\cp1251.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+UnicodeEncodeError: 'charmap' codec can't encode character '\u200e' in position 0: character maps to <undefined>
+, try reconnect
+2023-06-29 22:16:54,146 [INFO    ] 87%|########7 | 2222/2545 [00:00<00:00, 18474.36it/s]
+2023-06-29 22:19:35,649 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/avito_dadata_request_28_06_2023.csv
+2023-06-29 22:19:35,650 [ERROR   ] нет исторических данных C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/avito_dadata_request_28_06_2023.csv - будет создан новый df для запросов к dadata
+2023-06-29 22:19:48,670 [INFO    ] количество запросов к dadata составит: 2545
+2023-06-29 22:19:48,673 [INFO    ] 0%|          | 0/2545 [00:00<?, ?it/s]
+2023-06-29 22:19:48,805 [INFO    ] 100%|##########| 2545/2545 [00:00<00:00, 19233.86it/s]
+2023-06-29 22:19:48,806 [INFO    ] dadata con closed succesfully
+2023-06-29 22:19:48,810 [INFO    ] обращение к DDT по 2389/2545 адресам из avito заняло 0:00:13.179333
