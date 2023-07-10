@@ -2,6 +2,8 @@ import logging
 import traceback
 import telebot
 
+from dadata import Dadata as ddt_check
+
 import pandas as pd
 from sqlalchemy import text
 
@@ -74,11 +76,22 @@ def fill_dadata_report(city_df, df_ddt, source):
         return True
 
 
-def report_text(common_rep_df, dadata_rep_df):
+def check_balance():
+    token = "f288b25edb6d05b5ceb4d957376104a181c4adee"
+    secret = "9d337ae6b9901a6708802eaca6d7055ce2c64772"
+    ddt = ddt_check(token, secret)
+    result = ddt.get_balance()
+    ddt.close()
+    return result
+
+
+def report_text(common_rep_df, dadata_rep_df, dadata_balance):
     try:
-        # полный кал
+        # переменная для отчета
         rep_text = str()
         rep_text += f'Обработаны объявления от {common_rep_df.iloc[0, 0]}\n'
+
+        # первая часть отчета с общей статой 
 
         temp = pd.DataFrame(columns=['text', 'total', 'c', 'av'])
         c_r = common_rep_df.copy().to_dict('r')[0]
@@ -97,7 +110,6 @@ def report_text(common_rep_df, dadata_rep_df):
         t_txt = temp.to_string(index=False, header=False)
         t_txt_1 = [i.split(' - ') for i in t_txt.split('\n')]
         const = max([len(i[0]) for i in t_txt_1])
-        const_2 = max([len(i[1]) for i in t_txt_1])
         for i in t_txt_1:
             i[0] = "".join(i[0].replace(' ', '').split())
             i[1] = " ".join(i[1].replace(' ', '').replace('$', ' ').split())
@@ -107,6 +119,8 @@ def report_text(common_rep_df, dadata_rep_df):
             rep_text += j + '\n'
 
         rep_text += '\n'
+
+        # вторая часть отчета со статой дадаты
 
         temp_ddt = dadata_rep_df.copy()
         temp_ddt['ddt_total'] = temp_ddt['ddt_cian'] + temp_ddt['ddt_avito']
@@ -125,18 +139,35 @@ def report_text(common_rep_df, dadata_rep_df):
         t_ddt_txt = temp_ddt.to_string(index=False, header=False)
         t_ddt_1 = [i.split('$') for i in t_ddt_txt.split('\n')]
         const = max([len(i[0]) for i in t_ddt_1])
-        for i in t_ddt_1:
-            i[0] = " ".join(i[0].split())
-            i[1] = " ".join(i[1].split())
-            i.insert(1, "\xa0" * (const - 2 - len(i[0])))
-        t_ddt_2 = [' '.join(ele) for ele in t_ddt_1]
-        for j in t_ddt_2:
-            rep_text += j + '\n'
+        try:
+            for i in t_ddt_1:
+                i[0] = " ".join(i[0].split())
+                i[1] = " ".join(i[1].replace(' ', '').replace('(', ' (').split())
+                i.insert(1, "\xa0" * (const - 2 - len(i[0])))
+            t_ddt_2 = [' '.join(ele) for ele in t_ddt_1]
+            for j in t_ddt_2:
+                rep_text += j + '\n'
+        except:
+            logging.error(traceback.format_exc())
+            err_txt = 'Ошибка запроса к Dadata, проверь баланс'
+            rep_text += err_txt + '\n'
+
+        # третья часть с остатоком dadata
+
+        # rep_text += f'\nОстаток баланса {dadata_balance}'
+
+        # запись в txt
 
         with open(f'saved_data_csv/tg_report_{c_r["parse_date"]}.txt', 'w') as rep_file:
             rep_file.write(rep_text)
         rep_file.close()
 
+        # добавим уведомление о балансе
+
+        # try:
+            # rep_text += f' ₽ {"❌" if dadata_balance < 500 else "✅"}'
+        # except:
+            # rep_text += f' Р {"XXX" if dadata_balance < 500 else "OK"}'
         return rep_text
     except:
         logging.error('Ошибка при создании отчета для tg')

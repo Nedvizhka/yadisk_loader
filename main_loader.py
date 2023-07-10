@@ -7,8 +7,19 @@ if __name__ == '__main__':
     while True:
         # ежедневный запуск скрипта происходит только в определенный час start_time в config файле
         if datetime.now().hour != get_config(get_only_start_time=True):
-            time.sleep(100)
-            continue
+            # проверка баланса за 2 часа до запуска
+            if datetime.now().hour == get_config(get_only_start_time=True) - 2:
+                dadata_balance = check_balance()
+                balance_txt = f'Остаток баланса {dadata_balance} ₽ {"❌" if dadata_balance < 500 else "✅"}'
+                if report_txt:
+                    run_bot_send_msg(balance_txt)
+                    time.sleep(3601)
+                else:
+                    time.sleep(100)
+                    continue
+            else:
+                time.sleep(100)
+                continue
         # если текущий час совпадает с заданным start_time - запускаем скрипт
         else:
             logging.basicConfig(filename='ya_loader.log', filemode='w', level=logging.INFO,
@@ -256,13 +267,15 @@ if __name__ == '__main__':
                                  .format(files_to_process_avito, files_to_process_cian, datetime.now() - st_time))
                     print('Новые данные загружены по файлам {} из авито и {} из циана за {}'
                           .format(files_to_process_avito, files_to_process_cian, datetime.now() - st_time))
-                    move_logfile(local_save_dir_data, 'success')
+                    # проверка баланса dadata
+                    dadata_balance = check_balance()
                     # создание и отправка отчета
-                    report_txt = report_text(common_rep_df, dadata_rep_df)
+                    report_txt = report_text(common_rep_df, dadata_rep_df, dadata_balance)
                     if report_txt:
                         run_bot_send_msg(report_txt)
                     else:
                         pass
+                    move_logfile(local_save_dir_data, 'success')
                     time.sleep(3500)
                     continue
             except:

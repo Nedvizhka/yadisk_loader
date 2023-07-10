@@ -105,20 +105,31 @@ def dadata_request(df, file_date, source):
                 wr.close()
                 bad_addr += 1
         except Exception as exc:
-            logging.error('{}, try reconnect'.format(traceback.format_exc()))
-            if uploading_cnt == 0:
-                dh_df.to_csv(
-                    local_save_dir_data + f'/{source}_dadata_request_err_{file_date[:10].replace("-", "_")}.csv',
-                    encoding='cp1251')
-                uploading_cnt += 1
-            # write ad_id and addr to txt
-            with open(bad_req_txt_root, 'a') as wr:
-                wr.writelines(f"{row.ad_id}: {row.addr}" + ',\n')
-            wr.close()
-            bad_addr += 1
-            time.sleep(3)
-            dadata.close()
-            dadata = Dadata(token, secret)
+            try:
+                d_balance = dadata.get_balance()
+            except:
+                d_balance = 99999
+            if d_balance > 10:
+                logging.error('{}, try reconnect'.format(traceback.format_exc()))
+                if uploading_cnt == 0:
+                    dh_df.to_csv(
+                        local_save_dir_data + f'/{source}_dadata_request_err_{file_date[:10].replace("-", "_")}.csv',
+                        encoding='cp1251')
+                    uploading_cnt += 1
+                # write ad_id and addr to txt
+                with open(bad_req_txt_root, 'a') as wr:
+                    wr.writelines(f"{row.ad_id}: {row.addr}" + ',\n')
+                wr.close()
+                bad_addr += 1
+                time.sleep(1)
+                try:
+                    dadata.close()
+                    dadata = Dadata(token, secret)
+                except:
+                    pass
+            else:
+                logging.info(f'закончились деньги на Dadata: остаток {d_balance} Р')
+                break
     try:
         dadata.close()
         logging.info('dadata con closed succesfully')
