@@ -9,13 +9,14 @@ if __name__ == '__main__':
         if datetime.now().hour != get_config(get_only_start_time=True):
             # проверка баланса за 2 часа до запуска
             if datetime.now().hour == get_config(get_only_start_time=True) - 2:
-                dadata_balance = check_balance()
-                balance_txt = f'Остаток баланса {dadata_balance} ₽ {"❌" if dadata_balance < 500 else "✅"}'
-                if report_txt:
+                try:
+                    dadata_balance = check_balance()
+                    balance_txt = f'Остаток баланса {dadata_balance} ₽ {"❌" if dadata_balance < 500 else "✅"}'
                     run_bot_send_msg(balance_txt)
+                    print(f'Баланс {dadata_balance} отправлен в tg')
                     time.sleep(3601)
-                else:
-                    time.sleep(100)
+                except:
+                    print('Ощибка, ', traceback.format_exc())
                     continue
             else:
                 time.sleep(100)
