@@ -158,7 +158,7 @@ def report_text(common_rep_df, dadata_rep_df, dadata_balance):
 
         # запись в txt
 
-        with open(f'saved_data_csv/tg_report_{c_r["parse_date"][:10]}.txt', 'w') as rep_file:
+        with open(f'saved_data_csv/tg_report_{str(c_r["parse_date"])[:10]}.txt', 'w') as rep_file:
             rep_file.write(rep_text)
         rep_file.close()
 
