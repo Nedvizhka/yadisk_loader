@@ -1,61 +1,19 @@
-2023-06-29 22:11:06,476 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
-2023-06-29 22:11:07,136 [INFO    ] Authentication (publickey) failed.
-2023-06-29 22:11:07,379 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
-2023-06-29 22:11:08,030 [INFO    ] Authentication (password) successful!
-2023-06-29 22:11:08,052 [INFO    ] connected to host 92.53.64.66 base app_nedvizhka_db
-2023-06-29 22:12:54,102 [INFO    ] обработка district_id:
-2023-06-29 22:12:54,113 [INFO    ] districts_update:   0%|          | 0/117016 [00:00<?, ?it/s]
-2023-06-29 22:13:02,645 [INFO    ] добавлен новый район "”глевка" в districts функцией district_from_rn_mkrn
-2023-06-29 22:13:05,812 [INFO    ] добавлен новый район "Ќефт€ников" в districts функцией district_from_rn_mkrn
-2023-06-29 22:13:09,113 [INFO    ] districts_update:  10%|9         | 11375/117016 [00:15<02:19, 758.32it/s]
-2023-06-29 22:13:24,114 [INFO    ] districts_update:  26%|##5       | 30080/117016 [00:30<01:23, 1045.74it/s]
-2023-06-29 22:13:34,156 [INFO    ] districts_update:  36%|###5      | 42041/117016 [00:40<01:11, 1045.74it/s]
-2023-06-29 22:13:39,115 [INFO    ] districts_update:  41%|####      | 47879/117016 [00:45<01:02, 1110.04it/s]
-2023-06-29 22:13:54,115 [INFO    ] districts_update:  57%|#####6    | 66155/117016 [01:00<00:44, 1152.81it/s]
-2023-06-29 22:14:04,174 [INFO    ] districts_update:  67%|######7   | 78896/117016 [01:10<00:33, 1152.81it/s]
-2023-06-29 22:14:09,115 [INFO    ] districts_update:  73%|#######2  | 85017/117016 [01:15<00:26, 1190.54it/s]
-2023-06-29 22:14:24,216 [INFO    ] districts_update:  89%|########8 | 103809/117016 [01:30<00:11, 1190.54it/s]
-2023-06-29 22:14:24,217 [INFO    ] districts_update:  89%|########8 | 103810/117016 [01:30<00:10, 1208.97it/s]
-2023-06-29 22:14:34,234 [INFO    ] districts_update:  99%|#########9| 116277/117016 [01:40<00:00, 1208.97it/s]
-2023-06-29 22:14:34,880 [INFO    ] districts_update: 100%|##########| 117016/117016 [01:40<00:00, 1161.25it/s]
-2023-06-29 22:14:34,881 [INFO    ] district add from realty
-2023-06-29 22:14:36,559 [INFO    ] ”спешно обработан файл циан 28-06-23 (без дублей).csv дл€ realty
-2023-06-29 22:15:11,969 [INFO    ] ”спешно обработан файл 28-06-23 (без дублей).csv дл€ realty
-2023-06-29 22:15:48,303 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_28_06_2023.csv
-2023-06-29 22:15:48,303 [ERROR   ] нет исторических данных C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/cian_dadata_request_28_06_2023.csv - будет создан новый df дл€ запросов к dadata
-2023-06-29 22:16:01,321 [INFO    ] количество запросов к dadata составит: 4130
-2023-06-29 22:16:01,327 [INFO    ] 0%|          | 0/4130 [00:00<?, ?it/s]
-2023-06-29 22:16:01,616 [INFO    ] 100%|##########| 4130/4130 [00:00<00:00, 14291.61it/s]
-2023-06-29 22:16:01,616 [INFO    ] dadata con closed succesfully
-2023-06-29 22:16:01,624 [INFO    ] обращение к DDT по 3520/4130 адресам из cian зан€ло 0:00:13.345620
-2023-06-29 22:16:05,270 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/avito_dadata_request_01_06_2023.csv
-2023-06-29 22:16:05,270 [ERROR   ] нет исторических данных C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/avito_dadata_request_01_06_2023.csv - будет создан новый df дл€ запросов к dadata
-2023-06-29 22:16:18,288 [INFO    ] количество запросов к dadata составит: 2545
-2023-06-29 22:16:18,291 [INFO    ] 0%|          | 0/2545 [00:00<?, ?it/s]
-2023-06-29 22:16:18,421 [ERROR   ] Traceback (most recent call last):
-  File "C:\Users\pnknv\AppData\Local\Temp\ipykernel_2316\717108773.py", line 70, in dadata_request_dev
-    wr.writelines(f"{row.ad_id}: {row.addr}" + ',\n')
-  File "C:\Program Files\Python310\lib\encodings\cp1251.py", line 19, in encode
-    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
-UnicodeEncodeError: 'charmap' codec can't encode character '\u200e' in position 0: character maps to <undefined>
-, try reconnect
-2023-06-29 22:16:18,424 [INFO    ] 87%|########7 | 2222/2545 [00:00<00:00, 16795.42it/s]
-2023-06-29 22:16:41,003 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/avito_dadata_request_28_06_2023.csv
-2023-06-29 22:16:41,003 [ERROR   ] нет исторических данных C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/avito_dadata_request_28_06_2023.csv - будет создан новый df дл€ запросов к dadata
-2023-06-29 22:16:54,023 [INFO    ] количество запросов к dadata составит: 2545
-2023-06-29 22:16:54,026 [INFO    ] 0%|          | 0/2545 [00:00<?, ?it/s]
-2023-06-29 22:16:54,145 [ERROR   ] Traceback (most recent call last):
-  File "C:\Users\pnknv\AppData\Local\Temp\ipykernel_2316\717108773.py", line 70, in dadata_request_dev
-    wr.writelines(f"{row.ad_id}: {row.addr}" + ',\n')
-  File "C:\Program Files\Python310\lib\encodings\cp1251.py", line 19, in encode
-    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
-UnicodeEncodeError: 'charmap' codec can't encode character '\u200e' in position 0: character maps to <undefined>
-, try reconnect
-2023-06-29 22:16:54,146 [INFO    ] 87%|########7 | 2222/2545 [00:00<00:00, 18474.36it/s]
-2023-06-29 22:19:35,649 [INFO    ] попытка загрузить данные dadata из C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/avito_dadata_request_28_06_2023.csv
-2023-06-29 22:19:35,650 [ERROR   ] нет исторических данных C:/Users/pnknv/Documents/GitHub/yadisk_loader/dev_check_jupyter/saved_data_csv/avito_dadata_request_28_06_2023.csv - будет создан новый df дл€ запросов к dadata
-2023-06-29 22:19:48,670 [INFO    ] количество запросов к dadata составит: 2545
-2023-06-29 22:19:48,673 [INFO    ] 0%|          | 0/2545 [00:00<?, ?it/s]
-2023-06-29 22:19:48,805 [INFO    ] 100%|##########| 2545/2545 [00:00<00:00, 19233.86it/s]
-2023-06-29 22:19:48,806 [INFO    ] dadata con closed succesfully
-2023-06-29 22:19:48,810 [INFO    ] обращение к DDT по 2389/2545 адресам из avito зан€ло 0:00:13.179333
+2023-07-23 14:50:21,282 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-07-23 14:50:21,960 [INFO    ] Authentication (publickey) failed.
+2023-07-23 14:50:22,208 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-07-23 14:50:22,876 [INFO    ] Authentication (password) successful!
+2023-07-23 14:50:22,908 [INFO    ] connected to host 92.53.64.66 base app_nedvizhka_db
+2023-07-23 14:51:06,977 [INFO    ] обработка district_id:
+2023-07-23 14:51:06,987 [INFO    ] districts_update:   0%|          | 0/117016 [00:00<?, ?it/s]
+2023-07-23 14:51:21,987 [INFO    ] districts_update:  16%|#5        | 18719/117016 [00:15<01:18, 1247.92it/s]
+2023-07-23 14:51:36,987 [INFO    ] districts_update:  32%|###2      | 37513/117016 [00:30<01:03, 1250.85it/s]
+2023-07-23 14:51:47,043 [INFO    ] districts_update:  43%|####2     | 50071/117016 [00:40<00:53, 1250.85it/s]
+2023-07-23 14:51:51,988 [INFO    ] districts_update:  48%|####8     | 56327/117016 [00:45<00:48, 1252.38it/s]
+2023-07-23 14:52:06,989 [INFO    ] districts_update:  65%|######4   | 75577/117016 [01:00<00:32, 1264.58it/s]
+2023-07-23 14:52:17,073 [INFO    ] districts_update:  75%|#######5  | 88286/117016 [01:10<00:22, 1264.58it/s]
+2023-07-23 14:52:21,989 [INFO    ] districts_update:  81%|########  | 94545/117016 [01:15<00:17, 1264.56it/s]
+2023-07-23 14:52:36,989 [INFO    ] districts_update:  97%|#########7| 113659/117016 [01:30<00:02, 1267.84it/s]
+2023-07-23 14:52:39,614 [INFO    ] districts_update: 100%|##########| 117016/117016 [01:32<00:00, 1263.31it/s]
+2023-07-23 14:52:39,615 [INFO    ] district add from realty
+2023-07-23 14:52:41,314 [INFO    ] ”спешно обработан файл циан 28-06-23 (без дублей).csv дл€ realty
+2023-07-23 14:53:17,583 [INFO    ] ”спешно обработан файл 28-06-23 (без дублей).csv дл€ realty

@@ -93,6 +93,9 @@ if __name__ == '__main__':
                 move_logfile(local_save_dir_data, 'error')
                 continue
 
+            # создание df для ограничения количества запросов к dadata
+            jkh_addr_df, err = count_jkh_addr(sql_engine)
+
             ### обработка файлов и загрузка данных в таблицу
             for filename in files_to_process_cian:
                 # обработка realty циан
@@ -117,7 +120,8 @@ if __name__ == '__main__':
 
                 # выгрузка и обновление данных в таблице realty
                 error_create_temp_realty, error_getting_ad_id, error_loading_into_realty, error_updating_realty = \
-                    load_and_update_realty_db(sql_engine, df_cian_realty, filename, common_rep_df, dadata_rep_df, 'cian')
+                    load_and_update_realty_db(sql_engine, df_cian_realty, filename, common_rep_df,
+                                              dadata_rep_df, jkh_addr_df, 'cian')
 
                 if any([error_create_temp_realty, error_getting_ad_id,
                         error_loading_into_realty, error_updating_realty]):
@@ -186,7 +190,8 @@ if __name__ == '__main__':
 
                 # выгрузка и обновление данных в таблице realty
                 error_create_temp_realty, error_getting_ad_id, error_loading_into_realty, error_updating_realty = \
-                    load_and_update_realty_db(sql_engine, df_avito_realty, filename, common_rep_df, dadata_rep_df, 'avito')
+                    load_and_update_realty_db(sql_engine, df_avito_realty, filename, common_rep_df,
+                                              jkh_addr_df, dadata_rep_df, 'avito')
 
                 if any([error_create_temp_realty, error_getting_ad_id,
                         error_loading_into_realty, error_updating_realty]):
@@ -272,7 +277,7 @@ if __name__ == '__main__':
                     # проверка баланса dadata
                     dadata_balance = check_balance()
                     # создание и отправка отчета
-                    report_txt = report_text(common_rep_df, dadata_rep_df, dadata_balance)
+                    report_txt = report_text(common_rep_df, dadata_rep_df, jkh_addr_df, dadata_balance)
                     if report_txt:
                         run_bot_send_msg(report_txt)
                     else:

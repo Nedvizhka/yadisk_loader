@@ -85,11 +85,12 @@ def check_balance():
     return result
 
 
-def report_text(common_rep_df, dadata_rep_df, dadata_balance):
+def report_text(common_rep_df, dadata_rep_df, limits_df, dadata_balance):
     try:
         # переменная для отчета
         rep_text = str()
         rep_text += f'Обработаны объявления от {common_rep_df.iloc[0, 0]}\n'
+        rep_text += f'формат: общее количество (циан/авито)\n\n'
 
         # первая часть отчета с общей статой 
 
@@ -97,8 +98,7 @@ def report_text(common_rep_df, dadata_rep_df, dadata_balance):
         c_r = common_rep_df.copy().to_dict('r')[0]
         temp.loc[len(temp)] = ['всего', c_r['c_total'] + c_r['av_total'], c_r['c_total'], c_r['av_total']]
         temp.loc[len(temp)] = ['new', c_r['c_new'] + c_r['av_new'], c_r['c_new'], c_r['av_new']]
-        temp.loc[len(temp)] = ['адр.', c_r['c_adr_total'] + c_r['av_adr_total'], c_r['c_adr_total'],
-                               c_r['av_adr_total']]
+        temp.loc[len(temp)] = ['адр.', c_r['c_adr_total'] + c_r['av_adr_total'], c_r['c_adr_total'], c_r['av_adr_total']]
         temp.loc[len(temp)] = ['адр. new', c_r['c_adr_new'] + c_r['av_adr_new'], c_r['c_adr_new'], c_r['av_adr_new']]
         temp['br1'] = '('
         temp['br2'] = ')'
@@ -134,7 +134,7 @@ def report_text(common_rep_df, dadata_rep_df, dadata_balance):
         temp_ddt['sp1'] = '$'
         temp_ddt = temp_ddt[['id', 'name', 'sp1', 'ddt_total', 'sp', 'br1', 'ddt_cian', 'sl', 'ddt_avito', 'br2']]
 
-        rep_text += 'dadata' + '\n'
+        rep_text += 'dadata:' + '\n'
 
         t_ddt_txt = temp_ddt.to_string(index=False, header=False)
         t_ddt_1 = [i.split('$') for i in t_ddt_txt.split('\n')]
@@ -153,8 +153,39 @@ def report_text(common_rep_df, dadata_rep_df, dadata_balance):
             rep_text += err_txt + '\n'
 
         # третья часть с остатоком dadata
-
         # rep_text += f'\nОстаток баланса {dadata_balance}'
+
+        # четвертая часть с уведомлением об оверлимитах
+
+        report_limits_df = limits_df[limits_df.cnt < limits_df.cnt_ddt]
+        if len(report_limits_df) > 0:
+
+            rep_text += f'\nдостигнуты лимиты при обращении к dadata для:\n'
+            rep_text += f'формат: город (успешных запросов/новых адресов)\n'
+
+            report_limits_df['cnt_new'] = report_limits_df.cnt_ddt + report_limits_df.cnt_left_after_limit
+
+            report_limits_df['br1'] = '('
+            report_limits_df['br2'] = ')'
+            report_limits_df['sl'] = '/'
+            report_limits_df['sp'] = '$'
+            t_limit_txt = report_limits_df[['name', 'sp', 'br1', 'cnt_ddt', 'sl', 'cnt_new', 'br2']].to_string(index=False,
+                                                                                                               header=False)
+
+            t_limit_1 = [i.split('$') for i in t_limit_txt.split('\n')]
+            const = max([len(i[0]) for i in t_limit_1])
+            try:
+                for i in t_limit_1:
+                    i[0] = " ".join(i[0].split())
+                    i[1] = " ".join(i[1].replace(' ', '').replace('(', ' (').split())
+                    i.insert(1, "\xa0" * (const - 1 - len(i[0])))
+                t_limit_2 = [' '.join(ele) for ele in t_limit_1]
+                for j in t_limit_2:
+                    rep_text += j + '\n'
+            except:
+                logging.error(traceback.format_exc())
+                err_txt = 'Ошибка формирования отчета по переполнению лимитов'
+                rep_text += err_txt + '\n'
 
         # запись в txt
 

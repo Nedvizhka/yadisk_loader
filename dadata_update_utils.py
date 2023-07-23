@@ -21,13 +21,29 @@ def create_ddt_save_dir(source):
     save_dir = (Path.cwd() / f'saved_{source}_csv').as_posix()
     return save_dir
 
-def filter_addr_for_dadata(addrString, source):
+def filter_addr_for_dadata(addrString, cnt_df, source):
     addrList = addrString.split('; ')
     min_len = 3 if source == 'avito' else 4
+    city_name = addrList[0 if source == 'avito' else 1]
+
+    # короткий адрес
     flag_less = len(addrList) < min_len
+    # номер дома corrupt
     flag_notHouse = len(addrList[-1]) > 10
-    flag_notHouseNum = not any(del_el in addrList[-1] for del_el in [str(n) for n in range(0,10)])
-    if flag_less or flag_notHouse or flag_notHouseNum:
+    # нет номера дома
+    flag_notHouseNum = not any(del_el in addrList[-1] for del_el in [str(n) for n in range(0, 10)])
+    # города нет в jkh
+    flag_notKnownCity = city_name not in cnt_df.name.unique()
+    # переполнение лимита запросов
+    if not flag_notKnownCity:
+        flag_overlimit = cnt_df[cnt_df.name == city_name][['cnt', 'cnt_ddt']].diff(axis=1).iloc[0, 1] > 0
+        if flag_overlimit:
+            cnt_df.loc[cnt_df['name'].isin([city_name]), 'cnt_left_after_limit'] += 1
+    else:
+        # если города нет - будет 2 флага прерывания
+        flag_overlimit = True
+
+    if flag_less or flag_notHouse or flag_notHouseNum or flag_notKnownCity or flag_overlimit:
         return None
     else:
         if source == 'cian':
@@ -38,7 +54,7 @@ def filter_addr_for_dadata(addrString, source):
         return '; '.join(addrList)
 
 
-def dadata_request(df, file_date, source):
+def dadata_request(df, file_date, jkh_cnt_df, source):
     st_time = datetime.now()
     file_date = str(file_date)
     # dadata_credentials
@@ -87,12 +103,10 @@ def dadata_request(df, file_date, source):
         if exist_ddt_addr:
             if row.addr in exist_ddt_addr:
                 continue
-            else:
-                pass
-        else:
-            pass
         try:
-            addr = filter_addr_for_dadata(row.addr, source)
+            addr = filter_addr_for_dadata(row.addr, jkh_cnt_df, source)
+            # обновление счетчика для ограничения запросов
+            jkh_cnt_df.loc[jkh_cnt_df['name'].isin([addr.split('; ')[0 if source == 'avito' else 1]]), 'cnt_ddt'] += 1
             if addr:
                 d_res = dadata.clean("address", addr)
                 dh_df.loc[len(dh_df.index)] = [d_res['house_fias_id'], str(d_res), d_res['geo_lat'], d_res['geo_lon'],
@@ -436,4 +450,37 @@ def find_empty_districts(house_ids, engine):
         distr_db = None
         exc_str = exc
     return distr_db, exc_str
+
+
+def count_jkh_addr(engine):
+    try:
+        con_obj = engine.connect()
+        con_obj.close()
+    except:
+        try:
+            server, engine = get_sql_engine()
+            logging.info('подключение к базе восстановлено')
+        except Exception as exc:
+            logging.error('не удается подключиться к базе {}'.format(traceback.format_exc()))
+            return None, exc
+
+    count_jkh_addr_query = \
+        """SELECT city_id, c.name, c.url_avito, count(*) as cnt_jkh
+            from jkh_houses jh 
+            left join city c 
+            on c.id = city_id 
+            group by city_id """
+    try:
+        con_obj = engine.connect()
+        count_jkh_addr_db = pd.read_sql(text(count_jkh_addr_query), con=con_obj)
+        count_jkh_addr_db['cnt'] = count_jkh_addr_db['cnt_jkh'] * 0.05
+        count_jkh_addr_db['cnt'] = count_jkh_addr_db['cnt'].astype('int')
+        count_jkh_addr_db['cnt_ddt'] = 0
+        count_jkh_addr_db['cnt_left_in_city'] = 0
+        con_obj.close()
+        exc = None
+    except Exception as exc:
+        logging.error(traceback.format_exc())
+        count_jkh_addr_db = None
+    return count_jkh_addr_db, exc
 

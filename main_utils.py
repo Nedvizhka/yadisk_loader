@@ -301,7 +301,7 @@ def update_realty(engine, df, source):
             return True
 
 
-def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, source):
+def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df, source):
     # создание временной таблицы для обновления данных
     error_create_temp_realty = create_temp_realty(engine)
     if error_create_temp_realty:
@@ -409,7 +409,7 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, source):
     try:
         # обновление dadata_houses
         fdate = get_date_from_name(fname)
-        df_dadata_houses = dadata_request(df_realty_new, fdate, source)
+        df_dadata_houses = dadata_request(df_realty_new, fdate, jkh_cnt_df, source)
         df_ddt_copy = df_dadata_houses.copy()
         # дополнение tg отчета
         err_filling_report = fill_dadata_report(rep_ddt_df, df_ddt_copy, source)

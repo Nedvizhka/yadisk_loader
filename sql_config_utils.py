@@ -56,6 +56,7 @@ def get_sql_engine():
     
     return sql_server, sql_engine
 
+
 def check_sql_connection(sql_server, sql_engine):
     try:
         con_obj = sql_engine.connect()
@@ -69,6 +70,7 @@ def check_sql_connection(sql_server, sql_engine):
         except Exception as exc:
             logging.error('не удается подключиться к базе')
             return None, None, True
+
 
 def load_df_into_sql_table(df, table_name, engine, bigsize=False):
     try:
