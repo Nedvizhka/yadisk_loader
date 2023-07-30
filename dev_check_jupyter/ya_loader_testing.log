@@ -1,19 +1,5 @@
-2023-07-23 14:50:21,282 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
-2023-07-23 14:50:21,960 [INFO    ] Authentication (publickey) failed.
-2023-07-23 14:50:22,208 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
-2023-07-23 14:50:22,876 [INFO    ] Authentication (password) successful!
-2023-07-23 14:50:22,908 [INFO    ] connected to host 92.53.64.66 base app_nedvizhka_db
-2023-07-23 14:51:06,977 [INFO    ] обработка district_id:
-2023-07-23 14:51:06,987 [INFO    ] districts_update:   0%|          | 0/117016 [00:00<?, ?it/s]
-2023-07-23 14:51:21,987 [INFO    ] districts_update:  16%|#5        | 18719/117016 [00:15<01:18, 1247.92it/s]
-2023-07-23 14:51:36,987 [INFO    ] districts_update:  32%|###2      | 37513/117016 [00:30<01:03, 1250.85it/s]
-2023-07-23 14:51:47,043 [INFO    ] districts_update:  43%|####2     | 50071/117016 [00:40<00:53, 1250.85it/s]
-2023-07-23 14:51:51,988 [INFO    ] districts_update:  48%|####8     | 56327/117016 [00:45<00:48, 1252.38it/s]
-2023-07-23 14:52:06,989 [INFO    ] districts_update:  65%|######4   | 75577/117016 [01:00<00:32, 1264.58it/s]
-2023-07-23 14:52:17,073 [INFO    ] districts_update:  75%|#######5  | 88286/117016 [01:10<00:22, 1264.58it/s]
-2023-07-23 14:52:21,989 [INFO    ] districts_update:  81%|########  | 94545/117016 [01:15<00:17, 1264.56it/s]
-2023-07-23 14:52:36,989 [INFO    ] districts_update:  97%|#########7| 113659/117016 [01:30<00:02, 1267.84it/s]
-2023-07-23 14:52:39,614 [INFO    ] districts_update: 100%|##########| 117016/117016 [01:32<00:00, 1263.31it/s]
-2023-07-23 14:52:39,615 [INFO    ] district add from realty
-2023-07-23 14:52:41,314 [INFO    ] Успешно обработан файл циан 28-06-23 (без дублей).csv для realty
-2023-07-23 14:53:17,583 [INFO    ] Успешно обработан файл 28-06-23 (без дублей).csv для realty
+2023-07-30 14:13:32,009 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-07-30 14:13:32,700 [INFO    ] Authentication (publickey) failed.
+2023-07-30 14:13:32,955 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-07-30 14:13:33,643 [INFO    ] Authentication (password) successful!
+2023-07-30 14:13:33,675 [INFO    ] connected to host 92.53.64.66 base app_nedvizhka_db

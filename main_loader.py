@@ -66,12 +66,10 @@ if __name__ == '__main__':
             if error_file_loading_avito or error_file_loading_cian:
                 time.sleep(300)
                 logging.error('Ошибка при загрузке файлов из {}. Перезапуск скрипта...'.format(ya_link))
-                error_loading_files = True
                 # сохранение log файла
                 move_logfile(local_save_dir_data, 'error')
                 continue
             else:
-                error_loading_files = False
                 logging.info('ready to process files {}, {}'.format(files_to_process_avito, files_to_process_cian))
 
             if len(files_to_process_avito) == 0 and len(files_to_process_cian) == 0:
@@ -84,8 +82,8 @@ if __name__ == '__main__':
 
             # создание df для отправки txt отчета в tg
             common_rep_df = create_common_rep()
-            dadata_rep_df, error_loading_files = create_dadata_rep(sql_engine)
-            if error_loading_files:
+            dadata_rep_df, error_creating_dadata_report = create_dadata_rep(sql_engine)
+            if error_creating_dadata_report:
                 time.sleep(300)
                 logging.error('Ошибка при создании отчета для tg. Перезапуск скрипта...')
                 error_loading_files = True
