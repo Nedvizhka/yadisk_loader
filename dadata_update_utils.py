@@ -70,6 +70,7 @@ def dadata_request(df, file_date, jkh_cnt_df, source):
                             encoding='cp1251')
         dh_df.drop(['ad_id'], axis=1, inplace=True)
         dh_df.drop_duplicates(inplace=True)
+        
         exist_ddt_addr = dh_df.addr.unique().tolist()
         logging.info('удалось загрузить исторические данные dadata')
         df_for_count = df.drop_duplicates(subset='addr')
@@ -105,10 +106,10 @@ def dadata_request(df, file_date, jkh_cnt_df, source):
                 continue
         try:
             addr = filter_addr_for_dadata(row.addr, jkh_cnt_df, source)
-            # обновление счетчика для ограничения запросов
-            jkh_cnt_df.loc[jkh_cnt_df['name'].isin([addr.split('; ')[0 if source == 'avito' else 1]]), 'cnt_ddt'] += 1
             if addr:
+                # обновление счетчика для ограничения запросов
                 d_res = dadata.clean("address", addr)
+                jkh_cnt_df.loc[jkh_cnt_df['name'].isin([addr.split('; ')[0 if source == 'avito' else 1]]), 'cnt_ddt'] += 1
                 dh_df.loc[len(dh_df.index)] = [d_res['house_fias_id'], str(d_res), d_res['geo_lat'], d_res['geo_lon'],
                                                d_res['street'],
                                                d_res['house'], d_res['qc'], d_res['result'], d_res['qc_geo'], row.addr]
@@ -464,6 +465,7 @@ def count_jkh_addr(engine):
             logging.error('не удается подключиться к базе {}'.format(traceback.format_exc()))
             return None, exc
 
+    
     count_jkh_addr_query = \
         """SELECT city_id, c.name, c.url_avito, count(*) as cnt_jkh
             from jkh_houses jh 
@@ -476,11 +478,12 @@ def count_jkh_addr(engine):
         count_jkh_addr_db['cnt'] = count_jkh_addr_db['cnt_jkh'] * 0.05
         count_jkh_addr_db['cnt'] = count_jkh_addr_db['cnt'].astype('int')
         count_jkh_addr_db['cnt_ddt'] = 0
-        count_jkh_addr_db['cnt_left_in_city'] = 0
+        count_jkh_addr_db['cnt_left_after_limit'] = 0
         con_obj.close()
-        exc = None
+        exc_code = None
     except Exception as exc:
         logging.error(traceback.format_exc())
         count_jkh_addr_db = None
-    return count_jkh_addr_db, exc
+        exc_code = exc
+    return count_jkh_addr_db, exc_code
 

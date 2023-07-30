@@ -171,8 +171,8 @@ if __name__ == '__main__':
                 logging.info('обработка файла {} для авито'.format(filename))
                 df_avito_realty, file_date, error_file_processing = process_realty(local_save_dir_avito, filename,
                                                                                    sql_engine, 'avito')
-                # убрать при запуске
-                df_avito_realty = df_avito_realty[df_avito_realty.city_id.isin([4, 18, 12])]
+                # ограничение городов циан
+                df_avito_realty = df_avito_realty[df_avito_realty.city_id.isin([4, 18, 12, 7, 17, 2])]
 
                 # добавление инфо к отчету
                 report_df_append(common_rep_df, 'av_total', len(df_avito_realty))
@@ -191,7 +191,7 @@ if __name__ == '__main__':
                 # выгрузка и обновление данных в таблице realty
                 error_create_temp_realty, error_getting_ad_id, error_loading_into_realty, error_updating_realty = \
                     load_and_update_realty_db(sql_engine, df_avito_realty, filename, common_rep_df,
-                                              jkh_addr_df, dadata_rep_df, 'avito')
+                                              dadata_rep_df, jkh_addr_df, 'avito')
 
                 if any([error_create_temp_realty, error_getting_ad_id,
                         error_loading_into_realty, error_updating_realty]):
