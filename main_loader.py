@@ -67,9 +67,11 @@ if __name__ == '__main__':
                 time.sleep(300)
                 logging.error('Ошибка при загрузке файлов из {}. Перезапуск скрипта...'.format(ya_link))
                 # сохранение log файла
+                error_loading_files = True
                 move_logfile(local_save_dir_data, 'error')
                 continue
             else:
+                error_loading_files = False
                 logging.info('ready to process files {}, {}'.format(files_to_process_avito, files_to_process_cian))
 
             if len(files_to_process_avito) == 0 and len(files_to_process_cian) == 0:
@@ -152,6 +154,7 @@ if __name__ == '__main__':
                                           chunksize=7000, method='multi', index=False)
                     # df_cian_prices.to_csv(f'{filename}_test_cian_prices.csv')
                     write_saved_file_names(Path(filename).stem, 'cian')
+                    logging.info('данные cian загружены успешно')
                     error_writing_files = False
                 except Exception as exc:
                     logging.error(traceback.format_exc())
@@ -222,6 +225,7 @@ if __name__ == '__main__':
                     df_avito_prices.to_sql(name='prices', con=sql_engine, if_exists='append',
                                            chunksize=7000, method='multi', index=False)
                     write_saved_file_names(Path(filename).stem, 'avito')
+                    logging.info('данные avito загружены успешно')
                     error_writing_files = False
                 except Exception as exc:
                     logging.info(traceback.format_exc())

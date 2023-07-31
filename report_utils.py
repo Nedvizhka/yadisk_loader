@@ -28,7 +28,7 @@ def get_city_table(engine):
     except Exception as exc:
         logging.error(traceback.format_exc())
         city_db = None
-        exc_code = exc.code
+        exc_code = exc
     return city_db, exc_code
 
 

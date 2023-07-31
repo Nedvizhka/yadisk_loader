@@ -65,14 +65,16 @@ def dadata_request(df, file_date, jkh_cnt_df, source):
     local_save_dir_data = create_ddt_save_dir('data')
     try:
         logging.info('загрузка данных dadata из {}'.format(local_save_dir_data + f'/{source}_dadata_request.csv'))
-        dh_df = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request.csv',
+        dh_df = pd.DataFrame(columns=['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street',
+                                      'house', 'qc', 'result', 'qc_geo', 'addr'])
+        dh_df_hist = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request.csv',
                             index_col=0,
                             encoding='cp1251')
-        dh_df.drop(['ad_id'], axis=1, inplace=True)
-        dh_df.drop_duplicates(inplace=True)
-        dh_df.reset_index(drop=True, inplace=True)
+        dh_df_hist.drop(['ad_id'], axis=1, inplace=True)
+        dh_df_hist.drop_duplicates(inplace=True)
+        dh_df_hist.reset_index(drop=True, inplace=True)
         
-        exist_ddt_addr = dh_df.addr.unique().tolist()
+        exist_ddt_addr = dh_df_hist.addr.unique().tolist()
         logging.info('удалось загрузить исторические данные dadata')
         df_for_count = df.drop_duplicates(subset='addr')
         count_zapros = df_for_count[~df_for_count.addr.isin(exist_ddt_addr)]
@@ -81,6 +83,8 @@ def dadata_request(df, file_date, jkh_cnt_df, source):
             local_save_dir_data + f'/{source}_dadata_request.csv'))
         dh_df = pd.DataFrame(columns=['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street',
                                       'house', 'qc', 'result', 'qc_geo', 'addr'])
+        dh_df_hist = pd.DataFrame(columns=['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street',
+                                           'house', 'qc', 'result', 'qc_geo', 'addr'])
         exist_ddt_addr = False
         count_zapros = df.drop_duplicates(subset='addr')
         time.sleep(3)
@@ -107,6 +111,7 @@ def dadata_request(df, file_date, jkh_cnt_df, source):
                        file=tqdm_out, mininterval=10):
         if exist_ddt_addr:
             if row.addr in exist_ddt_addr:
+                dh_df.loc[len(dh_df)] = dh_df_hist.loc[dh_df_hist.addr == row.addr].values.tolist()[0]
                 continue
         try:
             addr = filter_addr_for_dadata(row.addr, jkh_cnt_df, source)
@@ -169,8 +174,9 @@ def dadata_request(df, file_date, jkh_cnt_df, source):
     logging.info('обращение к DDT выполнено для {}/{} новых объявлений, найден fias для {}'.format(len(dh_df_filtered),
                                                                                                    len(dh_df),
                                                                                                    len(dh_df.query('not house_fias_id.isnull()'))))
-    dh_df_filtered.to_csv(local_save_dir_data + f'/{source}_dadata_request.csv', encoding='cp1251')
-
+    df_ddt_common = pd.concat([dh_df_filtered, dh_df_hist], ignore_index=True)
+    df_ddt_common.reset_index(drop=True, inplace=True)
+    df_ddt_common.to_csv(local_save_dir_data + f'/{source}_dadata_request.csv', encoding='cp1251')
     return dh_df_filtered
 
 # получение данных район, house_id, jkh_id, dadata_houses_id
