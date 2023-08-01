@@ -247,6 +247,15 @@ def update_realty(engine, df, source):
         """DELETE FROM temp_realty_new"""
     try:
         # выгрузка данных в таблицу на сервере
+        try:
+            con_obj = engine.connect()
+            con_obj.execute(text(clear_temp_table_query))
+            con_obj.commit()
+            con_obj.close()
+            logging.info('temp таблица очищена, загружаются данные')
+        except:
+            logging.info('не удалось очистить temp таблицу')
+
         load_df_into_sql_table(df, 'temp_realty_new', engine)
 
         con_obj = engine.connect()
@@ -971,8 +980,8 @@ def create_prices(df, filename, sql_engine, source):
             file_date = get_date_from_name(filename)
             prices_df['date'] = file_date
 
-            # filter df
-            prices_df = prices_df[['realty_id', 'price', 'price_sqrm', 'date']]
+            # status
+            prices_df['status_new'] = 1
 
         else:  # source == 'cian':
             # create df with link and realty_id
@@ -989,8 +998,11 @@ def create_prices(df, filename, sql_engine, source):
             file_date = get_date_from_name(filename)
             prices_df['date'] = file_date
 
-            # filter df
-            prices_df = prices_df[['realty_id', 'price', 'price_sqrm', 'date']]
+            # status
+            prices_df['status_new'] = 1
+
+        # filter df
+        prices_df = prices_df[['realty_id', 'price', 'price_sqrm', 'date', 'status_new']]
 
     except Exception as ex:
         prices_df = pd.DataFrame()
