@@ -410,6 +410,8 @@ def update_jkh_district(df_realty, df_districts, engine):
         logging.info('Обновление данных jkh_houses завершено')
         error_updating_jkh_houses = False
 
+    error_delete_temp_jkh = delete_temp_jkh(engine)
+
     return df_realty, error_create_temp_jkh_houses, error_updating_jkh_houses
 
 

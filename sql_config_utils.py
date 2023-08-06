@@ -4,6 +4,8 @@ import traceback
 from sqlalchemy import create_engine, NullPool
 from sshtunnel import SSHTunnelForwarder
 
+from sqlalchemy import text
+
 import logging
 
 
@@ -85,6 +87,30 @@ def load_df_into_sql_table(df, table_name, engine, bigsize=False):
     chunk_s = 2500 if bigsize else 5000
 
     df.to_sql(name=table_name, con=engine, if_exists='append', chunksize=chunk_s, method='multi', index=False)
+
+
+def drop_temp_table(engine, table):
+    try:
+        con_obj = engine.connect()
+        con_obj.close()
+    except:
+        try:
+            server, engine = get_sql_engine()
+            logging.info('подключение к базе восстановлено')
+        except Exception as exc:
+            logging.error('не удается подключиться к базе: {}'.format(traceback.format_exc()))
+            return exc
+    try:
+        delete_table_query = \
+            f"""DROP table {table}"""
+        con_obj = engine.connect()
+        con_obj.execute(text(delete_table_query))
+        con_obj.commit()
+        con_obj.close()
+        return None
+    except Exception as exc:
+        logging.error('не удалось удалить таблицу: {} ({})'.format(table, traceback.format_exc()))
+        return exc
 
 
 def close_sql_connection(server, engine):

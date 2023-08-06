@@ -173,7 +173,7 @@ if __name__ == '__main__':
                 df_avito_realty, file_date, error_file_processing = process_realty(local_save_dir_avito, filename,
                                                                                    sql_engine, 'avito')
                 # ограничение городов циан
-                df_avito_realty = df_avito_realty[df_avito_realty.city_id.isin([4, 18, 12, 7, 17, 2])]
+                df_avito_realty = df_avito_realty[df_avito_realty.city_id.isin([4, 18, 12, 7, 17, 2, 23])]
 
                 # добавление инфо к отчету
                 report_df_append(common_rep_df, 'av_total', len(df_avito_realty))
@@ -233,6 +233,10 @@ if __name__ == '__main__':
                     logging.info('Не удалось добавить данные в таблицу {}. Перезапуск скрипта...'.format('prices'))
                     error_writing_files = True
                     break
+
+            drop_temp_table(sql_engine, 'temp_realty_new')
+            drop_temp_table(sql_engine, 'temp_jkh_houses')
+
             try:
                 if error_loading_files:
                     logging.error('Ошибка при загрузке файлов')
@@ -284,6 +288,8 @@ if __name__ == '__main__':
                         run_bot_send_msg(report_txt)
                     else:
                         pass
+                    logf = logging.getLogger()
+                    logf.removeHandler(logf.handlers[0])
                     move_logfile(local_save_dir_data, 'success')
                     time.sleep(3500)
                     continue
