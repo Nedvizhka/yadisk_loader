@@ -487,7 +487,7 @@ def count_jkh_addr(engine):
     try:
         con_obj = engine.connect()
         count_jkh_addr_db = pd.read_sql(text(count_jkh_addr_query), con=con_obj)
-        count_jkh_addr_db['cnt'] = count_jkh_addr_db['cnt_jkh'] * 0.05
+        count_jkh_addr_db['cnt'] = count_jkh_addr_db['cnt_jkh'] * 1
         count_jkh_addr_db['cnt'] = count_jkh_addr_db['cnt'].astype('int')
         count_jkh_addr_db['cnt_ddt'] = 0
         count_jkh_addr_db['cnt_left_after_limit'] = 0

@@ -8,7 +8,7 @@ if __name__ == '__main__':
         # ежедневный запуск скрипта происходит только в определенный час start_time в config файле
         if datetime.now().hour != get_config(get_only_start_time=True):
             # проверка баланса за 2 часа до запуска
-            if datetime.now().hour == get_config(get_only_start_time=True) - 1:
+            if datetime.now().hour == get_config(get_only_start_time=True) - 2:
                 try:
                     dadata_balance = check_balance()
                     balance_txt = f'Остаток баланса {dadata_balance} ₽ {"❌" if dadata_balance < 500 else "✅"}'

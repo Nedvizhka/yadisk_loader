@@ -11,7 +11,7 @@ def get_config(get_only_start_time=False):
     config = configparser.ConfigParser()
     config.read('config.ini')
 
-    ssh_host = config['database']['ssh_host_test']  # переключить на ssh_host_main для работы на прод сервере
+    ssh_host = config['database']['ssh_host_main']  # переключить на ssh_host_main для работы на прод сервере
     ssh_port = int(config['database']['ssh_port'])
     ssh_username = config['database']['ssh_username']
     ssh_password = config['database']['ssh_password']
