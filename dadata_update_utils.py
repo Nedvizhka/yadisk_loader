@@ -9,6 +9,7 @@ from tqdm import tqdm
 
 from logging_utils import *
 from sql_config_utils import *
+from report_utils import *
 
 # запрос к дадата
 
@@ -20,13 +21,29 @@ def create_ddt_save_dir(source):
     save_dir = (Path.cwd() / f'saved_{source}_csv').as_posix()
     return save_dir
 
-def filter_addr_for_dadata(addrString, source):
+def filter_addr_for_dadata(addrString, cnt_df, source):
     addrList = addrString.split('; ')
     min_len = 3 if source == 'avito' else 4
+    city_name = addrList[0 if source == 'avito' else 1]
+
+    # короткий адрес
     flag_less = len(addrList) < min_len
+    # номер дома corrupt
     flag_notHouse = len(addrList[-1]) > 10
-    flag_notHouseNum = not any(del_el in addrList[-1] for del_el in [str(n) for n in range(0,10)])
-    if flag_less or flag_notHouse or flag_notHouseNum:
+    # нет номера дома
+    flag_notHouseNum = not any(del_el in addrList[-1] for del_el in [str(n) for n in range(0, 10)])
+    # города нет в jkh
+    flag_notKnownCity = city_name not in cnt_df.name.unique()
+    # переполнение лимита запросов
+    if not flag_notKnownCity:
+        flag_overlimit = cnt_df[cnt_df.name == city_name][['cnt', 'cnt_ddt']].diff(axis=1).iloc[0, 1] > 0
+        if flag_overlimit:
+            cnt_df.loc[cnt_df['name'].isin([city_name]), 'cnt_left_after_limit'] += 1
+    else:
+        # если города нет - будет 2 флага прерывания
+        flag_overlimit = True
+
+    if flag_less or flag_notHouse or flag_notHouseNum or flag_notKnownCity or flag_overlimit:
         return None
     else:
         if source == 'cian':
@@ -36,7 +53,8 @@ def filter_addr_for_dadata(addrString, source):
             # addrList = list(filter(lambda c: 'мкр' in c, addrList))
         return '; '.join(addrList)
 
-def dadata_request(df, file_date, source):
+
+def dadata_request(df, file_date, jkh_cnt_df, source):
     st_time = datetime.now()
     file_date = str(file_date)
     # dadata_credentials
@@ -44,78 +62,66 @@ def dadata_request(df, file_date, source):
     secret = "9d337ae6b9901a6708802eaca6d7055ce2c64772"
     dadata = Dadata(token, secret)
     # create df for dadata_house_loading
-    # ТЕСТОВЫЙ ЗАПУСК УДАЛИТЬ
     local_save_dir_data = create_ddt_save_dir('data')
     try:
-        logging.info('попытка загрузить данные dadata из {}'.format(local_save_dir_data + f'/{source}_dadata_request_{file_date[:10].replace("-", "_")}.csv'))
-        dh_df = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_{file_date[:10].replace("-", "_")}.csv',
+        logging.info('загрузка данных dadata из {}'.format(local_save_dir_data + f'/{source}_dadata_request.csv'))
+        dh_df = pd.DataFrame(columns=['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street',
+                                      'house', 'qc', 'result', 'qc_geo', 'addr'])
+        dh_df_hist = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request.csv',
                             index_col=0,
                             encoding='cp1251')
-        if source == 'avito':
-            dh_df_2 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_05_02.csv',
-                            index_col=0,
-                            encoding='cp1251')
-            dh_df_3 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_04_28.csv',
-                            index_col=0,
-                            encoding='cp1251')
-            dh_df = dh_df.append(dh_df_2)
-            dh_df = dh_df.append(dh_df_3)
-            dh_df.drop_duplicates(inplace=True)
-            exist_ddt_ad_id = dh_df.ad_id.astype('int64').to_list()
-        elif source == 'cian':
-            dh_df_2 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_28_04_2023.csv',
-                            index_col=0,
-                            encoding='cp1251')
-            dh_df_3 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_05_01.csv',
-                            index_col=0,
-                            encoding='cp1251')
-            dh_df_4 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_05_02.csv',
-                            index_col=0,
-                            encoding='cp1251')
-            dh_df_5 = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request_2023_05_02.csv',
-                            index_col=0,
-                            encoding='cp1251')
-            dh_df = dh_df.append(dh_df_2)
-            dh_df = dh_df.append(dh_df_3)
-            dh_df = dh_df.append(dh_df_4)
-            dh_df = dh_df.append(dh_df_5)
-            dh_df.drop_duplicates(inplace=True)
-            exist_ddt_ad_id = dh_df.ad_id.astype('int64').to_list()
-        else:
-            logging.info('где-то проебался AAAAAAAAAAAАААААААААААААААА')
+        dh_df_hist.drop(['ad_id'], axis=1, inplace=True)
+        dh_df_hist.drop_duplicates(inplace=True)
+        dh_df_hist.reset_index(drop=True, inplace=True)
+        
+        exist_ddt_addr = dh_df_hist.addr.unique().tolist()
         logging.info('удалось загрузить исторические данные dadata')
+        df_for_count = df.drop_duplicates(subset='addr')
+        count_zapros = df_for_count[~df_for_count.addr.isin(exist_ddt_addr)]
     except:
-        logging.error('нет исторических данных {} - будет создан новый df для запросов к dadata'.format(local_save_dir_data + f'/{source}_dadata_request_{file_date[:10].replace("-", "_")}.csv'))
-        dh_df = pd.DataFrame(columns=['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street', 'house', 'qc', 'result', 'qc_geo', 'ad_id'])
-        exist_ddt_ad_id = False     
-        time.sleep(10)
-    logging.info('количество запросов к dadata составит: {}'.format(len(set(df.ad_id.astype('int64').to_list()) - set(dh_df.ad_id.astype('int64').to_list()))))
+        logging.error('нет исторических данных {} - будет создан новый df для запросов к dadata'.format(
+            local_save_dir_data + f'/{source}_dadata_request.csv'))
+        dh_df = pd.DataFrame(columns=['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street',
+                                      'house', 'qc', 'result', 'qc_geo', 'addr'])
+        dh_df_hist = pd.DataFrame(columns=['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street',
+                                           'house', 'qc', 'result', 'qc_geo', 'addr'])
+        exist_ddt_addr = False
+        count_zapros = df.drop_duplicates(subset='addr')
+        time.sleep(3)
     # count bad addr and missed queries
     bad_addr = 0
     # to upload dadata result right away when query crashes
     uploading_cnt = 0
     # create dir for bad_addr to store
-    bad_addr_txt_root = (Path(local_save_dir_data)/f'{source}_bad_addr_{file_date[:10].replace("-", "_")}.txt').as_posix()
-    bad_req_txt_root = (Path(local_save_dir_data)/f'{source}_bad_request_{file_date[:10].replace("-", "_")}.txt').as_posix()
+    bad_addr_txt_root = (
+                Path(local_save_dir_data) / f'{source}_bad_addr_{file_date[:10].replace("-", "_")}.txt').as_posix()
+    bad_req_txt_root = (
+                Path(local_save_dir_data) / f'{source}_bad_request_{file_date[:10].replace("-", "_")}.txt').as_posix()
     # tqdm to logger for dadata request
     logger = logging.getLogger()
     tqdm_out = TqdmToLogger(logger, level=logging.INFO)
     # dadata request
-    time.sleep(10) 
-    for i, row in tqdm(df.iterrows(), total=df.shape[0], file=tqdm_out, mininterval=10):
-        if exist_ddt_ad_id:
-            if int(row.ad_id) in exist_ddt_ad_id:
+    time.sleep(2)
+    logging.info('количество запросов к dadata составит: {}'.format(len(set(df.addr.unique().tolist())
+                                                                        - set(dh_df.addr.unique().tolist())
+                                                                        )
+                                                                    )
+                 )
+    for i, row in tqdm(df.drop_duplicates(subset='addr').iterrows(), total=count_zapros.shape[0],
+                       file=tqdm_out, mininterval=10):
+        if exist_ddt_addr:
+            if row.addr in exist_ddt_addr:
+                dh_df.loc[len(dh_df)] = dh_df_hist.loc[dh_df_hist.addr == row.addr].values.tolist()[0]
                 continue
-            else:
-                pass
-        else:
-            pass
         try:
-            addr = filter_addr_for_dadata(row.addr, source)
+            addr = filter_addr_for_dadata(row.addr, jkh_cnt_df, source)
             if addr:
+                # обновление счетчика для ограничения запросов
                 d_res = dadata.clean("address", addr)
-                dh_df.loc[len(dh_df.index)] = [d_res['house_fias_id'], str(d_res), d_res['geo_lat'], d_res['geo_lon'], d_res['street'],
-                                               d_res['house'], d_res['qc'], d_res['result'], d_res['qc_geo'], row.ad_id]
+                jkh_cnt_df.loc[jkh_cnt_df['name'].isin([addr.split('; ')[0 if source == 'avito' else 1]]), 'cnt_ddt'] += 1
+                dh_df.loc[len(dh_df.index)] = [d_res['house_fias_id'], str(d_res), d_res['geo_lat'], d_res['geo_lon'],
+                                               d_res['street'],
+                                               d_res['house'], d_res['qc'], d_res['result'], d_res['qc_geo'], row.addr]
             else:
                 # write ad_id and addr to txt
                 with open(bad_addr_txt_root, 'a') as wr:
@@ -123,32 +129,55 @@ def dadata_request(df, file_date, source):
                 wr.close()
                 bad_addr += 1
         except Exception as exc:
-            logging.error('{}, try reconnect'.format(traceback.format_exc()))
-            if uploading_cnt == 0:
-                dh_df.to_csv(local_save_dir_data + f'/{source}_dadata_request_err_{file_date[:10].replace("-", "_")}.csv',
-                             encoding='cp1251')
-                uploading_cnt += 1
-            # write ad_id and addr to txt
-            with open(bad_req_txt_root, 'a') as wr:
-                wr.writelines(f"{row.ad_id}: {row.addr}" + ',\n')
-            wr.close()
-            bad_addr += 1
-            time.sleep(3)
-            dadata.close()
-            token = "f288b25edb6d05b5ceb4d957376104a181c4adee"
-            secret = "9d337ae6b9901a6708802eaca6d7055ce2c64772"
-            dadata = Dadata(token, secret)
+            try:
+                d_balance = dadata.get_balance()
+            except:
+                d_balance = 99999
+            if d_balance > 10:
+                logging.error('{}, try reconnect'.format(traceback.format_exc()))
+                if uploading_cnt == 0:
+                    dh_df.to_csv(
+                        local_save_dir_data + f'/{source}_dadata_request_err_{file_date[:10].replace("-", "_")}.csv',
+                        encoding='cp1251')
+                    uploading_cnt += 1
+                # write ad_id and addr to txt
+                with open(bad_req_txt_root, 'a') as wr:
+                    wr.writelines(f"{row.ad_id}: {row.addr}" + ',\n')
+                wr.close()
+                bad_addr += 1
+                time.sleep(1)
+                try:
+                    dadata.close()
+                    dadata = Dadata(token, secret)
+                except:
+                    pass
+            else:
+                logging.info(f'закончились деньги на Dadata: остаток {d_balance} Р')
+                break
     try:
         dadata.close()
         logging.info('dadata con closed succesfully')
     except:
         logging.error('dadata con was not closed succesfully')
-    
-    logging.info('обращение к дадата по {}/{} записям из {} заняло {}'.format(len(df) - bad_addr, len(df), source, datetime.now() - st_time))
-    dh_df['ad_id'] = dh_df['ad_id'].astype('int64')
-    dh_df = dh_df[dh_df['ad_id'].isin(df.ad_id.astype('int64').to_list())]
-    dh_df.to_csv(local_save_dir_data+f'/{source}_dadata_request_{file_date[:10].replace("-", "_")}.csv', encoding='cp1251')
-    return dh_df
+
+    logging.info('обращение к DDT по {}/{} адресам из {} заняло {}'.format(len(df.drop_duplicates(subset='addr')) - bad_addr,
+                                                                           len(df.drop_duplicates(subset='addr')),
+                                                                           source, datetime.now() - st_time))
+    dh_df = dh_df[dh_df['addr'].isin(df.addr.unique().tolist())]
+
+    dh_df = df.merge(dh_df, on=['addr'], how='left')
+    dh_df.drop_duplicates(inplace=True)
+    dh_df = dh_df[['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street', 'house', 'qc', 'result', 'qc_geo', 'ad_id', 'addr']]
+    dh_df_filtered = dh_df[~dh_df.data.isna()]
+    dh_df_filtered.reset_index(drop=True, inplace=True)
+
+    logging.info('обращение к DDT выполнено для {}/{} новых объявлений, найден fias для {}'.format(len(dh_df_filtered),
+                                                                                                   len(dh_df),
+                                                                                                   len(dh_df.query('not house_fias_id.isnull()'))))
+    df_ddt_common = pd.concat([dh_df_filtered, dh_df_hist], ignore_index=True)
+    df_ddt_common.reset_index(drop=True, inplace=True)
+    df_ddt_common.to_csv(local_save_dir_data + f'/{source}_dadata_request.csv', encoding='cp1251')
+    return dh_df_filtered
 
 # получение данных район, house_id, jkh_id, dadata_houses_id
 
@@ -381,5 +410,94 @@ def update_jkh_district(df_realty, df_districts, engine):
         logging.info('Обновление данных jkh_houses завершено')
         error_updating_jkh_houses = False
 
+    error_delete_temp_jkh = delete_temp_jkh(engine)
+
     return df_realty, error_create_temp_jkh_houses, error_updating_jkh_houses
+
+
+def find_new_addr(cities, engine):
+    try:
+        con_obj = engine.connect()
+        con_obj.close()
+    except:
+        try:
+            server, engine = get_sql_engine()
+            logging.info('подключение к базе восстановлено')
+        except Exception as exc:
+            logging.error('не удается подключиться к базе {}'.format(traceback.format_exc()))
+            return None, exc
+    addr_query = f"""SELECT city_id, addr, district_id, house_id, jkh_id, dadata_houses_id
+                     FROM realty 
+                     where city_id in {cities}"""
+    try:
+        con_obj = engine.connect()
+        addr_db = pd.read_sql(text(addr_query), con=con_obj)
+        con_obj.close()
+        exc_str = None
+    except Exception as exc:
+        print('a')
+        logging.error(traceback.format_exc())
+        addr_db = None
+        exc_str = exc
+    return addr_db, exc_str
+
+def find_empty_districts(house_ids, engine):
+    try:
+        con_obj = engine.connect()
+        con_obj.close()
+    except:
+        try:
+            server, engine = get_sql_engine()
+            logging.info('подключение к базе восстановлено')
+        except Exception as exc:
+            logging.error('не удается подключиться к базе {}'.format(traceback.format_exc()))
+            return None, exc
+    find_distr_query = f"""SELECT h.district_id as district_id, h.id as house_id
+                        from houses h
+                        where h.id in {house_ids if len(house_ids) != 0 else '(0)'}"""
+    try:
+        con_obj = engine.connect()
+        distr_db = pd.read_sql(text(find_distr_query), con=con_obj)
+        con_obj.close()
+        exc_str = None
+    except Exception as exc:
+        logging.error(traceback.format_exc())
+        distr_db = None
+        exc_str = exc
+    return distr_db, exc_str
+
+
+def count_jkh_addr(engine):
+    try:
+        con_obj = engine.connect()
+        con_obj.close()
+    except:
+        try:
+            server, engine = get_sql_engine()
+            logging.info('подключение к базе восстановлено')
+        except Exception as exc:
+            logging.error('не удается подключиться к базе {}'.format(traceback.format_exc()))
+            return None, exc
+
+    
+    count_jkh_addr_query = \
+        """SELECT city_id, c.name, c.url_avito, count(*) as cnt_jkh
+            from jkh_houses jh 
+            left join city c 
+            on c.id = city_id 
+            group by city_id """
+    try:
+        con_obj = engine.connect()
+        count_jkh_addr_db = pd.read_sql(text(count_jkh_addr_query), con=con_obj)
+        count_jkh_addr_db['cnt'] = count_jkh_addr_db['cnt_jkh'] * 1
+        count_jkh_addr_db['cnt'] = count_jkh_addr_db['cnt'].astype('int')
+        count_jkh_addr_db['cnt_ddt'] = 0
+        count_jkh_addr_db['cnt_left_after_limit'] = 0
+        con_obj.close()
+        exc_code = None
+    except Exception as exc:
+        logging.error(traceback.format_exc())
+        count_jkh_addr_db = None
+        exc_code = exc
+    return count_jkh_addr_db, exc_code
 

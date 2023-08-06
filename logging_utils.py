@@ -33,3 +33,4 @@ def move_logfile(to_dir, algo_state):
     src_file = Path.cwd() / 'ya_loader.log'
     dst_file = Path(to_dir) / f'log_{get_today_date()}_{algo_state}.log'
     shutil.copy(src_file, dst_file)
+    open(src_file, 'w').close()

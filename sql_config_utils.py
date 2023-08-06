@@ -4,6 +4,8 @@ import traceback
 from sqlalchemy import create_engine, NullPool
 from sshtunnel import SSHTunnelForwarder
 
+from sqlalchemy import text
+
 import logging
 
 
@@ -17,7 +19,7 @@ def get_config(get_only_start_time=False):
     ssh_password = config['database']['ssh_password']
     database_username = config['database']['database_username']
     database_password = config['database']['database_password']
-    database_name = config['database']['preprod_database_name']
+    database_name = config['database']['database_name']
     localhost = config['database']['localhost']
     localhost_port = int(config['database']['localhost_port'])
     table_name = config['database']['table_name']
@@ -56,6 +58,22 @@ def get_sql_engine():
     
     return sql_server, sql_engine
 
+
+def check_sql_connection(sql_server, sql_engine):
+    try:
+        con_obj = sql_engine.connect()
+        con_obj.close()
+        return sql_server, sql_engine, None
+    except:
+        try:
+            sql_server, sql_engine = get_sql_engine()
+            logging.info('подключение к базе восстановлено')
+            return sql_server, sql_engine, None
+        except Exception as exc:
+            logging.error('не удается подключиться к базе')
+            return None, None, True
+
+
 def load_df_into_sql_table(df, table_name, engine, bigsize=False):
     try:
         con_obj = engine.connect()
@@ -69,6 +87,30 @@ def load_df_into_sql_table(df, table_name, engine, bigsize=False):
     chunk_s = 2500 if bigsize else 5000
 
     df.to_sql(name=table_name, con=engine, if_exists='append', chunksize=chunk_s, method='multi', index=False)
+
+
+def drop_temp_table(engine, table):
+    try:
+        con_obj = engine.connect()
+        con_obj.close()
+    except:
+        try:
+            server, engine = get_sql_engine()
+            logging.info('подключение к базе восстановлено')
+        except Exception as exc:
+            logging.error('не удается подключиться к базе: {}'.format(traceback.format_exc()))
+            return exc
+    try:
+        delete_table_query = \
+            f"""DROP table {table}"""
+        con_obj = engine.connect()
+        con_obj.execute(text(delete_table_query))
+        con_obj.commit()
+        con_obj.close()
+        return None
+    except Exception as exc:
+        logging.error('не удалось удалить таблицу: {} ({})'.format(table, traceback.format_exc()))
+        return exc
 
 
 def close_sql_connection(server, engine):
