@@ -34,3 +34,10 @@ def move_logfile(to_dir, algo_state):
     dst_file = Path(to_dir) / f'log_{get_today_date()}_{algo_state}.log'
     shutil.copy(src_file, dst_file)
     open(src_file, 'w').close()
+    logging.info('сохранение лог-файла')
+    logff = logging.getLogger()
+    for i in range(len(logff.handlers)):
+        logff.removeHandler(logff.handlers[i])
+    Path.unlink(src_file)
+    fp = open(src_file, 'w')
+    fp.close()

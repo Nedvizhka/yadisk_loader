@@ -154,6 +154,9 @@ def dadata_request(df, file_date, jkh_cnt_df, source):
             else:
                 logging.info(f'закончились деньги на Dadata: остаток {d_balance} Р')
                 break
+
+    tqdm_out.flush()
+
     try:
         dadata.close()
         logging.info('dadata con closed succesfully')

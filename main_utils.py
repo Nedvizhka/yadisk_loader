@@ -754,6 +754,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             #                                       axis=1)
             # logging.info('district_id обработаны')
             df['district_id'] = None
+            df.loc[df['city_id'].isin([5, 6]), 'district_id'] = 572
 
             # square
             df['square'] = df['Площадь'].apply(lambda x: square_from_ploshad(x))
@@ -856,14 +857,17 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
 
             # добавление прогресс бара в log
             logg = logging.getLogger()
-            tqdm_out = TqdmToLogger(logg, level=logging.INFO)
-            tqdm.pandas(desc='districts_update', file=tqdm_out, mininterval=15)
+            tqdm_out_filter = TqdmToLogger(logg, level=logging.INFO)
+            tqdm.pandas(desc='districts_update', file=tqdm_out_filter, mininterval=15)
 
             logging.info('обработка district_id:')
             cian_realty['district_id'] = cian_realty.progress_apply(lambda row: district_from_rn_mkrn(row,
                                                                                                       all_districts,
                                                                                                       sql_engine),
                                                                     axis=1)
+
+            tqdm_out_filter.flush()
+            cian_realty.loc[cian_realty['city_id'].isin([5, 6]), 'district_id'] = 572
             logging.info('district add from realty')
 
             # square

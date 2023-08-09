@@ -288,8 +288,6 @@ if __name__ == '__main__':
                         run_bot_send_msg(report_txt)
                     else:
                         pass
-                    logf = logging.getLogger()
-                    logf.removeHandler(logf.handlers[0])
                     move_logfile(local_save_dir_data, 'success')
                     time.sleep(3500)
                     continue
