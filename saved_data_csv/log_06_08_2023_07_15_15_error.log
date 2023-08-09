@@ -1,0 +1,401 @@
+2023-08-06 07:10:27,760 [INFO    ] Скрипт запущен: 2023-08-06 07:10:27.760649
+2023-08-06 07:10:27,793 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-08-06 07:10:27,843 [INFO    ] Authentication (publickey) failed.
+2023-08-06 07:10:27,846 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-08-06 07:10:27,898 [INFO    ] Authentication (password) successful!
+2023-08-06 07:10:27,909 [INFO    ] connected to host 92.53.64.66 base app_nedvizhka_db
+2023-08-06 07:10:28,025 [INFO    ] yandex token valid
+2023-08-06 07:10:30,103 [INFO    ] Успешно загружено 1 файлов с личного диска: ['05-08-23 (без дублей).csv'] для avito
+2023-08-06 07:10:30,190 [INFO    ] yandex token valid
+2023-08-06 07:10:32,000 [INFO    ] Успешно загружено 1 файлов с личного диска: ['циан 05-08-23 (без дублей).csv'] для cian
+2023-08-06 07:10:32,000 [INFO    ] ready to process files ['05-08-23 (без дублей).csv'], ['циан 05-08-23 (без дублей).csv']
+2023-08-06 07:10:32,298 [INFO    ] обработка файла циан 05-08-23 (без дублей).csv для cian
+2023-08-06 07:10:33,450 [INFO    ] обработка district_id:
+2023-08-06 07:10:33,452 [INFO    ] districts_update:   0%|          | 0/121515 [00:00<?, ?it/s]
+2023-08-06 07:10:48,453 [INFO    ] districts_update:  12%|#2        | 15072/121515 [00:15<01:45, 1004.74it/s]
+2023-08-06 07:11:03,453 [INFO    ] districts_update:  25%|##4       | 30281/121515 [00:30<01:30, 1010.13it/s]
+2023-08-06 07:11:13,459 [INFO    ] districts_update:  33%|###3      | 40419/121515 [00:40<01:20, 1010.13it/s]
+2023-08-06 07:11:18,454 [INFO    ] districts_update:  37%|###7      | 45537/121515 [00:45<01:14, 1013.27it/s]
+2023-08-06 07:11:33,455 [INFO    ] districts_update:  50%|#####     | 60818/121515 [01:00<00:59, 1015.41it/s]
+2023-08-06 07:11:43,487 [INFO    ] districts_update:  59%|#####8    | 71278/121515 [01:10<00:49, 1015.41it/s]
+2023-08-06 07:11:48,456 [INFO    ] districts_update:  63%|######2   | 76322/121515 [01:15<00:44, 1021.95it/s]
+2023-08-06 07:12:03,496 [INFO    ] districts_update:  75%|#######5  | 91489/121515 [01:30<00:29, 1021.95it/s]
+2023-08-06 07:12:03,496 [INFO    ] districts_update:  75%|#######5  | 91490/121515 [01:30<00:29, 1017.36it/s]
+2023-08-06 07:12:13,496 [INFO    ] districts_update:  83%|########3 | 101094/121515 [01:40<00:20, 1017.36it/s]
+2023-08-06 07:12:18,497 [INFO    ] districts_update:  87%|########7 | 106243/121515 [01:45<00:15, 1006.30it/s]
+2023-08-06 07:12:33,186 [INFO    ] districts_update: 100%|##########| 121515/121515 [01:59<00:00, 1014.87it/s]
+2023-08-06 07:12:33,186 [INFO    ] district add from realty
+2023-08-06 07:12:34,014 [INFO    ] Успешно обработан файл циан 05-08-23 (без дублей).csv для realty
+2023-08-06 07:12:34,064 [INFO    ] Выгрузка в таблицу realty обработанного файла из cian: циан 05-08-23 (без дублей).csv
+2023-08-06 07:12:34,292 [INFO    ] Временная таблица создана
+2023-08-06 07:12:41,266 [INFO    ] Загрузка новых объявлений в таблицу
+2023-08-06 07:12:41,497 [INFO    ] 112647 существующих и 8868 новых объявлений
+2023-08-06 07:12:41,543 [INFO    ] temp таблица очищена, загружаются данные
+2023-08-06 07:13:25,096 [INFO    ] обновлена таблица realty
+2023-08-06 07:13:33,293 [INFO    ] обновлены районы в таблице realty
+2023-08-06 07:13:39,553 [INFO    ] Обновление существующих данных realty завершено
+2023-08-06 07:13:39,689 [ERROR   ] Traceback (most recent call last):
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1963, in _exec_single_context
+    self.dialect.do_execute(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 920, in do_execute
+    cursor.execute(statement, parameters)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/cursors.py", line 158, in execute
+    result = self._query(query)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/cursors.py", line 325, in _query
+    conn.query(q)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 549, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 779, in _read_query_result
+    result.read()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 1157, in read
+    first_packet = self.connection._read_packet()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 729, in _read_packet
+    packet.raise_for_error()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ')' at line 3")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/www/yadisk_loader/dadata_update_utils.py", line 432, in find_new_addr
+    addr_db = pd.read_sql(text(addr_query), con=con_obj)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pandas/io/sql.py", line 590, in read_sql
+    return pandas_sql.read_query(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pandas/io/sql.py", line 1560, in read_query
+    result = self.execute(*args)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pandas/io/sql.py", line 1405, in execute
+    return self.connectable.execution_options().execute(*args, **kwargs)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1413, in execute
+    return meth(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/sql/elements.py", line 483, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1637, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1841, in _execute_context
+    return self._exec_single_context(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1982, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 2339, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1963, in _exec_single_context
+    self.dialect.do_execute(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 920, in do_execute
+    cursor.execute(statement, parameters)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/cursors.py", line 158, in execute
+    result = self._query(query)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/cursors.py", line 325, in _query
+    conn.query(q)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 549, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 779, in _read_query_result
+    result.read()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 1157, in read
+    first_packet = self.connection._read_packet()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 729, in _read_packet
+    packet.raise_for_error()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.ProgrammingError: (pymysql.err.ProgrammingError) (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ')' at line 3")
+[SQL: SELECT city_id, addr, district_id, house_id, jkh_id, dadata_houses_id
+                     FROM realty 
+                     where city_id in (23,)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+2023-08-06 07:13:39,743 [ERROR   ] Ошибка: ['error_updating_realty']
+2023-08-06 07:13:39,743 [ERROR   ] Не удалось добавить данные в таблицу realty. Перезапуск скрипта...
+2023-08-06 07:13:49,787 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-08-06 07:13:49,835 [INFO    ] Authentication (publickey) failed.
+2023-08-06 07:13:49,838 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-08-06 07:13:49,889 [INFO    ] Authentication (password) successful!
+2023-08-06 07:13:49,890 [ERROR   ] Exception during reset or similar
+Traceback (most recent call last):
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 616, in connect
+    sock = socket.create_connection(
+  File "/usr/local/lib/python3.9/socket.py", line 843, in create_connection
+    raise err
+  File "/usr/local/lib/python3.9/socket.py", line 831, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 145, in __init__
+    self._dbapi_connection = engine.raw_connection()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 3288, in raw_connection
+    return self.pool.connect()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 452, in connect
+    return _ConnectionFairy._checkout(self)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 1268, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 716, in checkout
+    rec = pool._do_get()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/impl.py", line 283, in _do_get
+    return self._create_connection()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 393, in _create_connection
+    return _ConnectionRecord(self)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 678, in __init__
+    self.__connect()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 903, in __connect
+    pool.logger.debug("Error on connect(): %s", e)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/util/langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 898, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/create.py", line 637, in connect
+    return dialect.connect(*cargs, **cparams)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 616, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 352, in __init__
+    self.connect()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 668, in connect
+    raise exc
+pymysql.err.OperationalError: (2003, "Can't connect to MySQL server on '127.0.0.1' ([Errno 111] Connection refused)")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/www/yadisk_loader/sql_config_utils.py", line 64, in check_sql_connection
+    con_obj = sql_engine.connect()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 3264, in connect
+    return self._connection_cls(self)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 147, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 2426, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 145, in __init__
+    self._dbapi_connection = engine.raw_connection()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 3288, in raw_connection
+    return self.pool.connect()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 452, in connect
+    return _ConnectionFairy._checkout(self)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 1268, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 716, in checkout
+    rec = pool._do_get()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/impl.py", line 283, in _do_get
+    return self._create_connection()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 393, in _create_connection
+    return _ConnectionRecord(self)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 678, in __init__
+    self.__connect()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 903, in __connect
+    pool.logger.debug("Error on connect(): %s", e)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/util/langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 898, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/create.py", line 637, in connect
+    return dialect.connect(*cargs, **cparams)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 616, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 352, in __init__
+    self.connect()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 668, in connect
+    raise exc
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (2003, "Can't connect to MySQL server on '127.0.0.1' ([Errno 111] Connection refused)")
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 988, in _finalize_fairy
+    fairy._reset(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 1437, in _reset
+    pool._dialect.do_rollback(self)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 693, in do_rollback
+    dbapi_connection.rollback()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 482, in rollback
+    self._read_ok_packet()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 442, in _read_ok_packet
+    pkt = self._read_packet()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 696, in _read_packet
+    packet_header = self._read_bytes(4)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 752, in _read_bytes
+    raise err.OperationalError(
+pymysql.err.OperationalError: (2013, 'Lost connection to MySQL server during query')
+2023-08-06 07:13:49,899 [INFO    ] connected to host 92.53.64.66 base app_nedvizhka_db
+2023-08-06 07:13:49,900 [INFO    ] подключение к базе восстановлено
+2023-08-06 07:13:49,900 [INFO    ] обработка файла 05-08-23 (без дублей).csv для авито
+2023-08-06 07:14:22,384 [INFO    ] Успешно обработан файл 05-08-23 (без дублей).csv для realty
+2023-08-06 07:14:22,442 [INFO    ] Выгрузка в таблицу realty обработанного файла из авито: 05-08-23 (без дублей).csv
+2023-08-06 07:14:22,530 [INFO    ] Временная таблица очищена
+2023-08-06 07:14:23,806 [INFO    ] Загрузка новых объявлений в таблицу
+2023-08-06 07:14:23,894 [INFO    ] 125633 существующих и 8162 новых объявлений
+2023-08-06 07:14:23,939 [INFO    ] temp таблица очищена, загружаются данные
+2023-08-06 07:15:01,210 [INFO    ] обновлена таблица realty
+2023-08-06 07:15:02,631 [INFO    ] обновлены районы в таблице realty
+2023-08-06 07:15:05,226 [INFO    ] Обновление существующих данных realty завершено
+2023-08-06 07:15:05,402 [ERROR   ] Traceback (most recent call last):
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1963, in _exec_single_context
+    self.dialect.do_execute(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 920, in do_execute
+    cursor.execute(statement, parameters)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/cursors.py", line 158, in execute
+    result = self._query(query)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/cursors.py", line 325, in _query
+    conn.query(q)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 549, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 779, in _read_query_result
+    result.read()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 1157, in read
+    first_packet = self.connection._read_packet()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 729, in _read_packet
+    packet.raise_for_error()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ')' at line 3")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/www/yadisk_loader/dadata_update_utils.py", line 432, in find_new_addr
+    addr_db = pd.read_sql(text(addr_query), con=con_obj)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pandas/io/sql.py", line 590, in read_sql
+    return pandas_sql.read_query(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pandas/io/sql.py", line 1560, in read_query
+    result = self.execute(*args)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pandas/io/sql.py", line 1405, in execute
+    return self.connectable.execution_options().execute(*args, **kwargs)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1413, in execute
+    return meth(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/sql/elements.py", line 483, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1637, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1841, in _execute_context
+    return self._exec_single_context(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1982, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 2339, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1963, in _exec_single_context
+    self.dialect.do_execute(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 920, in do_execute
+    cursor.execute(statement, parameters)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/cursors.py", line 158, in execute
+    result = self._query(query)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/cursors.py", line 325, in _query
+    conn.query(q)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 549, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 779, in _read_query_result
+    result.read()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 1157, in read
+    first_packet = self.connection._read_packet()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 729, in _read_packet
+    packet.raise_for_error()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.ProgrammingError: (pymysql.err.ProgrammingError) (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ')' at line 3")
+[SQL: SELECT city_id, addr, district_id, house_id, jkh_id, dadata_houses_id
+                     FROM realty 
+                     where city_id in (23,)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+
+2023-08-06 07:15:05,415 [ERROR   ] Ошибка: ['error_updating_realty']
+2023-08-06 07:15:05,415 [ERROR   ] Не удалось добавить данные в таблицу realty. Перезапуск скрипта...
+2023-08-06 07:15:15,452 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-08-06 07:15:15,499 [INFO    ] Authentication (publickey) failed.
+2023-08-06 07:15:15,502 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-08-06 07:15:15,553 [INFO    ] Authentication (password) successful!
+2023-08-06 07:15:15,554 [INFO    ] connected to host 92.53.64.66 base app_nedvizhka_db
+2023-08-06 07:15:15,554 [INFO    ] подключение к базе восстановлено
+2023-08-06 07:15:15,555 [ERROR   ] Exception during reset or similar
+Traceback (most recent call last):
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 988, in _finalize_fairy
+    fairy._reset(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 1437, in _reset
+    pool._dialect.do_rollback(self)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 693, in do_rollback
+    dbapi_connection.rollback()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 482, in rollback
+    self._read_ok_packet()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 442, in _read_ok_packet
+    pkt = self._read_packet()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 696, in _read_packet
+    packet_header = self._read_bytes(4)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 752, in _read_bytes
+    raise err.OperationalError(
+pymysql.err.OperationalError: (2013, 'Lost connection to MySQL server during query')
+2023-08-06 07:15:15,662 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-08-06 07:15:15,711 [INFO    ] Authentication (publickey) failed.
+2023-08-06 07:15:15,714 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-08-06 07:15:15,765 [INFO    ] Authentication (password) successful!
+2023-08-06 07:15:15,766 [INFO    ] connected to host 92.53.64.66 base app_nedvizhka_db
+2023-08-06 07:15:15,766 [INFO    ] подключение к базе восстановлено
+2023-08-06 07:15:15,816 [ERROR   ] не удалось удалить таблицу: temp_jkh_houses (Traceback (most recent call last):
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1963, in _exec_single_context
+    self.dialect.do_execute(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 920, in do_execute
+    cursor.execute(statement, parameters)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/cursors.py", line 158, in execute
+    result = self._query(query)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/cursors.py", line 325, in _query
+    conn.query(q)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 549, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 779, in _read_query_result
+    result.read()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 1157, in read
+    first_packet = self.connection._read_packet()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 729, in _read_packet
+    packet.raise_for_error()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.OperationalError: (1051, "Unknown table 'app_nedvizhka_db.temp_jkh_houses'")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/www/yadisk_loader/sql_config_utils.py", line 107, in drop_temp_table
+    con_obj.execute(text(delete_table_query))
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1413, in execute
+    return meth(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/sql/elements.py", line 483, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1637, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1841, in _execute_context
+    return self._exec_single_context(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1982, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 2339, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1963, in _exec_single_context
+    self.dialect.do_execute(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 920, in do_execute
+    cursor.execute(statement, parameters)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/cursors.py", line 158, in execute
+    result = self._query(query)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/cursors.py", line 325, in _query
+    conn.query(q)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 549, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 779, in _read_query_result
+    result.read()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 1157, in read
+    first_packet = self.connection._read_packet()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 729, in _read_packet
+    packet.raise_for_error()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/protocol.py", line 221, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/err.py", line 143, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (1051, "Unknown table 'app_nedvizhka_db.temp_jkh_houses'")
+[SQL: DROP table temp_jkh_houses]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+)
+2023-08-06 07:15:15,816 [ERROR   ] Ошибка при обновлении объявлений в таблице realty

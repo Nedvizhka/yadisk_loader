@@ -354,7 +354,10 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
     error_updating_realty = False
 
     # поиск существующих адресов в новых объявлениях
-    addr_df, exc_str = find_new_addr(tuple(int(i) for i in filter(lambda v: v == v, df_realty_new.city_id.unique())), engine)
+    addr_df, exc_str = find_new_addr(tuple(int(i) for i in filter(lambda v: v == v, df_realty_new.city_id.unique()))
+                                     if len(df_realty_new.city_id.unique()) > 1 else str('('+str(df_realty_new.city_id.unique()[0])+')'),
+                                     engine)
+                                     
     if exc_str:
         error_updating_realty = True
         return False, False, False, error_updating_realty
