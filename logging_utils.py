@@ -30,11 +30,10 @@ def get_today_date():
 
 
 def move_logfile(to_dir, algo_state):
+    logging.info('сохранение лог-файла')
     src_file = Path.cwd() / 'ya_loader.log'
     dst_file = Path(to_dir) / f'log_{get_today_date()}_{algo_state}.log'
     shutil.copy(src_file, dst_file)
-    open(src_file, 'w').close()
-    logging.info('сохранение лог-файла')
     logff = logging.getLogger()
     for i in range(len(logff.handlers)):
         logff.removeHandler(logff.handlers[i])
