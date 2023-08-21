@@ -68,9 +68,9 @@ def get_direct_link(yandex_api, sharing_link):
     return pk_request.json().get('href')
 
 
-def get_saved_files_names(source):
+def get_saved_files_names(source, env_value):
     try:
-        with open(f'uploaded_files_{source}.txt', 'r') as uploaded_txt:
+        with open(f'uploaded_files_{source}{"_"+env_value if env_value != None else ""}.txt', 'r') as uploaded_txt:
             list_loaded_files = uploaded_txt.read()
         uploaded_txt.close()
         list_loaded_files = list_loaded_files.split('\n')[:-1]
@@ -421,10 +421,11 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
     try:
         # обновление dadata_houses
         fdate = get_date_from_name(fname)
-        df_dadata_houses = dadata_request(df_realty_new, fdate, jkh_cnt_df, source)
-        df_ddt_copy = df_dadata_houses.copy()
+        df_dadata_houses, df_dadata_tg_report = dadata_request(df_realty_new, fdate, jkh_cnt_df, source)
+        df_dadata_tg_report = df_dadata_tg_report[df_dadata_tg_report.parsed_now]
+        df_dadata_tg_report.drop(columns='parsed_now', inplace=True)
         # дополнение tg отчета
-        err_filling_report = fill_dadata_report(rep_ddt_df, df_ddt_copy, source)
+        err_filling_report = fill_dadata_report(rep_ddt_df, df_dadata_tg_report, source)
         if err_filling_report:
             return False, False, False, True
 

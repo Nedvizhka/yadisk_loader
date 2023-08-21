@@ -4,11 +4,18 @@ import logging
 import time
 
 if __name__ == '__main__':
+    # определение аргументов для запуска скрипта на препрод/прод (--env 'preprod' в запуске)
+    parser = argparse.ArgumentParser(description='parse arguments to run script on prod or preprod')
+    parser.add_argument("--env")
+    args = parser.parse_args()
+    env_value = args.env
+    print("скрипт запущен с аргументом: ", str(env_value))
+
     while True:
         # ежедневный запуск скрипта происходит только в определенный час start_time в config файле
         if datetime.now().hour != get_config(get_only_start_time=True):
             # проверка баланса за 2 часа до запуска
-            if datetime.now().hour == get_config(get_only_start_time=True) - 2:
+            if env_value == None and datetime.now().hour == get_config(get_only_start_time=True) - 2:
                 try:
                     dadata_balance = check_balance()
                     balance_txt = f'Остаток баланса {dadata_balance} ₽ {"❌" if dadata_balance < 500 else "✅"}'
@@ -17,22 +24,23 @@ if __name__ == '__main__':
                     time.sleep(3601)
                     continue
                 except:
-                    print('Ощибка, ', traceback.format_exc())
+                    print('Ошибка, ', traceback.format_exc())
                     continue
             else:
                 time.sleep(100)
                 continue
         # если текущий час совпадает с заданным start_time - запускаем скрипт
         else:
-            logging.basicConfig(filename='ya_loader.log', filemode='w', level=logging.INFO,
-                                format='%(asctime)s [%(levelname)-8s] %(message)s', encoding='utf8')
+            logging.basicConfig(filename=f'ya_loader{"_"+env_value if env_value != None else ""}.log',
+                                filemode='w', level=logging.INFO,
+                                format='%(asctime)s [%(levelname)-8s] %(message)s', encoding='cp1251')
             st_time = datetime.now()
             print('Скрипт запущен: ', get_today_date(), 'выйди из скрина и сделай "tail -f ya_loader.log"')
             logging.info('Скрипт запущен: {}'.format(st_time))
 
             # получение данных для подключения к базам
             ssh_host, ssh_port, ssh_username, ssh_password, database_username, database_password, database_name, \
-                localhost, localhost_port, table_name, ya_token, ya_api, ya_link = get_config()
+                localhost, localhost_port, table_name, ya_token, ya_api, ya_link = get_config(env_value=env_value)
 
             # создание директории для хранения файлов (если ее нет) и сохранение пути к ней
             local_save_dir_avito = create_load_save_dir('avito')
@@ -43,12 +51,12 @@ if __name__ == '__main__':
             sql_server, sql_engine = get_sql_engine()
 
             # загрузка списка сохраненных файлов
-            handled_files_avito = get_saved_files_names('avito')
-            handled_files_cian = get_saved_files_names('cian')
+            handled_files_avito = get_saved_files_names('avito', env_value)
+            handled_files_cian = get_saved_files_names('cian', env_value)
 
             # чтение и сохранение в local_save_dir файлов из ядиска avito
             files_to_process_avito, error_file_loading_avito = download_local_yadisk_files(ya_token,
-                                                                                          handled_files_avito,
+                                                                                           handled_files_avito,
                                                                                            local_save_dir_avito,
                                                                                            'avito')
             # заглушка загрузки avito
@@ -172,8 +180,8 @@ if __name__ == '__main__':
                 logging.info('обработка файла {} для авито'.format(filename))
                 df_avito_realty, file_date, error_file_processing = process_realty(local_save_dir_avito, filename,
                                                                                    sql_engine, 'avito')
-                # ограничение городов циан
-                df_avito_realty = df_avito_realty[df_avito_realty.city_id.isin([4, 18, 12, 7, 17, 2, 23])]
+                # ограничение городов авито
+                df_avito_realty = df_avito_realty[df_avito_realty.city_id.isin([4, 18, 12, 7, 17, 2, 23, 3])]
 
                 # добавление инфо к отчету
                 report_df_append(common_rep_df, 'av_total', len(df_avito_realty))
@@ -241,37 +249,37 @@ if __name__ == '__main__':
                 if error_loading_files:
                     logging.error('Ошибка при загрузке файлов')
                     close_sql_connection(sql_server, sql_engine)
-                    move_logfile(local_save_dir_data, 'error')
+                    move_logfile(local_save_dir_data, 'error', env_value)
                     time.sleep(1000)
                     continue
                 elif error_getting_ad_id:
                     logging.error('Ошибка при получении ad_id')
                     close_sql_connection(sql_server, sql_engine)
-                    move_logfile(local_save_dir_data, 'error')
+                    move_logfile(local_save_dir_data, 'error', env_value)
                     time.sleep(1000)
                     continue
                 elif error_processing_files:
                     logging.error('Ошибка при обработке файлов')
                     close_sql_connection(sql_server, sql_engine)
-                    move_logfile(local_save_dir_data, 'error')
+                    move_logfile(local_save_dir_data, 'error', env_value)
                     time.sleep(1000)
                     continue
                 elif error_updating_realty:
                     logging.error('Ошибка при обновлении объявлений в таблице realty')
                     close_sql_connection(sql_server, sql_engine)
-                    move_logfile(local_save_dir_data, 'error')
+                    move_logfile(local_save_dir_data, 'error', env_value)
                     time.sleep(1000)
                     continue
                 elif error_writing_files:
                     logging.error('Ошибка при записи файлов в базу')
                     close_sql_connection(sql_server, sql_engine)
-                    move_logfile(local_save_dir_data, 'error')
+                    move_logfile(local_save_dir_data, 'error', env_value)
                     time.sleep(1000)
                     continue
                 elif error_db_con:
                     logging.error('Ошибка подключения к базе')
                     close_sql_connection(sql_server, sql_engine)
-                    move_logfile(local_save_dir_data, 'error')
+                    move_logfile(local_save_dir_data, 'error', env_value)
                     time.sleep(1000)
                     continue
                 else:
@@ -283,17 +291,18 @@ if __name__ == '__main__':
                     # проверка баланса dadata
                     dadata_balance = check_balance()
                     # создание и отправка отчета
-                    report_txt = report_text(common_rep_df, dadata_rep_df, jkh_addr_df, dadata_balance)
-                    if report_txt:
-                        run_bot_send_msg(report_txt)
-                    else:
-                        pass
-                    move_logfile(local_save_dir_data, 'success')
+                    if env_value == None:
+                        report_txt = report_text(common_rep_df, dadata_rep_df, jkh_addr_df, dadata_balance)
+                        if report_txt:
+                            run_bot_send_msg(report_txt)
+                        else:
+                            pass
+                    move_logfile(local_save_dir_data, 'success', env_value)
                     time.sleep(3500)
                     continue
             except:
                 close_sql_connection(sql_server, sql_engine)
                 logging.info('нет новых данных для загрузки')
-                move_logfile(local_save_dir_data, 'no_new_file')
+                move_logfile(local_save_dir_data, 'no_new_file', env_value)
                 time.sleep(1100)
                 continue

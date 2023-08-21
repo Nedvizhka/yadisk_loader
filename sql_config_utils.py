@@ -9,7 +9,7 @@ from sqlalchemy import text
 import logging
 
 
-def get_config(get_only_start_time=False):
+def get_config(env_value=None, get_only_start_time=False):
     config = configparser.ConfigParser()
     config.read('config.ini')
 
@@ -19,7 +19,10 @@ def get_config(get_only_start_time=False):
     ssh_password = config['database']['ssh_password']
     database_username = config['database']['database_username']
     database_password = config['database']['database_password']
-    database_name = config['database']['database_name']
+    if env_value == None:
+        database_name = config['database']['database_name']
+    else:
+        database_name = config['database']['preprod_database_name']
     localhost = config['database']['localhost']
     localhost_port = int(config['database']['localhost_port'])
     table_name = config['database']['table_name']

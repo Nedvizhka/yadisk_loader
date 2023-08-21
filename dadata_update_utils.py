@@ -66,7 +66,7 @@ def dadata_request(df, file_date, jkh_cnt_df, source):
     try:
         logging.info('загрузка данных dadata из {}'.format(local_save_dir_data + f'/{source}_dadata_request.csv'))
         dh_df = pd.DataFrame(columns=['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street',
-                                      'house', 'qc', 'result', 'qc_geo', 'addr'])
+                                      'house', 'qc', 'result', 'qc_geo', 'addr', 'parsed_now']) # parsed now для отчета
         dh_df_hist = pd.read_csv(local_save_dir_data + f'/{source}_dadata_request.csv',
                             index_col=0,
                             encoding='cp1251')
@@ -82,9 +82,9 @@ def dadata_request(df, file_date, jkh_cnt_df, source):
         logging.error('нет исторических данных {} - будет создан новый df для запросов к dadata'.format(
             local_save_dir_data + f'/{source}_dadata_request.csv'))
         dh_df = pd.DataFrame(columns=['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street',
-                                      'house', 'qc', 'result', 'qc_geo', 'addr'])
+                                      'house', 'qc', 'result', 'qc_geo', 'addr', 'parsed_now'])
         dh_df_hist = pd.DataFrame(columns=['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street',
-                                           'house', 'qc', 'result', 'qc_geo', 'addr'])
+                                           'house', 'qc', 'result', 'qc_geo', 'addr', 'parsed_now'])
         exist_ddt_addr = False
         count_zapros = df.drop_duplicates(subset='addr')
         time.sleep(3)
@@ -107,21 +107,33 @@ def dadata_request(df, file_date, jkh_cnt_df, source):
                                                                         )
                                                                     )
                  )
+
+    # определение аргументов для запуска скрипта на препрод/прод (--env 'preprod' в запуске)
+    parser = argparse.ArgumentParser(description='parse arguments to run script on prod or preprod')
+    parser.add_argument("--env")
+    args = parser.parse_args()
+    env_value = args.env
+
     for i, row in tqdm(df.drop_duplicates(subset='addr').iterrows(), total=count_zapros.shape[0],
                        file=tqdm_out, mininterval=10):
         if exist_ddt_addr:
             if row.addr in exist_ddt_addr:
-                dh_df.loc[len(dh_df)] = dh_df_hist.loc[dh_df_hist.addr == row.addr].values.tolist()[0]
+                df_row = dh_df_hist.loc[dh_df_hist.addr == row.addr].values.tolist()[0]
+                df_row.append(False)
+                dh_df.loc[len(dh_df)] = df_row
                 continue
         try:
             addr = filter_addr_for_dadata(row.addr, jkh_cnt_df, source)
             if addr:
                 # обновление счетчика для ограничения запросов
-                d_res = dadata.clean("address", addr)
-                jkh_cnt_df.loc[jkh_cnt_df['name'].isin([addr.split('; ')[0 if source == 'avito' else 1]]), 'cnt_ddt'] += 1
-                dh_df.loc[len(dh_df.index)] = [d_res['house_fias_id'], str(d_res), d_res['geo_lat'], d_res['geo_lon'],
-                                               d_res['street'],
-                                               d_res['house'], d_res['qc'], d_res['result'], d_res['qc_geo'], row.addr]
+                if env_value == None: # обращение к dadata только в случае запуска на проде:
+                    d_res = dadata.clean("address", addr)
+                    jkh_cnt_df.loc[jkh_cnt_df['name'].isin([addr.split('; ')[0 if source == 'avito' else 1]]), 'cnt_ddt'] += 1
+                    dh_df.loc[len(dh_df.index)] = [d_res['house_fias_id'], str(d_res), d_res['geo_lat'], d_res['geo_lon'],
+                                                   d_res['street'], d_res['house'], d_res['qc'], d_res['result'],
+                                                   d_res['qc_geo'], row.addr, True]
+                else:
+                    pass
             else:
                 # write ad_id and addr to txt
                 with open(bad_addr_txt_root, 'a') as wr:
@@ -171,6 +183,7 @@ def dadata_request(df, file_date, jkh_cnt_df, source):
     dh_df = df.merge(dh_df, on=['addr'], how='left')
     dh_df.drop_duplicates(inplace=True)
     dh_df = dh_df[['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street', 'house', 'qc', 'result', 'qc_geo', 'ad_id', 'addr']]
+    dh_df_to_tg = dh_df[['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street', 'house', 'qc', 'result', 'qc_geo', 'ad_id', 'addr']]
     dh_df_filtered = dh_df[~dh_df.data.isna()]
     dh_df_filtered.reset_index(drop=True, inplace=True)
 
@@ -180,7 +193,7 @@ def dadata_request(df, file_date, jkh_cnt_df, source):
     df_ddt_common = pd.concat([dh_df_filtered, dh_df_hist], ignore_index=True)
     df_ddt_common.reset_index(drop=True, inplace=True)
     df_ddt_common.to_csv(local_save_dir_data + f'/{source}_dadata_request.csv', encoding='cp1251')
-    return dh_df_filtered
+    return dh_df_filtered, dh_df_to_tg
 
 # получение данных район, house_id, jkh_id, dadata_houses_id
 
