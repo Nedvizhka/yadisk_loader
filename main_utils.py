@@ -241,6 +241,32 @@ def get_exist_ad_id(engine, source):
         exc_code = exc.code
     return ad_id_db, exc_code
 
+def update_status(engine):
+    try:
+        con_obj = engine.connect()
+
+        update_status_realty = """update realty 
+                                            set realty.status_new = 0
+                                      where realty.status_new = 1"""
+
+        update_status_prices = """update prices 
+                                            set prices.status_new = 0
+                                      where prices.status_new = 1"""
+
+        con_obj.execute(text(update_status_realty))
+        con_obj.commit()
+        logging.info('обновлен status_new в таблице realty')
+
+        con_obj.execute(text(update_status_prices))
+        con_obj.commit()
+        logging.info('обновлен status_new в таблице prices')
+
+        con_obj.close()
+        return None
+    except Exception as exc:
+        logging.error('Не удалось подключиться к БД: {}'.format(traceback.format_exc()))
+        return True
+
 
 def update_realty(engine, df, source):
     clear_temp_table_query = \

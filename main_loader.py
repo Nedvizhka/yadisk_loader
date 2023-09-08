@@ -126,6 +126,16 @@ if __name__ == '__main__':
                     error_processing_files = False
                     logging.info('Выгрузка в таблицу realty обработанного файла из cian: {}'.format(filename))
 
+                # обновление status в таблицах
+                sql_server, sql_engine, error_db_con = check_sql_connection(sql_server, sql_engine)
+                if error_db_con:
+                    break
+
+                error_updating_realty = update_status(sql_engine)
+                if error_updating_realty:
+                    error_updating_realty = True
+                    break
+
                 # выгрузка и обновление данных в таблице realty
                 error_create_temp_realty, error_getting_ad_id, error_loading_into_realty, error_updating_realty = \
                     load_and_update_realty_db(sql_engine, df_cian_realty, filename, common_rep_df,
