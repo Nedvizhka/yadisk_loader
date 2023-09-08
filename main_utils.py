@@ -422,7 +422,7 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
         # обновление dadata_houses
         fdate = get_date_from_name(fname)
         df_dadata_houses, df_dadata_tg_report = dadata_request(df_realty_new, fdate, jkh_cnt_df, source)
-        df_dadata_tg_report = df_dadata_tg_report[df_dadata_tg_report.parsed_now]
+        df_dadata_tg_report = df_dadata_tg_report[df_dadata_tg_report.parsed_now == True]
         df_dadata_tg_report.drop(columns='parsed_now', inplace=True)
         # дополнение tg отчета
         err_filling_report = fill_dadata_report(rep_ddt_df, df_dadata_tg_report, source)

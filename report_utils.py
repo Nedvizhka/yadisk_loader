@@ -148,9 +148,18 @@ def report_text(common_rep_df, dadata_rep_df, limits_df, dadata_balance):
             for j in t_ddt_2:
                 rep_text += j + '\n'
         except:
-            logging.error(traceback.format_exc())
-            err_txt = 'Ошибка запроса к Dadata, проверь баланс'
-            rep_text += err_txt + '\n'
+            try:
+                if len(dadata_rep_df) < 2:
+                    info_txt = 'Запрос к dadata не проводился, данные для новых адресов были найдены в исторических запросах'
+                    rep_text += info_txt + '\n'
+                else:
+                    logging.error(traceback.format_exc())
+                    err_txt = 'Ошибка запроса к Dadata, проверь баланс'
+                    rep_text += err_txt + '\n'
+            except:
+                    logging.error(traceback.format_exc())
+                    err_txt = 'Ошибка запроса к Dadata, проверь баланс'
+                    rep_text += err_txt + '\n'
 
         # третья часть с остатоком dadata
         # rep_text += f'\nОстаток баланса {dadata_balance}'

@@ -182,8 +182,8 @@ def dadata_request(df, file_date, jkh_cnt_df, source):
 
     dh_df = df.merge(dh_df, on=['addr'], how='left')
     dh_df.drop_duplicates(inplace=True)
+    dh_df_to_tg = dh_df[['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street', 'house', 'qc', 'result', 'qc_geo', 'ad_id', 'addr', 'parsed_now']]
     dh_df = dh_df[['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street', 'house', 'qc', 'result', 'qc_geo', 'ad_id', 'addr']]
-    dh_df_to_tg = dh_df[['house_fias_id', 'data', 'geo_lat', 'geo_lon', 'street', 'house', 'qc', 'result', 'qc_geo', 'ad_id', 'addr']]
     dh_df_filtered = dh_df[~dh_df.data.isna()]
     dh_df_filtered.reset_index(drop=True, inplace=True)
 

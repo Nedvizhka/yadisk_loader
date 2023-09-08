@@ -76,7 +76,7 @@ if __name__ == '__main__':
                 logging.error('Ошибка при загрузке файлов из {}. Перезапуск скрипта...'.format(ya_link))
                 # сохранение log файла
                 error_loading_files = True
-                move_logfile(local_save_dir_data, 'error')
+                move_logfile(local_save_dir_data, 'error', env_value)
                 continue
             else:
                 error_loading_files = False
@@ -86,7 +86,7 @@ if __name__ == '__main__':
                 logging.info('{} файлов для загрузки авито и {} файлов для циан'.format(len(files_to_process_avito),
                                                                                         len(files_to_process_cian)))
                 # сохранение log файла
-                move_logfile(local_save_dir_data, 'no_new_file')
+                move_logfile(local_save_dir_data, 'no_new_file', env_value)
                 time.sleep(900)
                 continue
 
@@ -98,7 +98,7 @@ if __name__ == '__main__':
                 logging.error('Ошибка при создании отчета для tg. Перезапуск скрипта...')
                 error_loading_files = True
                 # сохранение log файла
-                move_logfile(local_save_dir_data, 'error')
+                move_logfile(local_save_dir_data, 'error', env_value)
                 continue
 
             # создание df для ограничения количества запросов к dadata
