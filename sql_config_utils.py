@@ -40,9 +40,9 @@ def get_config(env_value=None, get_only_start_time=False):
         return start_time
 
 
-def get_sql_engine():
+def get_sql_engine(env_value=None):
     ssh_host, ssh_port, ssh_username, ssh_password, database_username, database_password, \
-        database_name, localhost, localhost_port, table_name, ya_token, ya_api, ya_link = get_config()
+        database_name, localhost, localhost_port, table_name, ya_token, ya_api, ya_link = get_config(env_value=env_value)
 
     sql_server = SSHTunnelForwarder(
         (ssh_host, ssh_port),

@@ -13,9 +13,9 @@ if __name__ == '__main__':
 
     while True:
         # ежедневный запуск скрипта происходит только в определенный час start_time в config файле
-        if datetime.now().hour != get_config(get_only_start_time=True):
+        if datetime.now().hour != get_config(env_value=env_value, get_only_start_time=True):
             # проверка баланса за 2 часа до запуска
-            if env_value == None and datetime.now().hour == get_config(get_only_start_time=True) - 2:
+            if env_value == None and datetime.now().hour == get_config(env_value=env_value, get_only_start_time=True) - 2:
                 try:
                     dadata_balance = check_balance()
                     balance_txt = f'Остаток баланса {dadata_balance} ₽ {"❌" if dadata_balance < 500 else "✅"}'
@@ -48,7 +48,7 @@ if __name__ == '__main__':
             local_save_dir_data = create_load_save_dir('data')
 
             # создание переменных для подключения к базам
-            sql_server, sql_engine = get_sql_engine()
+            sql_server, sql_engine = get_sql_engine(env_value)
 
             # загрузка списка сохраненных файлов
             handled_files_avito = get_saved_files_names('avito', env_value)
@@ -104,6 +104,13 @@ if __name__ == '__main__':
             # создание df для ограничения количества запросов к dadata
             jkh_addr_df, err = count_jkh_addr(sql_engine)
 
+            # обновление status в таблицах
+
+            error_updating_realty = update_status(sql_engine)
+            if error_updating_realty:
+                error_updating_realty = True
+                break
+
             ### обработка файлов и загрузка данных в таблицу
             for filename in files_to_process_cian:
                 # обработка realty циан
@@ -126,14 +133,8 @@ if __name__ == '__main__':
                     error_processing_files = False
                     logging.info('Выгрузка в таблицу realty обработанного файла из cian: {}'.format(filename))
 
-                # обновление status в таблицах
                 sql_server, sql_engine, error_db_con = check_sql_connection(sql_server, sql_engine)
                 if error_db_con:
-                    break
-
-                error_updating_realty = update_status(sql_engine)
-                if error_updating_realty:
-                    error_updating_realty = True
                     break
 
                 # выгрузка и обновление данных в таблице realty
