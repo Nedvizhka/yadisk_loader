@@ -32,13 +32,13 @@ def get_city_table(engine):
     return city_db, exc_code
 
 
-def create_dadata_rep(engine):
+def create_dadata_rep(engine, env_value):
     try:
         con_obj = engine.connect()
         con_obj.close()
     except:
         try:
-            server, engine = get_sql_engine()
+            server, engine = get_sql_engine(env_value)
             logging.info('подключение к базе восстановлено')
         except Exception as exc:
             logging.error('не удается подключиться к базе: {}'.format(traceback.format_exc()))

@@ -197,7 +197,7 @@ def dadata_request(df, file_date, jkh_cnt_df, source):
 
 # получение данных район, house_id, jkh_id, dadata_houses_id
 
-def get_districts_from_house(df, engine):
+def get_districts_from_house(df, engine, env_value=None):
     unique_ad_id = tuple(df.dropna(subset='ad_id').ad_id.unique())
     get_districts_query = \
     """select dh.house_fias_id, dh.ad_id, jh.district_id, h.id as house_id, jh.id as jkh_id, dh.id as dadata_houses_id
@@ -212,7 +212,7 @@ def get_districts_from_house(df, engine):
         con_obj.close()
     except:
         try:
-            server, engine = get_sql_engine()
+            server, engine = get_sql_engine(env_value)
             logging.info('подключение к базе восстановлено')
         except Exception as exc:
             logging.error('не удается подключиться к базе: {}'.format(traceback.format_exc()))
@@ -294,13 +294,13 @@ def create_temp_jkh_houses(engine):
             return True
 
 
-def update_jkh_houses(engine, df):
+def update_jkh_houses(engine, df, env_value):
     clear_temp_table_query = \
         """DELETE FROM temp_jkh_houses"""
     try:
         engine.connect()
     except:
-        server, engine = get_sql_engine()
+        server, engine = get_sql_engine(env_value)
 
     try:
         # выгрузка данных в таблицу на сервере
@@ -369,7 +369,7 @@ def update_jkh_district_test_linux(df_realty, df_districts, engine):
                                                                                         post_distr_cnt))
     logging.info('Есть несовпадения районов c jkh, обновление районов в jkh для {} записей'.format(len(distr_to_update)))
 
-def update_jkh_district(df_realty, df_districts, engine):
+def update_jkh_district(df_realty, df_districts, engine, env_value):
     df_realty_check_upd = df_realty.copy()
     distr_to_update = pd.DataFrame(columns=['jkh_id', 'new_distr'])
     for i, val in df_realty.iterrows():
@@ -405,7 +405,7 @@ def update_jkh_district(df_realty, df_districts, engine):
         con_obj.close()
     except:
         try:
-            server, engine = get_sql_engine()
+            server, engine = get_sql_engine(env_value)
             logging.info('подключение к базе восстановлено')
         except Exception:
             logging.error('не удается подключиться к базе {}'.format(traceback.format_exc()))
@@ -418,7 +418,7 @@ def update_jkh_district(df_realty, df_districts, engine):
     else:
         error_create_temp_jkh_houses = False
 
-    error_updating_jkh_houses = update_jkh_houses(engine, distr_to_update)
+    error_updating_jkh_houses = update_jkh_houses(engine, distr_to_update, env_value)
     if error_updating_jkh_houses:
         error_updating_jkh_houses = True
         return None, False, error_updating_jkh_houses
@@ -429,13 +429,13 @@ def update_jkh_district(df_realty, df_districts, engine):
     return df_realty, error_create_temp_jkh_houses, error_updating_jkh_houses
 
 
-def find_new_addr(cities, engine):
+def find_new_addr(cities, engine, env_value):
     try:
         con_obj = engine.connect()
         con_obj.close()
     except:
         try:
-            server, engine = get_sql_engine()
+            server, engine = get_sql_engine(env_value)
             logging.info('подключение к базе восстановлено')
         except Exception as exc:
             logging.error('не удается подключиться к базе {}'.format(traceback.format_exc()))
@@ -455,13 +455,13 @@ def find_new_addr(cities, engine):
         exc_str = exc
     return addr_db, exc_str
 
-def find_empty_districts(house_ids, engine):
+def find_empty_districts(house_ids, engine, env_value):
     try:
         con_obj = engine.connect()
         con_obj.close()
     except:
         try:
-            server, engine = get_sql_engine()
+            server, engine = get_sql_engine(env_value)
             logging.info('подключение к базе восстановлено')
         except Exception as exc:
             logging.error('не удается подключиться к базе {}'.format(traceback.format_exc()))
@@ -481,13 +481,13 @@ def find_empty_districts(house_ids, engine):
     return distr_db, exc_str
 
 
-def count_jkh_addr(engine):
+def count_jkh_addr(engine, env_value):
     try:
         con_obj = engine.connect()
         con_obj.close()
     except:
         try:
-            server, engine = get_sql_engine()
+            server, engine = get_sql_engine(env_value)
             logging.info('подключение к базе восстановлено')
         except Exception as exc:
             logging.error('не удается подключиться к базе {}'.format(traceback.format_exc()))

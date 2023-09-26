@@ -92,7 +92,7 @@ if __name__ == '__main__':
 
             # создание df для отправки txt отчета в tg
             common_rep_df = create_common_rep()
-            dadata_rep_df, error_creating_dadata_report = create_dadata_rep(sql_engine)
+            dadata_rep_df, error_creating_dadata_report = create_dadata_rep(sql_engine, env_value)
             if error_creating_dadata_report:
                 time.sleep(300)
                 logging.error('Ошибка при создании отчета для tg. Перезапуск скрипта...')
@@ -102,7 +102,7 @@ if __name__ == '__main__':
                 continue
 
             # создание df для ограничения количества запросов к dadata
-            jkh_addr_df, err = count_jkh_addr(sql_engine)
+            jkh_addr_df, err = count_jkh_addr(sql_engine, env_value)
 
             # обновление status в таблицах
 
@@ -133,14 +133,14 @@ if __name__ == '__main__':
                     error_processing_files = False
                     logging.info('Выгрузка в таблицу realty обработанного файла из cian: {}'.format(filename))
 
-                sql_server, sql_engine, error_db_con = check_sql_connection(sql_server, sql_engine)
+                sql_server, sql_engine, error_db_con = check_sql_connection(sql_server, sql_engine, env_value)
                 if error_db_con:
                     break
 
                 # выгрузка и обновление данных в таблице realty
                 error_create_temp_realty, error_getting_ad_id, error_loading_into_realty, error_updating_realty = \
                     load_and_update_realty_db(sql_engine, df_cian_realty, filename, common_rep_df,
-                                              dadata_rep_df, jkh_addr_df, 'cian')
+                                              dadata_rep_df, jkh_addr_df, 'cian', env_value)
 
                 if any([error_create_temp_realty, error_getting_ad_id,
                         error_loading_into_realty, error_updating_realty]):
@@ -152,7 +152,7 @@ if __name__ == '__main__':
                     break
 
                 # проверка подключения к базе
-                sql_server, sql_engine, error_db_con = check_sql_connection(sql_server, sql_engine)
+                sql_server, sql_engine, error_db_con = check_sql_connection(sql_server, sql_engine, env_value)
                 if error_db_con:
                     break
 
@@ -182,7 +182,7 @@ if __name__ == '__main__':
                     break
 
             # проверка подключения к базе
-            sql_server, sql_engine, error_db_con = check_sql_connection(sql_server, sql_engine)
+            sql_server, sql_engine, error_db_con = check_sql_connection(sql_server, sql_engine, env_value)
             if error_db_con:
                 break
 
@@ -211,7 +211,7 @@ if __name__ == '__main__':
                 # выгрузка и обновление данных в таблице realty
                 error_create_temp_realty, error_getting_ad_id, error_loading_into_realty, error_updating_realty = \
                     load_and_update_realty_db(sql_engine, df_avito_realty, filename, common_rep_df,
-                                              dadata_rep_df, jkh_addr_df, 'avito')
+                                              dadata_rep_df, jkh_addr_df, 'avito', env_value)
 
                 if any([error_create_temp_realty, error_getting_ad_id,
                         error_loading_into_realty, error_updating_realty]):
@@ -223,7 +223,7 @@ if __name__ == '__main__':
                     break
 
                 # проверка подключения к базе
-                sql_server, sql_engine, error_db_con = check_sql_connection(sql_server, sql_engine)
+                sql_server, sql_engine, error_db_con = check_sql_connection(sql_server, sql_engine, env_value)
                 if error_db_con:
                     break
 
@@ -253,8 +253,8 @@ if __name__ == '__main__':
                     error_writing_files = True
                     break
 
-            drop_temp_table(sql_engine, 'temp_realty_new')
-            drop_temp_table(sql_engine, 'temp_jkh_houses')
+            drop_temp_table(sql_engine, 'temp_realty_new', env_value)
+            drop_temp_table(sql_engine, 'temp_jkh_houses', env_value)
 
             try:
                 if error_loading_files:

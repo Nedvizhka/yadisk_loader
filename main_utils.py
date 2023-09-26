@@ -268,7 +268,7 @@ def update_status(engine):
         return True
 
 
-def update_realty(engine, df, source):
+def update_realty(engine, df, source, env_value):
     clear_temp_table_query = \
         """DELETE FROM temp_realty_new"""
     try:
@@ -282,7 +282,7 @@ def update_realty(engine, df, source):
         except:
             logging.info('не удалось очистить temp таблицу')
 
-        load_df_into_sql_table(df, 'temp_realty_new', engine)
+        load_df_into_sql_table(df, 'temp_realty_new', engine, env_value=env_value)
 
         con_obj = engine.connect()
         common_ids = tuple(df.ad_id)
@@ -336,7 +336,7 @@ def update_realty(engine, df, source):
             return True
 
 
-def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df, source):
+def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df, source, env_value):
     # создание временной таблицы для обновления данных
     error_create_temp_realty = create_temp_realty(engine)
     if error_create_temp_realty:
@@ -368,7 +368,7 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
 
     # обновление данных
     if len(df_realty_exist) != 0:
-        error_updating_realty = update_realty(engine, df_realty_exist, source)
+        error_updating_realty = update_realty(engine, df_realty_exist, source, env_value)
         if error_updating_realty:
             error_updating_realty = True
             return False, False, False, error_updating_realty
@@ -382,7 +382,7 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
     # поиск существующих адресов в новых объявлениях
     addr_df, exc_str = find_new_addr(tuple(int(i) for i in filter(lambda v: v == v, df_realty_new.city_id.unique()))
                                      if len(df_realty_new.city_id.unique()) > 1 else str('('+str(df_realty_new.city_id.unique()[0])+')'),
-                                     engine)
+                                     engine, env_value)
                                      
     if exc_str:
         error_updating_realty = True
@@ -411,7 +411,7 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
         # проставление районов новым объявлениям, адрес которых существует в realty
         logging.info('обновление районов для найденных в realty по адресу новых объявлений:')
         empty_districts_of_exist = tuple(int(i) for i in filter(lambda v: v == v, df_realty_new_found.query('district_id.isnull()').house_id.unique()))
-        found_empty_distr_df, exc_str = find_empty_districts(empty_districts_of_exist, engine)
+        found_empty_distr_df, exc_str = find_empty_districts(empty_districts_of_exist, engine, env_value)
         if exc_str:
             error_updating_realty = True
             return False, False, False, error_updating_realty
@@ -456,13 +456,13 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
             return False, False, False, True
 
         try:
-            load_df_into_sql_table(df_dadata_houses, 'dadata_houses', engine, bigsize=True)
+            load_df_into_sql_table(df_dadata_houses, 'dadata_houses', engine, bigsize=True, env_value=env_value)
         except Exception as exp:
             logging.error(traceback.format_exc())
             logging.error('не удалось отправить df в таблицу')
             try:
-                server, engine = get_sql_engine()
-                load_df_into_sql_table(df_dadata_houses, 'dadata_houses', engine, bigsize=True)
+                server, engine = get_sql_engine(env_value)
+                load_df_into_sql_table(df_dadata_houses, 'dadata_houses', engine, bigsize=True, env_value=env_value)
                 close_sql_connection(server, engine)
             except Exception as exp:
                 logging.error(traceback.format_exc())
@@ -470,7 +470,7 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
                 return False, False, True, False
 
         # добавление полей для realty
-        only_districts_df, error_loading_districts_from_houses = get_districts_from_house(df_dadata_houses, engine)
+        only_districts_df, error_loading_districts_from_houses = get_districts_from_house(df_dadata_houses, engine, env_value)
         only_districts_df = only_districts_df.sort_values('district_id', ascending=False)\
             .drop_duplicates('ad_id', keep='first')\
             .sort_index()
@@ -489,12 +489,12 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
                 # обновление полей для jkh_id
                 df_realty_new_merged_w_dist, \
                 error_create_temp_jkh_houses, \
-                error_updating_jkh_houses = update_jkh_district(df_realty_new_merged, only_districts_df, engine)
+                error_updating_jkh_houses = update_jkh_district(df_realty_new_merged, only_districts_df, engine, env_value)
                 if error_create_temp_jkh_houses or error_updating_jkh_houses:
                     logging.error('не удалось обновить jkh_houses')
                     return False, False, False, error_updating_realty
                 df_realty_new_merged_add_by_addr = df_realty_new_merged_w_dist.append(df_realty_new_found, ignore_index=True)
-                load_df_into_sql_table(df_realty_new_merged_add_by_addr, 'realty', engine)
+                load_df_into_sql_table(df_realty_new_merged_add_by_addr, 'realty', engine, env_value)
                 error_loading_into_realty = False
                 logging.info('все новые объявления добавлены')
             except:
@@ -504,7 +504,7 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
                 df_realty_new['dadata_houses_id'] = None
                 # соединение df получившегося после dadata и после поиска по адресу
                 df_realty_new_merged_add_by_addr = df_realty_new_found.append(df_realty_new, ignore_index=True)
-                load_df_into_sql_table(df_realty_new_merged_add_by_addr, 'realty', engine)
+                load_df_into_sql_table(df_realty_new_merged_add_by_addr, 'realty', engine, env_value)
                 error_loading_into_realty = False
 
         else:
@@ -514,7 +514,7 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
             df_realty_new['dadata_houses_id'] = None
             # соединение df получившегося после dadata и после поиска по адресу
             df_realty_new_merged_add_by_addr = df_realty_new_found.append(df_realty_new, ignore_index=True)
-            load_df_into_sql_table(df_realty_new_merged_add_by_addr, 'realty', engine)
+            load_df_into_sql_table(df_realty_new_merged_add_by_addr, 'realty', engine, env_value)
             error_loading_into_realty = False
 
     except Exception as exc:
