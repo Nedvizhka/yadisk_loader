@@ -31,7 +31,10 @@ def get_config(env_value=None, get_only_start_time=False):
     ya_api = config['yandex']['ya_api']
     ya_link = config['yandex']['ya_link']
 
-    start_time = int(config['start_time']['daily_start_hour'])
+    if env_value == None:
+        start_time = int(config['start_time']['daily_start_hour'])
+    else:
+        start_time = int(config['start_time']['daily_start_hour']) + 1
 
     if get_only_start_time == False:
         return ssh_host, ssh_port, ssh_username, ssh_password, database_username, database_password, database_name, \
