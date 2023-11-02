@@ -134,7 +134,7 @@ def report_text(common_rep_df, dadata_rep_df, limits_df, dadata_balance):
         temp_ddt['sp1'] = '$'
         temp_ddt = temp_ddt[['id', 'name', 'sp1', 'ddt_total', 'sp', 'br1', 'ddt_cian', 'sl', 'ddt_avito', 'br2']]
 
-        rep_text += 'dadata:' + '\n'
+        rep_text += f'dadata   {dadata_rep_df.ddt_total.sum()} ({dadata_rep_df.ddt_cian.sum()}/{dadata_rep_df.ddt_avito.sum()}) :' + '\n'
 
         t_ddt_txt = temp_ddt.to_string(index=False, header=False)
         t_ddt_1 = [i.split('$') for i in t_ddt_txt.split('\n')]
@@ -160,7 +160,9 @@ def report_text(common_rep_df, dadata_rep_df, limits_df, dadata_balance):
                     logging.error(traceback.format_exc())
                     err_txt = 'Ошибка запроса к Dadata, проверь баланс'
                     rep_text += err_txt + '\n'
-
+        
+        rep_text += '\n' + f'всего: {dadata_rep_df.ddt_total.sum() * 0.15}'
+        
         # третья часть с остатоком dadata
         # rep_text += f'\nОстаток баланса {dadata_balance}'
 

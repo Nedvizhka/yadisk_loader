@@ -33,7 +33,7 @@ if __name__ == '__main__':
         else:
             logging.basicConfig(filename=f'ya_loader{"_"+env_value if env_value != None else ""}.log',
                                 filemode='w', level=logging.INFO,
-                                format='%(asctime)s [%(levelname)-8s] %(message)s', encoding='cp1251')
+                                format='%(asctime)s [%(levelname)-8s] %(message)s', encoding='utf8')
             st_time = datetime.now()
             print('Скрипт запущен: ', get_today_date(), 'выйди из скрина и сделай "tail -f ya_loader.log"')
             logging.info('Скрипт запущен: {}'.format(st_time))
@@ -172,7 +172,7 @@ if __name__ == '__main__':
                     df_cian_prices.to_sql(name='prices', con=sql_engine, if_exists='append',
                                           chunksize=7000, method='multi', index=False)
                     # df_cian_prices.to_csv(f'{filename}_test_cian_prices.csv')
-                    write_saved_file_names(Path(filename).stem, 'cian')
+                    write_saved_file_names(Path(filename).stem, env_value, 'cian')
                     logging.info('данные cian загружены успешно')
                     error_writing_files = False
                 except Exception as exc:
@@ -192,7 +192,7 @@ if __name__ == '__main__':
                 df_avito_realty, file_date, error_file_processing = process_realty(local_save_dir_avito, filename,
                                                                                    sql_engine, 'avito')
                 # ограничение городов авито
-                df_avito_realty = df_avito_realty[df_avito_realty.city_id.isin([4, 18, 12, 7, 17, 2, 23, 3])]
+                df_avito_realty = df_avito_realty[df_avito_realty.city_id.isin([4, 18, 12, 7, 17, 2, 23, 3, 24])]
 
                 # добавление инфо к отчету
                 report_df_append(common_rep_df, 'av_total', len(df_avito_realty))
@@ -243,7 +243,7 @@ if __name__ == '__main__':
                 try:
                     df_avito_prices.to_sql(name='prices', con=sql_engine, if_exists='append',
                                            chunksize=7000, method='multi', index=False)
-                    write_saved_file_names(Path(filename).stem, 'avito')
+                    write_saved_file_names(Path(filename).stem, env_value, 'avito')
                     logging.info('данные avito загружены успешно')
                     error_writing_files = False
                 except Exception as exc:

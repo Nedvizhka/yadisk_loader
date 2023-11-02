@@ -309,12 +309,14 @@ def update_jkh_houses(engine, df, env_value):
         time.sleep(3)
         con_obj = engine.connect()
         common_ids = tuple(df.jkh_id)
+        if len(common_ids) == 1:
+            common_ids = (f'({common_ids[0]})')
 
         update_table_query = f"""update jkh_houses join temp_jkh_houses on jkh_houses.id=temp_jkh_houses.jkh_id
-                                            set jkh_houses.district_id = temp_jkh_houses.new_distr,
-                                                jkh_houses.geo_district = 0 
-                                            WHERE jkh_houses.id in {common_ids if len(common_ids) != 0 else '(0)'}
-                                            and (isnull(jkh_houses.geo_district) = 1 or jkh_houses.geo_district = 1)"""
+                                    set jkh_houses.district_id = temp_jkh_houses.new_distr,
+                                        jkh_houses.geo_district = 0 
+                                    WHERE jkh_houses.id in {common_ids if len(common_ids) != 0 else '(0)'} 
+                                    and (isnull(jkh_houses.geo_district) = 1 or jkh_houses.geo_district = 1)"""
 
         con_obj.execute(text(update_table_query))
         con_obj.commit()
@@ -503,7 +505,8 @@ def count_jkh_addr(engine, env_value):
     try:
         con_obj = engine.connect()
         count_jkh_addr_db = pd.read_sql(text(count_jkh_addr_query), con=con_obj)
-        count_jkh_addr_db['cnt'] = count_jkh_addr_db['cnt_jkh'] * 1
+        count_jkh_addr_db['cnt'] = count_jkh_addr_db['cnt_jkh'] * 1 
+        # 1 is no limit for dadata 0.05 is 5% of jkh addr count is limit for dadata request
         count_jkh_addr_db['cnt'] = count_jkh_addr_db['cnt'].astype('int')
         count_jkh_addr_db['cnt_ddt'] = 0
         count_jkh_addr_db['cnt_left_after_limit'] = 0

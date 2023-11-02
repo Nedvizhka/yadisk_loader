@@ -1,0 +1,311 @@
+2023-10-08 08:16:36,974 [INFO    ] Скрипт запущен: 2023-10-08 08:16:36.974299
+2023-10-08 08:16:37,008 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-10-08 08:16:37,056 [INFO    ] Authentication (publickey) failed.
+2023-10-08 08:16:37,059 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-10-08 08:16:37,114 [INFO    ] Authentication (password) successful!
+2023-10-08 08:16:37,131 [INFO    ] connected to host 92.53.64.66 base app_nedvizhka_db
+2023-10-08 08:16:37,260 [INFO    ] yandex token valid
+2023-10-08 08:16:42,805 [INFO    ] Успешно загружено 2 файлов с личного диска: ['05-10-23 (без дублей).csv', '06-10-23 (без дублей).csv'] для avito
+2023-10-08 08:16:42,976 [INFO    ] yandex token valid
+2023-10-08 08:16:47,839 [INFO    ] Успешно загружено 2 файлов с личного диска: ['циан 05-10-23 (без дублей).csv', 'циан 06-10-23 (без дублей).csv'] для cian
+2023-10-08 08:16:47,903 [INFO    ] ready to process files ['05-10-23 (без дублей).csv', '06-10-23 (без дублей).csv'], ['циан 05-10-23 (без дублей).csv', 'циан 06-10-23 (без дублей).csv']
+2023-10-08 08:16:49,414 [INFO    ] обновлен status_new в таблице realty
+2023-10-08 08:16:59,674 [INFO    ] обновлен status_new в таблице prices
+2023-10-08 08:16:59,674 [INFO    ] обработка файла циан 05-10-23 (без дублей).csv для cian
+2023-10-08 08:17:00,794 [INFO    ] обработка district_id:
+2023-10-08 08:17:00,797 [INFO    ] districts_update:   0%|          | 0/112212 [00:00<?, ?it/s]
+2023-10-08 08:17:15,798 [INFO    ] districts_update:  13%|#2        | 14158/112212 [00:15<01:43, 943.81it/s]
+2023-10-08 08:17:30,799 [INFO    ] districts_update:  26%|##6       | 29295/112212 [00:30<01:24, 982.19it/s]
+2023-10-08 08:17:40,809 [INFO    ] districts_update:  36%|###5      | 40244/112212 [00:40<01:13, 982.19it/s]
+2023-10-08 08:17:45,799 [INFO    ] districts_update:  40%|####      | 45300/112212 [00:45<01:05, 1020.91it/s]
+2023-10-08 08:18:00,811 [INFO    ] districts_update:  54%|#####3    | 60241/112212 [01:00<00:50, 1020.91it/s]
+2023-10-08 08:18:00,811 [INFO    ] districts_update:  54%|#####3    | 60242/112212 [01:00<00:51, 1010.81it/s]
+2023-10-08 08:18:10,812 [INFO    ] districts_update:  62%|######2   | 70099/112212 [01:10<00:41, 1010.81it/s]
+2023-10-08 08:18:15,812 [INFO    ] districts_update:  67%|######6   | 75173/112212 [01:15<00:36, 1005.24it/s]
+2023-10-08 08:18:30,812 [INFO    ] districts_update:  80%|########  | 90151/112212 [01:30<00:21, 1002.96it/s]
+2023-10-08 08:18:40,841 [INFO    ] districts_update:  89%|########9 | 99969/112212 [01:40<00:12, 1002.96it/s]
+2023-10-08 08:18:45,812 [INFO    ] districts_update:  93%|#########3| 104805/112212 [01:45<00:07, 994.44it/s]
+2023-10-08 08:18:53,317 [INFO    ] districts_update: 100%|##########| 112212/112212 [01:52<00:00, 997.26it/s]
+2023-10-08 08:18:53,318 [INFO    ] 
+2023-10-08 08:18:53,326 [INFO    ] district add from realty
+2023-10-08 08:18:54,282 [INFO    ] Успешно обработан файл циан 05-10-23 (без дублей).csv для realty
+2023-10-08 08:18:54,333 [INFO    ] Выгрузка в таблицу realty обработанного файла из cian: циан 05-10-23 (без дублей).csv
+2023-10-08 08:18:54,689 [INFO    ] Временная таблица создана
+2023-10-08 08:19:05,355 [INFO    ] Загрузка новых объявлений в таблицу
+2023-10-08 08:19:05,568 [INFO    ] 107817 существующих и 4395 новых объявлений
+2023-10-08 08:19:05,615 [INFO    ] temp таблица очищена, загружаются данные
+2023-10-08 08:20:32,925 [INFO    ] обновлена таблица realty
+2023-10-08 08:20:56,563 [INFO    ] обновлены районы в таблице realty
+2023-10-08 08:21:11,245 [INFO    ] Обновление существующих данных realty завершено
+2023-10-08 08:21:39,325 [INFO    ] из новых объяв найдено по адресу 1465, запрос в ddt для 1032 уник. адресов из 2930
+2023-10-08 08:21:39,325 [INFO    ] обновление районов для найденных в realty по адресу новых объявлений:
+2023-10-08 08:21:39,420 [INFO    ] обнаружено 87 районов для 87 новых объявлений, найденных по адресу из 97
+2023-10-08 08:21:39,425 [INFO    ] 79 районов осталось незаполнено
+2023-10-08 08:21:39,426 [INFO    ] переход к обновлению оставшихся (не найденных по адресу) 2930 новых объявлений (1032 адресов) для cian
+2023-10-08 08:21:39,439 [INFO    ] загрузка данных dadata из /var/www/yadisk_loader/saved_data_csv/cian_dadata_request.csv
+2023-10-08 08:21:40,021 [INFO    ] удалось загрузить исторические данные dadata
+2023-10-08 08:21:42,028 [INFO    ] количество запросов к dadata составит: 1032
+2023-10-08 08:21:42,029 [INFO    ] 0%|          | 0/207 [00:00<?, ?it/s]
+2023-10-08 08:21:43,772 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:21:44,738 [INFO    ] 1032it [00:02, 381.06it/s]
+2023-10-08 08:21:44,738 [INFO    ] 
+2023-10-08 08:21:44,738 [INFO    ] dadata con closed succesfully
+2023-10-08 08:21:44,739 [INFO    ] обращение к DDT по 826/1032 адресам из cian заняло 0:00:05.312867
+2023-10-08 08:21:44,755 [INFO    ] обращение к DDT выполнено для 1903/2930 новых объявлений, найден fias для 1393
+2023-10-08 08:22:26,210 [INFO    ] уникальных троек по h_fias_id, ad_id, d_id, в таблице с районами и houses_jkh_ddt/id: 1903
+2023-10-08 08:22:26,211 [INFO    ] выгрузка данных в таблицу realty
+2023-10-08 08:22:27,179 [INFO    ] Добавлено районов к объявлениям realty: 4 - было 2254 стало 2258
+2023-10-08 08:22:27,179 [INFO    ] Есть несовпадения районов c jkh, обновление районов в jkh для 27 записей
+2023-10-08 08:22:33,836 [INFO    ] Временная таблица temp_jkh_houses создана
+2023-10-08 08:22:36,924 [INFO    ] Обновление данных jkh_houses завершено
+2023-10-08 08:22:38,750 [INFO    ] все новые объявления добавлены
+2023-10-08 08:22:40,516 [INFO    ] Успешно обработан файл циан 05-10-23 (без дублей).csv для prices
+2023-10-08 08:22:40,516 [INFO    ] Выгрузка в таблицу prices обработанного файла из cian: циан 05-10-23 (без дублей).csv
+2023-10-08 08:22:54,708 [INFO    ] данные cian загружены успешно
+2023-10-08 08:22:54,708 [INFO    ] обработка файла циан 06-10-23 (без дублей).csv для cian
+2023-10-08 08:22:55,782 [INFO    ] обработка district_id:
+2023-10-08 08:22:55,782 [INFO    ] districts_update:   0%|          | 0/112710 [00:00<?, ?it/s]
+2023-10-08 08:23:10,783 [INFO    ] districts_update:  12%|#2        | 14018/112710 [00:15<01:45, 934.51it/s]
+2023-10-08 08:23:20,879 [INFO    ] districts_update:  21%|##        | 23584/112710 [00:25<01:35, 934.51it/s]
+2023-10-08 08:23:25,783 [INFO    ] districts_update:  26%|##5       | 28973/112710 [00:30<01:26, 971.26it/s]
+2023-10-08 08:23:40,784 [INFO    ] districts_update:  40%|###9      | 44922/112710 [00:45<01:06, 1013.25it/s]
+2023-10-08 08:23:50,891 [INFO    ] districts_update:  49%|####8     | 54832/112710 [00:55<00:57, 1013.25it/s]
+2023-10-08 08:23:55,784 [INFO    ] districts_update:  53%|#####2    | 59732/112710 [01:00<00:52, 1003.01it/s]
+2023-10-08 08:24:10,935 [INFO    ] districts_update:  66%|######5   | 74199/112710 [01:15<00:38, 1003.01it/s]
+2023-10-08 08:24:10,935 [INFO    ] districts_update:  66%|######5   | 74200/112710 [01:15<00:39, 985.56it/s]
+2023-10-08 08:24:20,935 [INFO    ] districts_update:  74%|#######4  | 83709/112710 [01:25<00:29, 985.56it/s]
+2023-10-08 08:24:25,936 [INFO    ] districts_update:  79%|#######9  | 89158/112710 [01:30<00:23, 989.49it/s]
+2023-10-08 08:24:40,944 [INFO    ] districts_update:  92%|#########2| 103809/112710 [01:45<00:08, 989.49it/s]
+2023-10-08 08:24:40,944 [INFO    ] districts_update:  92%|#########2| 103810/112710 [01:45<00:09, 985.16it/s]
+2023-10-08 08:24:49,676 [INFO    ] districts_update: 100%|##########| 112710/112710 [01:53<00:00, 989.61it/s]
+2023-10-08 08:24:49,676 [INFO    ] 
+2023-10-08 08:24:49,683 [INFO    ] district add from realty
+2023-10-08 08:24:50,622 [INFO    ] Успешно обработан файл циан 06-10-23 (без дублей).csv для realty
+2023-10-08 08:24:50,678 [INFO    ] Выгрузка в таблицу realty обработанного файла из cian: циан 06-10-23 (без дублей).csv
+2023-10-08 08:24:50,855 [INFO    ] Временная таблица очищена
+2023-10-08 08:25:01,930 [INFO    ] Загрузка новых объявлений в таблицу
+2023-10-08 08:25:02,152 [INFO    ] 108248 существующих и 4462 новых объявлений
+2023-10-08 08:25:02,199 [INFO    ] temp таблица очищена, загружаются данные
+2023-10-08 08:26:42,644 [INFO    ] обновлена таблица realty
+2023-10-08 08:27:06,063 [INFO    ] обновлены районы в таблице realty
+2023-10-08 08:27:18,376 [INFO    ] Обновление существующих данных realty завершено
+2023-10-08 08:27:45,803 [INFO    ] из новых объяв найдено по адресу 1091, запрос в ddt для 898 уник. адресов из 3371
+2023-10-08 08:27:45,804 [INFO    ] обновление районов для найденных в realty по адресу новых объявлений:
+2023-10-08 08:27:45,984 [INFO    ] обнаружено 78 районов для 78 новых объявлений, найденных по адресу из 95
+2023-10-08 08:27:45,989 [INFO    ] 69 районов осталось незаполнено
+2023-10-08 08:27:45,990 [INFO    ] переход к обновлению оставшихся (не найденных по адресу) 3371 новых объявлений (898 адресов) для cian
+2023-10-08 08:27:46,004 [INFO    ] загрузка данных dadata из /var/www/yadisk_loader/saved_data_csv/cian_dadata_request.csv
+2023-10-08 08:27:46,499 [INFO    ] удалось загрузить исторические данные dadata
+2023-10-08 08:27:48,506 [INFO    ] количество запросов к dadata составит: 898
+2023-10-08 08:27:48,507 [INFO    ] 0%|          | 0/188 [00:00<?, ?it/s]
+2023-10-08 08:27:50,072 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:27:50,932 [INFO    ] 898it [00:02, 370.30it/s]
+2023-10-08 08:27:50,932 [INFO    ] 
+2023-10-08 08:27:50,932 [INFO    ] dadata con closed succesfully
+2023-10-08 08:27:50,933 [INFO    ] обращение к DDT по 711/898 адресам из cian заняло 0:00:04.943170
+2023-10-08 08:27:50,948 [INFO    ] обращение к DDT выполнено для 1786/3371 новых объявлений, найден fias для 1237
+2023-10-08 08:28:14,127 [INFO    ] уникальных троек по h_fias_id, ad_id, d_id, в таблице с районами и houses_jkh_ddt/id: 1786
+2023-10-08 08:28:14,128 [INFO    ] выгрузка данных в таблицу realty
+2023-10-08 08:28:15,277 [INFO    ] Добавлено районов к объявлениям realty: 4 - было 2212 стало 2216
+2023-10-08 08:28:15,277 [INFO    ] Есть несовпадения районов c jkh, обновление районов в jkh для 15 записей
+2023-10-08 08:28:18,415 [INFO    ] Временная таблица temp_jkh_houses очищена
+2023-10-08 08:28:21,631 [INFO    ] Обновление данных jkh_houses завершено
+2023-10-08 08:28:23,396 [INFO    ] все новые объявления добавлены
+2023-10-08 08:28:24,749 [INFO    ] Успешно обработан файл циан 06-10-23 (без дублей).csv для prices
+2023-10-08 08:28:24,749 [INFO    ] Выгрузка в таблицу prices обработанного файла из cian: циан 06-10-23 (без дублей).csv
+2023-10-08 08:28:37,396 [INFO    ] данные cian загружены успешно
+2023-10-08 08:28:37,398 [INFO    ] обработка файла 05-10-23 (без дублей).csv для авито
+2023-10-08 08:29:23,824 [INFO    ] Успешно обработан файл 05-10-23 (без дублей).csv для realty
+2023-10-08 08:29:23,906 [INFO    ] Выгрузка в таблицу realty обработанного файла из авито: 05-10-23 (без дублей).csv
+2023-10-08 08:29:23,995 [INFO    ] Временная таблица очищена
+2023-10-08 08:29:26,996 [INFO    ] Загрузка новых объявлений в таблицу
+2023-10-08 08:29:27,150 [INFO    ] 172351 существующих и 12349 новых объявлений
+2023-10-08 08:29:27,194 [INFO    ] temp таблица очищена, загружаются данные
+2023-10-08 08:31:50,327 [INFO    ] обновлена таблица realty
+2023-10-08 08:31:52,013 [INFO    ] обновлены районы в таблице realty
+2023-10-08 08:32:25,113 [INFO    ] Обновление существующих данных realty завершено
+2023-10-08 08:32:51,822 [INFO    ] из новых объяв найдено по адресу 2993, запрос в ddt для 1405 уник. адресов из 9356
+2023-10-08 08:32:51,823 [INFO    ] обновление районов для найденных в realty по адресу новых объявлений:
+2023-10-08 08:32:52,055 [INFO    ] обнаружено 1189 районов для 1189 новых объявлений, найденных по адресу из 2993
+2023-10-08 08:32:52,061 [INFO    ] 52 районов осталось незаполнено
+2023-10-08 08:32:52,063 [INFO    ] переход к обновлению оставшихся (не найденных по адресу) 9356 новых объявлений (1405 адресов) для avito
+2023-10-08 08:32:52,076 [INFO    ] загрузка данных dadata из /var/www/yadisk_loader/saved_data_csv/avito_dadata_request.csv
+2023-10-08 08:32:53,383 [INFO    ] удалось загрузить исторические данные dadata
+2023-10-08 08:32:55,394 [INFO    ] количество запросов к dadata составит: 1405
+2023-10-08 08:32:55,395 [INFO    ] 0%|          | 0/86 [00:00<?, ?it/s]
+2023-10-08 08:32:55,662 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:32:56,064 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:32:58,193 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:32:59,385 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:32:59,958 [INFO    ] 1405it [00:04, 307.92it/s]
+2023-10-08 08:32:59,958 [INFO    ] 
+2023-10-08 08:32:59,959 [INFO    ] dadata con closed succesfully
+2023-10-08 08:32:59,960 [INFO    ] обращение к DDT по 1323/1405 адресам из avito заняло 0:00:07.897624
+2023-10-08 08:32:59,988 [INFO    ] обращение к DDT выполнено для 8221/9356 новых объявлений, найден fias для 4744
+2023-10-08 08:33:26,120 [INFO    ] уникальных троек по h_fias_id, ad_id, d_id, в таблице с районами и houses_jkh_ddt/id: 8221
+2023-10-08 08:33:26,122 [INFO    ] выгрузка данных в таблицу realty
+2023-10-08 08:33:29,029 [INFO    ] Добавлено районов к объявлениям realty: 349 - было 0 стало 349
+2023-10-08 08:33:29,029 [INFO    ] Есть несовпадения районов c jkh, обновление районов в jkh для 0 записей
+2023-10-08 08:33:32,123 [INFO    ] Временная таблица temp_jkh_houses очищена
+2023-10-08 08:33:45,190 [ERROR   ] Could not establish connection from local ('127.0.0.1', 46225) to remote ('127.0.0.1', 3306) side of the tunnel: open new channel ssh error: Timeout opening channel.
+2023-10-08 08:33:45,197 [ERROR   ] Traceback (most recent call last):
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 145, in __init__
+    self._dbapi_connection = engine.raw_connection()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 3288, in raw_connection
+    return self.pool.connect()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 452, in connect
+    return _ConnectionFairy._checkout(self)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 1268, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 716, in checkout
+    rec = pool._do_get()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/impl.py", line 283, in _do_get
+    return self._create_connection()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 393, in _create_connection
+    return _ConnectionRecord(self)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 678, in __init__
+    self.__connect()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 903, in __connect
+    pool.logger.debug("Error on connect(): %s", e)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/util/langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 898, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/create.py", line 637, in connect
+    return dialect.connect(*cargs, **cparams)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 616, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 352, in __init__
+    self.connect()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 635, in connect
+    self._get_server_information()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 1056, in _get_server_information
+    packet = self._read_packet()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 696, in _read_packet
+    packet_header = self._read_bytes(4)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 752, in _read_bytes
+    raise err.OperationalError(
+pymysql.err.OperationalError: (2013, 'Lost connection to MySQL server during query')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/var/www/yadisk_loader/dadata_update_utils.py", line 324, in update_jkh_houses
+    con_obj = engine.connect()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 3264, in connect
+    return self._connection_cls(self)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 147, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 2426, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 145, in __init__
+    self._dbapi_connection = engine.raw_connection()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 3288, in raw_connection
+    return self.pool.connect()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 452, in connect
+    return _ConnectionFairy._checkout(self)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 1268, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 716, in checkout
+    rec = pool._do_get()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/impl.py", line 283, in _do_get
+    return self._create_connection()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 393, in _create_connection
+    return _ConnectionRecord(self)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 678, in __init__
+    self.__connect()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 903, in __connect
+    pool.logger.debug("Error on connect(): %s", e)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/util/langhelpers.py", line 147, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/pool/base.py", line 898, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/create.py", line 637, in connect
+    return dialect.connect(*cargs, **cparams)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 616, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 352, in __init__
+    self.connect()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 635, in connect
+    self._get_server_information()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 1056, in _get_server_information
+    packet = self._read_packet()
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 696, in _read_packet
+    packet_header = self._read_bytes(4)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pymysql/connections.py", line 752, in _read_bytes
+    raise err.OperationalError(
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (2013, 'Lost connection to MySQL server during query')
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+2023-10-08 08:33:55,208 [ERROR   ] Could not establish connection from local ('127.0.0.1', 46225) to remote ('127.0.0.1', 3306) side of the tunnel: open new channel ssh error: Timeout opening channel.
+2023-10-08 08:33:55,208 [ERROR   ] Не удалось подключиться к БД
+2023-10-08 08:33:55,208 [ERROR   ] не удалось обновить jkh_houses
+2023-10-08 08:34:05,218 [ERROR   ] Could not establish connection from local ('127.0.0.1', 46225) to remote ('127.0.0.1', 3306) side of the tunnel: open new channel ssh error: Timeout opening channel.
+2023-10-08 08:34:05,251 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-10-08 08:34:05,300 [INFO    ] Authentication (publickey) failed.
+2023-10-08 08:34:05,303 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-10-08 08:34:05,354 [INFO    ] Authentication (password) successful!
+2023-10-08 08:34:05,355 [INFO    ] connected to host 92.53.64.66 base app_nedvizhka_db
+2023-10-08 08:34:05,355 [INFO    ] подключение к базе восстановлено
+2023-10-08 08:34:07,305 [INFO    ] Успешно обработан файл 05-10-23 (без дублей).csv для prices
+2023-10-08 08:34:07,305 [INFO    ] Выгрузка в таблицу prices обработанного файла из авито: 05-10-23 (без дублей).csv
+2023-10-08 08:34:23,648 [INFO    ] данные avito загружены успешно
+2023-10-08 08:34:23,648 [INFO    ] обработка файла 06-10-23 (без дублей).csv для авито
+2023-10-08 08:35:12,121 [INFO    ] Успешно обработан файл 06-10-23 (без дублей).csv для realty
+2023-10-08 08:35:12,217 [INFO    ] Выгрузка в таблицу realty обработанного файла из авито: 06-10-23 (без дублей).csv
+2023-10-08 08:35:12,307 [INFO    ] Временная таблица очищена
+2023-10-08 08:35:15,189 [INFO    ] Загрузка новых объявлений в таблицу
+2023-10-08 08:35:15,351 [INFO    ] 179503 существующих и 15277 новых объявлений
+2023-10-08 08:35:15,395 [INFO    ] temp таблица очищена, загружаются данные
+2023-10-08 08:37:23,052 [INFO    ] обновлена таблица realty
+2023-10-08 08:37:25,284 [INFO    ] обновлены районы в таблице realty
+2023-10-08 08:37:56,737 [INFO    ] Обновление существующих данных realty завершено
+2023-10-08 08:38:22,106 [INFO    ] из новых объяв найдено по адресу 3414, запрос в ddt для 1978 уник. адресов из 11863
+2023-10-08 08:38:22,108 [INFO    ] обновление районов для найденных в realty по адресу новых объявлений:
+2023-10-08 08:38:22,261 [INFO    ] обнаружено 1695 районов для 1695 новых объявлений, найденных по адресу из 3414
+2023-10-08 08:38:22,268 [INFO    ] 59 районов осталось незаполнено
+2023-10-08 08:38:22,270 [INFO    ] переход к обновлению оставшихся (не найденных по адресу) 11863 новых объявлений (1978 адресов) для avito
+2023-10-08 08:38:22,284 [INFO    ] загрузка данных dadata из /var/www/yadisk_loader/saved_data_csv/avito_dadata_request.csv
+2023-10-08 08:38:23,229 [INFO    ] удалось загрузить исторические данные dadata
+2023-10-08 08:38:25,242 [INFO    ] количество запросов к dadata составит: 1978
+2023-10-08 08:38:25,244 [INFO    ] 0%|          | 0/141 [00:00<?, ?it/s]
+2023-10-08 08:38:26,247 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:26,327 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:26,470 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:26,725 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:27,103 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:27,362 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:27,536 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:27,908 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:28,454 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:28,896 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:28,970 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:29,186 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:29,354 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:29,719 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:29,837 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:29,890 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:30,022 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:30,123 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:31,268 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:31,966 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:32,281 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2023-10-08 08:38:33,314 [INFO    ] 1978it [00:08, 245.09it/s]
+2023-10-08 08:38:33,314 [INFO    ] 
+2023-10-08 08:38:33,314 [INFO    ] dadata con closed succesfully
+2023-10-08 08:38:33,317 [INFO    ] обращение к DDT по 1858/1978 адресам из avito заняло 0:00:11.046892
+2023-10-08 08:38:33,357 [INFO    ] обращение к DDT выполнено для 9847/11863 новых объявлений, найден fias для 5123
+2023-10-08 08:39:00,588 [INFO    ] уникальных троек по h_fias_id, ad_id, d_id, в таблице с районами и houses_jkh_ddt/id: 9847
+2023-10-08 08:39:00,591 [INFO    ] выгрузка данных в таблицу realty
+2023-10-08 08:39:04,314 [INFO    ] Добавлено районов к объявлениям realty: 514 - было 0 стало 514
+2023-10-08 08:39:04,314 [INFO    ] Есть несовпадения районов c jkh, обновление районов в jkh для 0 записей
+2023-10-08 08:39:07,451 [INFO    ] Временная таблица temp_jkh_houses очищена
+2023-10-08 08:39:10,851 [INFO    ] Обновление данных jkh_houses завершено
+2023-10-08 08:39:15,394 [INFO    ] все новые объявления добавлены
+2023-10-08 08:39:17,523 [INFO    ] Успешно обработан файл 06-10-23 (без дублей).csv для prices
+2023-10-08 08:39:17,523 [INFO    ] Выгрузка в таблицу prices обработанного файла из авито: 06-10-23 (без дублей).csv
+2023-10-08 08:39:34,806 [INFO    ] данные avito загружены успешно
+2023-10-08 08:39:35,107 [INFO    ] Новые данные загружены по файлам ['05-10-23 (без дублей).csv', '06-10-23 (без дублей).csv'] из авито и ['циан 05-10-23 (без дублей).csv', 'циан 06-10-23 (без дублей).csv'] из циана за 0:22:58.133076
+2023-10-08 08:39:35,174 [INFO    ] HTTP Request: GET https://dadata.ru/api/v2/profile/balance "HTTP/1.1 200 OK"
+2023-10-08 08:39:35,436 [INFO    ] отчет отправлен в tg
+2023-10-08 08:39:35,688 [INFO    ] сохранение лог-файла

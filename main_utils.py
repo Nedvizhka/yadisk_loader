@@ -79,8 +79,8 @@ def get_saved_files_names(source, env_value):
     return list_loaded_files
 
 
-def write_saved_file_names(filename, source):
-    with open(f'uploaded_files_{source}.txt', 'a+') as uploaded_txt:
+def write_saved_file_names(filename, env_value, source):
+    with open(f'uploaded_files_{source}{"_"+env_value if env_value != None else ""}.txt', 'a+') as uploaded_txt:
         uploaded_txt.write(f"{filename}\n")
     uploaded_txt.close()
 

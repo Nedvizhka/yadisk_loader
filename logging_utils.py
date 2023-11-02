@@ -33,7 +33,7 @@ def get_today_date():
 def move_logfile(to_dir, algo_state, env_value):
     logging.info('сохранение лог-файла')
     src_file = Path.cwd() / f'ya_loader{"_"+env_value if env_value != None else ""}.log'
-    dst_file = Path(to_dir) / f'saved_logs/log_{get_today_date()}_{"_"+env_value if env_value != None else ""}_{algo_state}.log'
+    dst_file = Path(to_dir) / f'saved_logs/log_{get_today_date()}{"_"+env_value if env_value != None else ""}_{algo_state}.log'
     shutil.copy(src_file, dst_file)
     logff = logging.getLogger()
     for i in range(len(logff.handlers)):
