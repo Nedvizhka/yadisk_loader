@@ -1,0 +1,13 @@
+2023-11-14 15:16:27,512 [INFO    ] Скрипт запущен: 2023-11-14 15:16:27.511994
+2023-11-14 15:16:27,589 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-11-14 15:16:27,640 [INFO    ] Authentication (publickey) failed.
+2023-11-14 15:16:27,645 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-11-14 15:16:27,720 [INFO    ] Authentication (password) successful!
+2023-11-14 15:16:27,723 [INFO    ] connected to host 92.53.64.66 base preprod_nedvizhka_db
+2023-11-14 15:16:28,269 [INFO    ] yandex token valid
+2023-11-14 15:16:28,934 [INFO    ] Успешно загружено 0 файлов с личного диска: [] для avito
+2023-11-14 15:16:29,175 [INFO    ] yandex token valid
+2023-11-14 15:16:30,166 [INFO    ] Успешно загружено 0 файлов с личного диска: [] для cian
+2023-11-14 15:16:30,167 [INFO    ] ready to process files [], []
+2023-11-14 15:16:30,167 [INFO    ] 0 файлов для загрузки авито и 0 файлов для циан
+2023-11-14 15:16:30,167 [INFO    ] сохранение лог-файла

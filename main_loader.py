@@ -33,7 +33,7 @@ if __name__ == '__main__':
         else:
             logging.basicConfig(filename=f'ya_loader{"_"+env_value if env_value != None else ""}.log',
                                 filemode='w', level=logging.INFO,
-                                format='%(asctime)s [%(levelname)-8s] %(message)s', encoding='utf8')
+                                format='%(asctime)s [%(levelname)-8s] %(message)s')
             st_time = datetime.now()
             print('Скрипт запущен: ', get_today_date(), 'выйди из скрина и сделай "tail -f ya_loader.log"')
             logging.info('Скрипт запущен: {}'.format(st_time))
@@ -117,13 +117,7 @@ if __name__ == '__main__':
                 logging.info('обработка файла {} для cian'.format(filename))
                 df_cian_realty, file_date, error_file_processing = process_realty(local_save_dir_cian, filename,
                                                                                   sql_engine, 'cian')
-
-                # добавление инфо к отчету
-                report_df_append(common_rep_df, 'parse_date', file_date)
-                report_df_append(common_rep_df, 'c_total', len(df_cian_realty))
-                report_df_append(common_rep_df, 'c_adr_total', len(df_cian_realty.addr.unique()))
-
-
+                
                 # проверка состояния
                 if error_file_processing:
                     logging.error('Ошибка при обработке файлов из CIAN {}. Перезапуск скрипта...'.format(filename))
@@ -132,6 +126,11 @@ if __name__ == '__main__':
                 else:
                     error_processing_files = False
                     logging.info('Выгрузка в таблицу realty обработанного файла из cian: {}'.format(filename))
+                
+                # добавление инфо к отчету
+                report_df_append(common_rep_df, 'parse_date', file_date)
+                report_df_append(common_rep_df, 'c_total', len(df_cian_realty))
+                report_df_append(common_rep_df, 'c_adr_total', len(df_cian_realty.addr.unique()))
 
                 sql_server, sql_engine, error_db_con = check_sql_connection(sql_server, sql_engine, env_value)
                 if error_db_con:
@@ -192,11 +191,7 @@ if __name__ == '__main__':
                 df_avito_realty, file_date, error_file_processing = process_realty(local_save_dir_avito, filename,
                                                                                    sql_engine, 'avito')
                 # ограничение городов авито
-                df_avito_realty = df_avito_realty[df_avito_realty.city_id.isin([4, 18, 12, 7, 17, 2, 23, 3, 24])]
-
-                # добавление инфо к отчету
-                report_df_append(common_rep_df, 'av_total', len(df_avito_realty))
-                report_df_append(common_rep_df, 'av_adr_total', len(df_avito_realty.addr.unique()))
+                df_avito_realty = df_avito_realty[df_avito_realty.city_id.isin([4, 18, 12, 7, 17, 2, 23, 3, 24, 25, 26])]
 
                 # проверка состояния
                 if error_file_processing:
@@ -207,6 +202,10 @@ if __name__ == '__main__':
                 else:
                     error_processing_files = False
                     logging.info('Выгрузка в таблицу realty обработанного файла из авито: {}'.format(filename))
+
+                # добавление инфо к отчету
+                report_df_append(common_rep_df, 'av_total', len(df_avito_realty))
+                report_df_append(common_rep_df, 'av_adr_total', len(df_avito_realty.addr.unique()))
 
                 # выгрузка и обновление данных в таблице realty
                 error_create_temp_realty, error_getting_ad_id, error_loading_into_realty, error_updating_realty = \

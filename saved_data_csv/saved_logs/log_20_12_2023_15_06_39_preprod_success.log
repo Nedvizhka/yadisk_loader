@@ -1,0 +1,82 @@
+2023-12-20 15:01:20,408 [INFO    ] Скрипт запущен: 2023-12-20 15:01:20.407341
+2023-12-20 15:01:20,490 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-12-20 15:01:20,572 [INFO    ] Authentication (publickey) failed.
+2023-12-20 15:01:20,589 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2023-12-20 15:01:20,682 [INFO    ] Authentication (password) successful!
+2023-12-20 15:01:20,683 [INFO    ] connected to host 92.53.64.66 base preprod_nedvizhka_db
+2023-12-20 15:01:21,861 [INFO    ] yandex token valid
+2023-12-20 15:01:26,275 [INFO    ] Успешно загружено 1 файлов с личного диска: ['19-12-23 (без дублей).csv'] для avito
+2023-12-20 15:01:26,469 [INFO    ] yandex token valid
+2023-12-20 15:01:36,240 [INFO    ] Успешно загружено 4 файлов с личного диска: ['циан 16-12-23 (без дублей).csv', 'циан 17-12-23 (без дублей).csv', 'циан 18-12-23 (без дублей).csv', 'циан 19-12-23 (без дублей).csv'] для cian
+2023-12-20 15:01:36,240 [INFO    ] ready to process files ['19-12-23 (без дублей).csv'], ['циан 16-12-23 (без дублей).csv', 'циан 17-12-23 (без дублей).csv', 'циан 18-12-23 (без дублей).csv', 'циан 19-12-23 (без дублей).csv']
+2023-12-20 15:01:46,537 [INFO    ] обновлен status_new в таблице realty
+2023-12-20 15:02:01,450 [INFO    ] обновлен status_new в таблице prices
+2023-12-20 15:02:01,454 [INFO    ] обработка файла циан 16-12-23 (без дублей).csv для cian
+2023-12-20 15:02:01,486 [ERROR   ] Traceback (most recent call last):
+  File "/var/www/yadisk_loader/main_utils.py", line 972, in process_realty
+    saved_file = pd.read_csv(saved_files[f_ind], delimiter=',', encoding='utf8')
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pandas/util/_decorators.py", line 211, in wrapper
+    return func(*args, **kwargs)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pandas/util/_decorators.py", line 331, in wrapper
+    return func(*args, **kwargs)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 950, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 611, in _read
+    return parser.read(nrows)
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 1778, in read
+    ) = self._engine.read(  # type: ignore[attr-defined]
+  File "/var/www/yadisk_loader/yadisk_venv/lib/python3.9/site-packages/pandas/io/parsers/c_parser_wrapper.py", line 230, in read
+    chunks = self._reader.read_low_memory(nrows)
+  File "pandas/_libs/parsers.pyx", line 808, in pandas._libs.parsers.TextReader.read_low_memory
+  File "pandas/_libs/parsers.pyx", line 866, in pandas._libs.parsers.TextReader._read_rows
+  File "pandas/_libs/parsers.pyx", line 852, in pandas._libs.parsers.TextReader._tokenize_rows
+  File "pandas/_libs/parsers.pyx", line 1973, in pandas._libs.parsers.raise_parser_error
+pandas.errors.ParserError: Error tokenizing data. C error: Expected 6 fields in line 164, saw 7
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/var/www/yadisk_loader/main_utils.py", line 976, in process_realty
+    saved_file = pd.read_csv(f_name, delimiter=';', encoding='utf8')
+NameError: name 'f_name' is not defined
+
+2023-12-20 15:02:01,493 [ERROR   ] Файл циан 16-12-23 (без дублей).csv не удалось обнаружить для realty
+2023-12-20 15:02:01,493 [ERROR   ] Ошибка при обработке файлов из CIAN циан 16-12-23 (без дублей).csv. Перезапуск скрипта...
+2023-12-20 15:02:01,553 [INFO    ] обработка файла 19-12-23 (без дублей).csv для авито
+2023-12-20 15:02:49,924 [INFO    ] Успешно обработан файл 19-12-23 (без дублей).csv для realty
+2023-12-20 15:02:49,987 [INFO    ] Выгрузка в таблицу realty обработанного файла из авито: 19-12-23 (без дублей).csv
+2023-12-20 15:02:50,285 [INFO    ] Временная таблица создана
+2023-12-20 15:02:55,418 [INFO    ] Загрузка новых объявлений в таблицу
+2023-12-20 15:02:55,600 [INFO    ] 182027 существующих и 2461 новых объявлений
+2023-12-20 15:02:55,648 [INFO    ] temp таблица очищена, загружаются данные
+2023-12-20 15:03:59,876 [INFO    ] обновлена таблица realty
+2023-12-20 15:04:02,735 [INFO    ] обновлены районы в таблице realty
+2023-12-20 15:04:13,811 [INFO    ] Обновление существующих данных realty завершено
+2023-12-20 15:04:52,453 [INFO    ] из новых объяв найдено по адресу 984, запрос в ddt для 906 уник. адресов из 1477
+2023-12-20 15:04:52,453 [INFO    ] обновление районов для найденных в realty по адресу новых объявлений:
+2023-12-20 15:04:52,806 [INFO    ] обнаружено 525 районов для 801 новых объявлений, найденных по адресу из 984
+2023-12-20 15:04:52,829 [INFO    ] 283 районов осталось незаполнено
+2023-12-20 15:04:52,831 [INFO    ] переход к обновлению оставшихся (не найденных по адресу) 1477 новых объявлений (906 адресов) для avito
+2023-12-20 15:04:52,852 [INFO    ] загрузка данных dadata из /var/www/yadisk_loader/saved_data_csv/avito_dadata_request.csv
+2023-12-20 15:04:54,127 [INFO    ] удалось загрузить исторические данные dadata
+2023-12-20 15:04:56,138 [INFO    ] количество запросов к dadata составит: 906
+2023-12-20 15:04:56,143 [INFO    ] 0%|          | 0/61 [00:00<?, ?it/s]
+2023-12-20 15:04:59,168 [INFO    ] 906it [00:03, 299.54it/s]
+2023-12-20 15:04:59,168 [INFO    ] 
+2023-12-20 15:04:59,168 [INFO    ] dadata con closed succesfully
+2023-12-20 15:04:59,169 [INFO    ] обращение к DDT по 856/906 адресам из avito заняло 0:00:06.338404
+2023-12-20 15:04:59,181 [INFO    ] обращение к DDT выполнено для 1349/1477 новых объявлений, найден fias для 880
+2023-12-20 15:06:06,627 [INFO    ] уникальных троек по h_fias_id, ad_id, d_id, в таблице с районами и houses_jkh_ddt/id: 1349
+2023-12-20 15:06:06,630 [INFO    ] выгрузка данных в таблицу realty
+2023-12-20 15:06:07,126 [INFO    ] Добавлено районов к объявлениям realty: 182 - было 0 стало 182
+2023-12-20 15:06:07,126 [INFO    ] Есть несовпадения районов c jkh, обновление районов в jkh для 0 записей
+2023-12-20 15:06:13,506 [INFO    ] Временная таблица temp_jkh_houses создана
+2023-12-20 15:06:16,796 [INFO    ] Обновление данных jkh_houses завершено
+2023-12-20 15:06:18,007 [INFO    ] все новые объявления добавлены
+2023-12-20 15:06:20,248 [INFO    ] Успешно обработан файл 19-12-23 (без дублей).csv для prices
+2023-12-20 15:06:20,248 [INFO    ] Выгрузка в таблицу prices обработанного файла из авито: 19-12-23 (без дублей).csv
+2023-12-20 15:06:39,067 [INFO    ] данные avito загружены успешно
+2023-12-20 15:06:39,424 [INFO    ] Новые данные загружены по файлам ['19-12-23 (без дублей).csv'] из авито и ['циан 16-12-23 (без дублей).csv', 'циан 17-12-23 (без дублей).csv', 'циан 18-12-23 (без дублей).csv', 'циан 19-12-23 (без дублей).csv'] из циана за 0:05:19.017359
+2023-12-20 15:06:39,530 [INFO    ] HTTP Request: GET https://dadata.ru/api/v2/profile/balance "HTTP/1.1 200 OK"
+2023-12-20 15:06:39,535 [INFO    ] сохранение лог-файла

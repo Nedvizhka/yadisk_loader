@@ -505,7 +505,7 @@ def count_jkh_addr(engine, env_value):
     try:
         con_obj = engine.connect()
         count_jkh_addr_db = pd.read_sql(text(count_jkh_addr_query), con=con_obj)
-        count_jkh_addr_db['cnt'] = count_jkh_addr_db['cnt_jkh'] * 1 
+        count_jkh_addr_db['cnt'] = count_jkh_addr_db['cnt_jkh'] * 0.05 
         # 1 is no limit for dadata 0.05 is 5% of jkh addr count is limit for dadata request
         count_jkh_addr_db['cnt'] = count_jkh_addr_db['cnt'].astype('int')
         count_jkh_addr_db['cnt_ddt'] = 0

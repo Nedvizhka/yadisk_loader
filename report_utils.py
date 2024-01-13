@@ -133,9 +133,12 @@ def report_text(common_rep_df, dadata_rep_df, limits_df, dadata_balance):
         temp_ddt['sp'] = ' '
         temp_ddt['sp1'] = '$'
         temp_ddt = temp_ddt[['id', 'name', 'sp1', 'ddt_total', 'sp', 'br1', 'ddt_cian', 'sl', 'ddt_avito', 'br2']]
-
-        rep_text += f'dadata   {dadata_rep_df.ddt_total.sum()} ({dadata_rep_df.ddt_cian.sum()}/{dadata_rep_df.ddt_avito.sum()}) :' + '\n'
-
+        
+        total_cian = dadata_rep_df.ddt_cian.sum()
+        total_avito = dadata_rep_df.ddt_avito.sum()
+        
+        rep_text += f'dadata          {total_cian + total_avito} ({total_cian}/{total_avito}):' + '\n'
+        
         t_ddt_txt = temp_ddt.to_string(index=False, header=False)
         t_ddt_1 = [i.split('$') for i in t_ddt_txt.split('\n')]
         const = max([len(i[0]) for i in t_ddt_1])
@@ -161,7 +164,7 @@ def report_text(common_rep_df, dadata_rep_df, limits_df, dadata_balance):
                     err_txt = 'Ошибка запроса к Dadata, проверь баланс'
                     rep_text += err_txt + '\n'
         
-        rep_text += '\n' + f'всего: {dadata_rep_df.ddt_total.sum() * 0.15}'
+        rep_text += '\n' + f'всего: {round(float((total_cian + total_avito) * 0.15), 2)} Р'
         
         # третья часть с остатоком dadata
         # rep_text += f'\nОстаток баланса {dadata_balance}'

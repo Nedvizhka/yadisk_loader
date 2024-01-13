@@ -15,12 +15,17 @@ dict_realty_cian_avito = {
     '1': ['Комната'],
     '2': ['Квартира-студия', 'Апартаменты-студия', 'Гостинка', 'Студия'],
     '3': ['1-к. квартира', '1-к. апартаменты', 'Своб. планировка', '1-комнатная', '1 комн',
-          'Свободная планировка', '1-комн. кв.', '1-комн. апарт.'],
-    '4': ['2-к. квартира', '2-к. апартаменты', '2-комнатная', '2 комн', '2-комн. кв.', '2-комн. апарт.'],
-    '5': ['3-к. квартира', '3-к. апартаменты', '3-комнатная', '3 комн', '3-комн. кв.', '3-комн. апарт.'],
-    '6': ['4-к. квартира', '4-к. апартаменты', '4-комнатная', '4 комн', '4-комн. кв.', '4-комн. апарт.'],
-    '7': ['5-к. квартира', '5-к. апартаменты', '5-комнатная', '5 комн', '5-комн. кв.', '5-комн. апарт.'],
-    '8': ["6 комнат и более", '6 комн', '6-комн. кв.', '6-комн. апарт.']
+          'Свободная планировка', '1-комн. кв.', '1-комн. апарт.', '1-комн. квартира', '1-комн. апартаменты'],
+    '4': ['2-к. квартира', '2-к. апартаменты', '2-комнатная', '2 комн', '2-комн. кв.', '2-комн. апарт.', 
+          '2-комн. квартира', '2-комн. апартаменты'],
+    '5': ['3-к. квартира', '3-к. апартаменты', '3-комнатная', '3 комн', '3-комн. кв.', '3-комн. апарт.', 
+          '3-комн. квартира', '3-комн. апартаменты'],
+    '6': ['4-к. квартира', '4-к. апартаменты', '4-комнатная', '4 комн', '4-комн. кв.', '4-комн. апарт.', 
+          '4-комн. квартира', '4-комн. апартаменты'],
+    '7': ['5-к. квартира', '5-к. апартаменты', '5-комнатная', '5 комн', '5-комн. кв.', '5-комн. апарт.', 
+          '5-комн. квартира', '5-комн. апартаменты'],
+    '8': ["6 комнат и более", '6 комн', '6-комн. кв.', '6-комн. апарт.',
+          '6-комн. квартира', '6-комн. апартаменты']
     # 9 аукцион, доля
 }
 
@@ -380,9 +385,14 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
     error_updating_realty = False
 
     # поиск существующих адресов в новых объявлениях
-    addr_df, exc_str = find_new_addr(tuple(int(i) for i in filter(lambda v: v == v, df_realty_new.city_id.unique()))
-                                     if len(df_realty_new.city_id.unique()) > 1 else str('('+str(df_realty_new.city_id.unique()[0])+')'),
-                                     engine, env_value)
+    try:
+        addr_df, exc_str = find_new_addr(tuple(int(i) for i in filter(lambda v: v == v, df_realty_new.city_id.unique()))
+                                         if len(df_realty_new.city_id.unique()) > 1 else str('('+str(df_realty_new.city_id.unique()[0])+')'),
+                                         engine, env_value)
+    except:
+        logging.error(traceback.format_exc())
+        logging.info(f'какая то хуйня 393 main_utils нужен фикс: \n {df_realty_new.city_id.unique()}')
+        addr_df, exc_str = pd.DataFrame(columns=['addr', 'house_id', 'jkh_id']), False
                                      
     if exc_str:
         error_updating_realty = True
@@ -963,9 +973,15 @@ def process_realty(local_dir, file_to_process, sql_engine, source):
                     realty_df, file_date = create_realty(saved_file, Path(saved_files[f_ind]).stem,
                                                          sql_engine, 'avito')
                 elif source == 'cian':
-                    saved_file = pd.read_csv(saved_files[f_ind], delimiter=',', encoding='utf8')
-                    realty_df, file_date = create_realty(saved_file, Path(saved_files[f_ind]).stem,
-                                                         sql_engine, 'cian')
+                    try:
+                        saved_file = pd.read_csv(saved_files[f_ind], delimiter=',', encoding='utf8')
+                        realty_df, file_date = create_realty(saved_file, Path(saved_files[f_ind]).stem,
+                                                             sql_engine, 'cian')
+                    except: # в файлах циана парсер иногда ставит разделитель ; вместо , - обработал этот момент
+                        saved_file = pd.read_csv(saved_files[f_ind], delimiter=';', encoding='utf8')
+                        realty_df, file_date = create_realty(saved_file, Path(saved_files[f_ind]).stem,
+                                                             sql_engine, 'cian')
+                        
             except Exception as ex:
                 logging.error(traceback.format_exc())
                 logging.error('Не удалось прочитать файл из {}: '.format(source), Path(saved_files[f_ind]))
