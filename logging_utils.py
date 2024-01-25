@@ -35,9 +35,6 @@ def move_logfile(to_dir, algo_state, env_value):
     src_file = Path.cwd() / f'ya_loader{"_"+env_value if env_value != None else ""}.log'
     dst_file = Path(to_dir) / f'saved_logs/log_{get_today_date()}{"_"+env_value if env_value != None else ""}_{algo_state}.log'
     shutil.copy(src_file, dst_file)
-    logff = logging.getLogger()
-    for i in range(len(logff.handlers)):
-        logff.removeHandler(logff.handlers[i])
     # Path.unlink(src_file)
 
     # with io.open(src_file, 'w', encoding='utf8') as file:

@@ -374,6 +374,7 @@ def update_jkh_district_test_linux(df_realty, df_districts, engine):
 def update_jkh_district(df_realty, df_districts, engine, env_value):
     df_realty_check_upd = df_realty.copy()
     distr_to_update = pd.DataFrame(columns=['jkh_id', 'new_distr'])
+    logging.info('начат процесс обновления jkh_distr')
     for i, val in df_realty.iterrows():
         try:
             flagNan = np.isnan(val.district_id)

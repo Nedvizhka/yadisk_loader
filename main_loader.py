@@ -260,36 +260,60 @@ if __name__ == '__main__':
                     logging.error('Ошибка при загрузке файлов')
                     close_sql_connection(sql_server, sql_engine)
                     move_logfile(local_save_dir_data, 'error', env_value)
+                    logff = logging.getLogger()
+                    for i in range(len(logff.handlers)):
+                        logff.removeHandler(logff.handlers[i])
+                    logging.shutdown()
                     time.sleep(1000)
                     continue
                 elif error_getting_ad_id:
                     logging.error('Ошибка при получении ad_id')
                     close_sql_connection(sql_server, sql_engine)
                     move_logfile(local_save_dir_data, 'error', env_value)
+                    logff = logging.getLogger()
+                    for i in range(len(logff.handlers)):
+                        logff.removeHandler(logff.handlers[i])
+                    logging.shutdown()
                     time.sleep(1000)
                     continue
                 elif error_processing_files:
                     logging.error('Ошибка при обработке файлов')
                     close_sql_connection(sql_server, sql_engine)
                     move_logfile(local_save_dir_data, 'error', env_value)
+                    logff = logging.getLogger()
+                    for i in range(len(logff.handlers)):
+                        logff.removeHandler(logff.handlers[i])
+                    logging.shutdown()
                     time.sleep(1000)
                     continue
                 elif error_updating_realty:
                     logging.error('Ошибка при обновлении объявлений в таблице realty')
                     close_sql_connection(sql_server, sql_engine)
                     move_logfile(local_save_dir_data, 'error', env_value)
+                    logff = logging.getLogger()
+                    for i in range(len(logff.handlers)):
+                        logff.removeHandler(logff.handlers[i])
+                    logging.shutdown()
                     time.sleep(1000)
                     continue
                 elif error_writing_files:
                     logging.error('Ошибка при записи файлов в базу')
                     close_sql_connection(sql_server, sql_engine)
                     move_logfile(local_save_dir_data, 'error', env_value)
+                    logff = logging.getLogger()
+                    for i in range(len(logff.handlers)):
+                        logff.removeHandler(logff.handlers[i])
+                    logging.shutdown()
                     time.sleep(1000)
                     continue
                 elif error_db_con:
                     logging.error('Ошибка подключения к базе')
                     close_sql_connection(sql_server, sql_engine)
                     move_logfile(local_save_dir_data, 'error', env_value)
+                    logff = logging.getLogger()
+                    for i in range(len(logff.handlers)):
+                        logff.removeHandler(logff.handlers[i])
+                    logging.shutdown()
                     time.sleep(1000)
                     continue
                 else:
@@ -308,11 +332,19 @@ if __name__ == '__main__':
                         else:
                             pass
                     move_logfile(local_save_dir_data, 'success', env_value)
+                    logff = logging.getLogger()
+                    for i in range(len(logff.handlers)):
+                        logff.removeHandler(logff.handlers[i])
+                    logging.shutdown()
                     time.sleep(3500)
                     continue
             except:
                 close_sql_connection(sql_server, sql_engine)
                 logging.info('нет новых данных для загрузки')
                 move_logfile(local_save_dir_data, 'no_new_file', env_value)
+                logff = logging.getLogger()
+                for i in range(len(logff.handlers)):
+                    logff.removeHandler(logff.handlers[i])
+                logging.shutdown()
                 time.sleep(1100)
                 continue
