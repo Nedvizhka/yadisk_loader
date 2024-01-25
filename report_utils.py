@@ -164,7 +164,9 @@ def report_text(common_rep_df, dadata_rep_df, limits_df, dadata_balance):
                     err_txt = 'Ошибка запроса к Dadata, проверь баланс'
                     rep_text += err_txt + '\n'
         
-        rep_text += '\n' + f'всего: {round(float((total_cian + total_avito) * 0.15), 2)} Р'
+        rep_text += '\n' + f'всего: {round(float((total_cian + total_avito) * 0.15), 2)} Р' + '\n'
+
+        rep_text += '\n' + '✅ Завершен процесс: импорт объявлений'
         
         # третья часть с остатоком dadata
         # rep_text += f'\nОстаток баланса {dadata_balance}'

@@ -36,7 +36,10 @@ if __name__ == '__main__':
                                 format='%(asctime)s [%(levelname)-8s] %(message)s')
             st_time = datetime.now()
             print('Скрипт запущен: ', get_today_date(), 'выйди из скрина и сделай "tail -f ya_loader.log"')
+            # отправить сообщение о старте в бот
+            run_bot_send_msg('▶️ Старт процесса: импорт объявлений')
             logging.info('Скрипт запущен: {}'.format(st_time))
+            logging.info(f'создан лог: ya_loader{"_"+env_value if env_value != None else ""}.log')
 
             # получение данных для подключения к базам
             ssh_host, ssh_port, ssh_username, ssh_password, database_username, database_password, database_name, \

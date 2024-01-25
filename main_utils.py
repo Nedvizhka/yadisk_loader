@@ -1067,12 +1067,3 @@ def create_prices(df, filename, sql_engine, source):
         error_status = True
         logging.error('Файл {} не удалось обработать для prices'.format(filename))
         return prices_df, error_status
-
-
-def delete_files(pth):
-    pth = Path(pth)
-    for child in pth.glob('*'):
-        if child.is_file():
-            child.unlink()
-        else:
-            shutil.rmtree(child)

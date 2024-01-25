@@ -31,18 +31,18 @@ class TqdmToLoggerX(io.StringIO):
 def get_today_date():
     return datetime.today().strftime(format="%d_%m_%Y_%H_%M_%S")
 
-def move_logfile_x(to_dir, algo_state):
-    logging.info('сохранение лог-файла')
-    src_file = Path.cwd() / 'ya_loader.log'
-    dst_file = Path(to_dir) / f'log_{get_today_date()}_{algo_state}.log'
-    shutil.copy(src_file, dst_file)
-    logff = logging.getLogger()
-    for i in range(len(logff.handlers)):
-        logff.removeHandler(logff.handlers[i])
-    Path.unlink(src_file)
-
-    with io.open(src_file, 'w', encoding='utf8') as file:
-        file.close()
+# def move_logfile_x(to_dir, algo_state):
+#     logging.info('сохранение лог-файла')
+#     src_file = Path.cwd() / 'ya_loader.log'
+#     dst_file = Path(to_dir) / f'log_{get_today_date()}_{algo_state}.log'
+#     shutil.copy(src_file, dst_file)
+#     logff = logging.getLogger()
+#     for i in range(len(logff.handlers)):
+#         logff.removeHandler(logff.handlers[i])
+#     Path.unlink(src_file)
+#
+#     with io.open(src_file, 'w', encoding='utf8') as file:
+#         file.close()
 
     # fp = open(src_file, 'w')
     # fp.close()
