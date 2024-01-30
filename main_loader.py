@@ -37,7 +37,7 @@ if __name__ == '__main__':
             st_time = datetime.now()
             print('Скрипт запущен: ', get_today_date(), 'выйди из скрина и сделай "tail -f ya_loader.log"')
             # отправить сообщение о старте в бот
-            run_bot_send_msg('▶️ Старт процесса: импорт объявлений')
+            run_bot_send_msg('▶️ Старт процесса: импорт объявлений', monitoring_bot=True)
             logging.info('Скрипт запущен: {}'.format(st_time))
             logging.info(f'создан лог: ya_loader{"_"+env_value if env_value != None else ""}.log')
 
@@ -66,12 +66,12 @@ if __name__ == '__main__':
             # files_to_process_avito, error_file_loading_avito = [], False
 
             # чтение и сохранение в local_save_dir файлов из ядиска cian
-            files_to_process_cian, error_file_loading_cian = download_local_yadisk_files(ya_token,
-                                                                                         handled_files_cian,
-                                                                                         local_save_dir_cian,
-                                                                                         'cian')
+            # files_to_process_cian, error_file_loading_cian = download_local_yadisk_files(ya_token,
+                                                                                         # handled_files_cian,
+                                                                                         # local_save_dir_cian,
+                                                                                         # 'cian')
             # заглушка загрузки cian
-            # files_to_process_cian, error_file_loading_cian = [], False
+            files_to_process_cian, error_file_loading_cian = [], False
 
             # проверка успешности загрузки файлов
             if error_file_loading_avito or error_file_loading_cian:
@@ -262,6 +262,7 @@ if __name__ == '__main__':
                 if error_loading_files:
                     logging.error('Ошибка при загрузке файлов')
                     close_sql_connection(sql_server, sql_engine)
+                    run_bot_send_msg('❌ Завершен процесс: импорт объявлений', monitoring_bot=True)
                     move_logfile(local_save_dir_data, 'error', env_value)
                     logff = logging.getLogger()
                     for i in range(len(logff.handlers)):
@@ -272,6 +273,7 @@ if __name__ == '__main__':
                 elif error_getting_ad_id:
                     logging.error('Ошибка при получении ad_id')
                     close_sql_connection(sql_server, sql_engine)
+                    run_bot_send_msg('❌ Завершен процесс: импорт объявлений', monitoring_bot=True)
                     move_logfile(local_save_dir_data, 'error', env_value)
                     logff = logging.getLogger()
                     for i in range(len(logff.handlers)):
@@ -282,6 +284,7 @@ if __name__ == '__main__':
                 elif error_processing_files:
                     logging.error('Ошибка при обработке файлов')
                     close_sql_connection(sql_server, sql_engine)
+                    run_bot_send_msg('❌ Завершен процесс: импорт объявлений', monitoring_bot=True)
                     move_logfile(local_save_dir_data, 'error', env_value)
                     logff = logging.getLogger()
                     for i in range(len(logff.handlers)):
@@ -292,6 +295,7 @@ if __name__ == '__main__':
                 elif error_updating_realty:
                     logging.error('Ошибка при обновлении объявлений в таблице realty')
                     close_sql_connection(sql_server, sql_engine)
+                    run_bot_send_msg('❌ Завершен процесс: импорт объявлений', monitoring_bot=True)
                     move_logfile(local_save_dir_data, 'error', env_value)
                     logff = logging.getLogger()
                     for i in range(len(logff.handlers)):
@@ -302,6 +306,7 @@ if __name__ == '__main__':
                 elif error_writing_files:
                     logging.error('Ошибка при записи файлов в базу')
                     close_sql_connection(sql_server, sql_engine)
+                    run_bot_send_msg('❌ Завершен процесс: импорт объявлений', monitoring_bot=True)
                     move_logfile(local_save_dir_data, 'error', env_value)
                     logff = logging.getLogger()
                     for i in range(len(logff.handlers)):
@@ -312,6 +317,7 @@ if __name__ == '__main__':
                 elif error_db_con:
                     logging.error('Ошибка подключения к базе')
                     close_sql_connection(sql_server, sql_engine)
+                    run_bot_send_msg('❌ Завершен процесс: импорт объявлений', monitoring_bot=True)
                     move_logfile(local_save_dir_data, 'error', env_value)
                     logff = logging.getLogger()
                     for i in range(len(logff.handlers)):
@@ -332,6 +338,7 @@ if __name__ == '__main__':
                         report_txt = report_text(common_rep_df, dadata_rep_df, jkh_addr_df, dadata_balance)
                         if report_txt:
                             run_bot_send_msg(report_txt)
+                            run_bot_send_msg('✅ Завершен процесс: импорт объявлений', monitoring_bot=True)
                         else:
                             pass
                     move_logfile(local_save_dir_data, 'success', env_value)
@@ -344,6 +351,7 @@ if __name__ == '__main__':
             except:
                 close_sql_connection(sql_server, sql_engine)
                 logging.info('нет новых данных для загрузки')
+                run_bot_send_msg('❌ Завершен процесс: импорт объявлений', monitoring_bot=True)
                 move_logfile(local_save_dir_data, 'no_new_file', env_value)
                 logff = logging.getLogger()
                 for i in range(len(logff.handlers)):

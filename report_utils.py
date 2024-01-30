@@ -164,9 +164,7 @@ def report_text(common_rep_df, dadata_rep_df, limits_df, dadata_balance):
                     err_txt = 'Ошибка запроса к Dadata, проверь баланс'
                     rep_text += err_txt + '\n'
         
-        rep_text += '\n' + f'всего: {round(float((total_cian + total_avito) * 0.15), 2)} Р' + '\n'
-
-        rep_text += '\n' + '✅ Завершен процесс: импорт объявлений'
+        rep_text += '\n' + f'всего: {round(float((total_cian + total_avito) * 0.15), 2)} Р'
         
         # третья часть с остатоком dadata
         # rep_text += f'\nОстаток баланса {dadata_balance}'
@@ -222,9 +220,12 @@ def report_text(common_rep_df, dadata_rep_df, limits_df, dadata_balance):
         return
 
 
-def run_bot_send_msg(msg_txt):
+def run_bot_send_msg(msg_txt, monitoring_bot=None):
     bot = telebot.TeleBot('5384767557:AAGBM487FW6lZq6D3z7ct44ADqyMjjjXpxc')
-    chat_id = '-1001683557389'
+    if monitoring_bot == None:
+        chat_id = '-1001683557389' # nedvizhka alarm
+    else:
+        chat_id = '-1001919765143' # nedvizhka monitoring
     bot.send_message(chat_id, f"`{msg_txt}`", parse_mode='Markdown')
     logging.info('отчет отправлен в tg')
     bot.stop_bot()

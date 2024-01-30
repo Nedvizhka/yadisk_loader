@@ -1,0 +1,387 @@
+2024-01-25 14:00:01,455 [INFO    ] отчет отправлен в tg
+2024-01-25 14:00:01,612 [INFO    ] Скрипт запущен: 2024-01-25 14:00:01.110949
+2024-01-25 14:00:01,612 [INFO    ] создан лог: ya_loader.log
+2024-01-25 14:00:01,689 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2024-01-25 14:00:01,753 [INFO    ] Authentication (publickey) failed.
+2024-01-25 14:00:01,769 [INFO    ] Connected (version 2.0, client OpenSSH_7.4p1)
+2024-01-25 14:00:01,860 [INFO    ] Authentication (password) successful!
+2024-01-25 14:00:01,953 [INFO    ] connected to host 92.53.64.66 base app_nedvizhka_db
+2024-01-25 14:00:02,223 [INFO    ] yandex token valid
+2024-01-25 14:00:05,933 [INFO    ] Успешно загружено 1 файлов с личного диска: ['24-01-24 (без дублей).csv'] для avito
+2024-01-25 14:00:06,348 [INFO    ] yandex token valid
+2024-01-25 14:00:09,092 [INFO    ] Успешно загружено 1 файлов с личного диска: ['циан 24-01-24 (без дублей).csv'] для cian
+2024-01-25 14:00:09,092 [INFO    ] ready to process files ['24-01-24 (без дублей).csv'], ['циан 24-01-24 (без дублей).csv']
+2024-01-25 14:00:24,221 [INFO    ] обновлен status_new в таблице realty
+2024-01-25 14:01:05,563 [INFO    ] обновлен status_new в таблице prices
+2024-01-25 14:01:05,566 [INFO    ] обработка файла циан 24-01-24 (без дублей).csv для cian
+2024-01-25 14:01:06,857 [INFO    ] обработка district_id:
+2024-01-25 14:01:06,866 [INFO    ] districts_update:   0%|          | 0/118738 [00:00<?, ?it/s]
+2024-01-25 14:01:21,866 [INFO    ] districts_update:  12%|#1        | 13943/118738 [00:15<01:52, 929.52it/s]
+2024-01-25 14:01:36,867 [INFO    ] districts_update:  24%|##4       | 28503/118738 [00:30<01:34, 953.69it/s]
+2024-01-25 14:01:46,876 [INFO    ] districts_update:  34%|###3      | 39989/118738 [00:40<01:22, 953.69it/s]
+2024-01-25 14:01:51,868 [INFO    ] districts_update:  38%|###7      | 44558/118738 [00:45<01:13, 1006.93it/s]
+2024-01-25 14:02:06,882 [INFO    ] districts_update:  50%|#####     | 59387/118738 [01:00<00:58, 1006.93it/s]
+2024-01-25 14:02:06,882 [INFO    ] districts_update:  50%|#####     | 59388/118738 [01:00<00:59, 999.35it/s]
+2024-01-25 14:02:16,885 [INFO    ] districts_update:  58%|#####8    | 69274/118738 [01:10<00:49, 999.35it/s]
+2024-01-25 14:02:21,883 [INFO    ] districts_update:  62%|######2   | 74073/118738 [01:15<00:45, 992.00it/s]
+2024-01-25 14:02:36,908 [INFO    ] districts_update:  74%|#######4  | 88423/118738 [01:30<00:30, 992.00it/s]
+2024-01-25 14:02:36,909 [INFO    ] districts_update:  74%|#######4  | 88424/118738 [01:30<00:30, 979.43it/s]
+2024-01-25 14:02:46,914 [INFO    ] districts_update:  83%|########2 | 98039/118738 [01:40<00:21, 979.43it/s]
+2024-01-25 14:02:51,910 [INFO    ] districts_update:  87%|########7 | 103398/118738 [01:45<00:15, 985.56it/s]
+2024-01-25 14:03:06,922 [INFO    ] districts_update: 100%|#########9| 118221/118738 [02:00<00:00, 985.56it/s]
+2024-01-25 14:03:06,923 [INFO    ] districts_update: 100%|#########9| 118222/118738 [02:00<00:00, 986.15it/s]
+2024-01-25 14:03:07,478 [INFO    ] districts_update: 100%|##########| 118738/118738 [02:00<00:00, 984.46it/s]
+2024-01-25 14:03:07,479 [INFO    ] 
+2024-01-25 14:03:07,487 [INFO    ] district add from realty
+2024-01-25 14:03:09,709 [INFO    ] Успешно обработан файл циан 24-01-24 (без дублей).csv для realty
+2024-01-25 14:03:09,717 [INFO    ] Выгрузка в таблицу realty обработанного файла из cian: циан 24-01-24 (без дублей).csv
+2024-01-25 14:03:10,203 [INFO    ] Временная таблица создана
+2024-01-25 14:03:22,604 [INFO    ] Загрузка новых объявлений в таблицу
+2024-01-25 14:03:22,871 [INFO    ] 114140 существующих и 4598 новых объявлений
+2024-01-25 14:03:22,916 [INFO    ] temp таблица очищена, загружаются данные
+2024-01-25 14:04:20,222 [INFO    ] обновлена таблица realty
+2024-01-25 14:05:04,497 [INFO    ] обновлены районы в таблице realty
+2024-01-25 14:05:07,085 [INFO    ] Обновление существующих данных realty завершено
+2024-01-25 14:05:46,450 [INFO    ] из новых объяв найдено по адресу 1390, запрос в ddt для 795 уник. адресов из 3208
+2024-01-25 14:05:46,451 [INFO    ] обновление районов для найденных в realty по адресу новых объявлений:
+2024-01-25 14:05:46,474 [INFO    ] обнаружено 53 районов для 73 новых объявлений, найденных по адресу из 133
+2024-01-25 14:05:46,480 [INFO    ] 50 районов осталось незаполнено
+2024-01-25 14:05:46,480 [INFO    ] переход к обновлению оставшихся (не найденных по адресу) 3208 новых объявлений (795 адресов) для cian
+2024-01-25 14:05:46,493 [INFO    ] загрузка данных dadata из /var/www/yadisk_loader/saved_data_csv/cian_dadata_request.csv
+2024-01-25 14:05:47,502 [INFO    ] удалось загрузить исторические данные dadata
+2024-01-25 14:05:49,514 [INFO    ] количество запросов к dadata составит: 795
+2024-01-25 14:05:49,519 [INFO    ] 0%|          | 0/299 [00:00<?, ?it/s]
+2024-01-25 14:05:49,769 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:50,066 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:50,630 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:50,934 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:51,079 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:51,502 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:51,900 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:52,126 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:52,338 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:52,508 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:52,673 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:52,760 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:52,878 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:53,042 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:53,285 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:53,482 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:53,678 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:53,804 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:53,911 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:54,010 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:54,213 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:54,331 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:54,451 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:54,610 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:54,778 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:54,942 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:55,059 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:55,350 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:55,540 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:55,734 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:55,876 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:56,091 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:56,288 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:56,550 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:56,701 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:56,817 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:56,914 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:57,116 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:57,258 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:57,388 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:57,490 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:57,719 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:57,857 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:57,977 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:58,098 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:58,234 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:58,346 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:58,457 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:58,602 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:58,756 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:59,059 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:59,130 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:59,241 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:59,386 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:59,582 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:59,599 [INFO    ] 511it [00:10, 50.70it/s]
+2024-01-25 14:05:59,685 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:59,829 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:05:59,923 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:00,162 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:00,410 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:00,546 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:00,655 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:00,752 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:01,181 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:01,319 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:01,438 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:01,581 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:01,708 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:01,866 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:02,002 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:02,290 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:02,461 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:02,579 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:02,741 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:02,857 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:03,061 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:03,370 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:03,512 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:03,651 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:03,727 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:03,973 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:04,090 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:04,221 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:04,371 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:04,516 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:04,767 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:04,918 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:05,027 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:05,242 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:05,340 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:05,443 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:05,601 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:05,743 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:05,894 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:06,091 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:06,267 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:06,477 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:06,728 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:06,936 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:07,072 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:07,302 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:07,453 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:07,682 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:07,778 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:07,920 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:08,013 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:08,237 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:08,358 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:08,508 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:08,603 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:06:08,642 [INFO    ] 795it [00:19, 41.57it/s]
+2024-01-25 14:06:08,642 [INFO    ] 
+2024-01-25 14:06:08,642 [INFO    ] dadata con closed succesfully
+2024-01-25 14:06:08,645 [INFO    ] обращение к DDT по 606/795 адресам из cian заняло 0:00:22.164492
+2024-01-25 14:06:08,665 [INFO    ] обращение к DDT выполнено для 1426/3208 новых объявлений, найден fias для 1029
+2024-01-25 14:07:20,137 [INFO    ] уникальных троек по h_fias_id, ad_id, d_id, в таблице с районами и houses_jkh_ddt/id: 1426
+2024-01-25 14:07:20,140 [INFO    ] выгрузка данных в таблицу realty
+2024-01-25 14:07:20,150 [INFO    ] начат процесс обновления jkh_distr
+2024-01-25 14:07:21,242 [INFO    ] Добавлено районов к объявлениям realty: 1 - было 1763 стало 1764
+2024-01-25 14:07:21,242 [INFO    ] Есть несовпадения районов c jkh, обновление районов в jkh для 16 записей
+2024-01-25 14:07:27,644 [INFO    ] Временная таблица temp_jkh_houses создана
+2024-01-25 14:07:31,224 [INFO    ] Обновление данных jkh_houses завершено
+2024-01-25 14:07:33,267 [INFO    ] все новые объявления добавлены
+2024-01-25 14:07:34,727 [INFO    ] Успешно обработан файл циан 24-01-24 (без дублей).csv для prices
+2024-01-25 14:07:34,727 [INFO    ] Выгрузка в таблицу prices обработанного файла из cian: циан 24-01-24 (без дублей).csv
+2024-01-25 14:07:45,182 [INFO    ] данные cian загружены успешно
+2024-01-25 14:07:45,277 [INFO    ] обработка файла 24-01-24 (без дублей).csv для авито
+2024-01-25 14:08:33,523 [INFO    ] Успешно обработан файл 24-01-24 (без дублей).csv для realty
+2024-01-25 14:08:33,562 [INFO    ] Выгрузка в таблицу realty обработанного файла из авито: 24-01-24 (без дублей).csv
+2024-01-25 14:08:33,709 [INFO    ] Временная таблица очищена
+2024-01-25 14:08:40,457 [INFO    ] Загрузка новых объявлений в таблицу
+2024-01-25 14:08:40,701 [INFO    ] 185667 существующих и 2797 новых объявлений
+2024-01-25 14:08:40,748 [INFO    ] temp таблица очищена, загружаются данные
+2024-01-25 14:09:49,192 [INFO    ] обновлена таблица realty
+2024-01-25 14:09:53,838 [INFO    ] обновлены районы в таблице realty
+2024-01-25 14:10:08,215 [INFO    ] Обновление существующих данных realty завершено
+2024-01-25 14:10:44,638 [INFO    ] из новых объяв найдено по адресу 1422, запрос в ddt для 838 уник. адресов из 1375
+2024-01-25 14:10:44,639 [INFO    ] обновление районов для найденных в realty по адресу новых объявлений:
+2024-01-25 14:10:45,077 [INFO    ] обнаружено 936 районов для 1033 новых объявлений, найденных по адресу из 1422
+2024-01-25 14:10:45,087 [INFO    ] 100 районов осталось незаполнено
+2024-01-25 14:10:45,088 [INFO    ] переход к обновлению оставшихся (не найденных по адресу) 1375 новых объявлений (838 адресов) для avito
+2024-01-25 14:10:45,105 [INFO    ] загрузка данных dadata из /var/www/yadisk_loader/saved_data_csv/avito_dadata_request.csv
+2024-01-25 14:10:46,699 [INFO    ] удалось загрузить исторические данные dadata
+2024-01-25 14:10:48,711 [INFO    ] количество запросов к dadata составит: 838
+2024-01-25 14:10:48,716 [INFO    ] 0%|          | 0/212 [00:00<?, ?it/s]
+2024-01-25 14:10:48,961 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:49,100 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:49,293 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:49,404 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:49,577 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:49,763 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:49,919 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:50,019 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:50,125 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:50,262 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:50,362 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:50,481 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:50,578 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:50,728 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:51,076 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:51,234 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:51,331 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:51,659 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:51,800 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:51,921 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:52,047 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:52,214 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:52,321 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:52,500 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:52,589 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:52,697 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:52,823 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:52,908 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:53,023 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:53,193 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:53,384 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:53,487 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:53,819 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:53,965 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:54,060 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:54,255 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:54,400 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:54,593 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:54,674 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:54,833 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:55,131 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:55,276 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:55,436 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:55,574 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:55,820 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:55,951 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:56,048 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:56,527 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:56,647 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:56,725 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:56,884 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:57,138 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:57,559 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:57,661 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:57,802 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:57,878 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:58,020 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:58,184 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:58,290 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:58,512 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:58,682 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:58,790 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:58,806 [INFO    ] 97%|#########6| 205/212 [00:10<00:00, 20.32it/s]
+2024-01-25 14:10:59,127 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:59,276 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:59,483 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:59,552 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:10:59,916 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:00,027 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:00,149 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:00,287 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:00,445 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:00,614 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:00,726 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:00,908 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:01,013 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:01,175 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:01,355 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:01,604 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:01,765 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:01,927 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:02,007 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:02,127 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:02,547 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:02,648 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:02,805 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:03,267 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:03,403 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:03,486 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:03,700 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:03,861 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:03,961 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:04,097 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:04,334 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:04,462 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:04,586 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:04,785 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:04,938 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:05,039 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:05,150 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:05,263 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:05,526 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:05,616 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:05,798 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:05,944 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:06,223 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:06,369 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:06,567 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:06,715 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:06,911 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:06,991 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:07,174 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:07,346 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:07,456 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:07,563 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:07,683 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:07,842 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:07,995 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:08,200 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:08,307 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:08,474 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:08,610 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:08,763 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:08,806 [INFO    ] 557it [00:20, 29.04it/s]
+2024-01-25 14:11:09,006 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:09,143 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:09,360 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:09,449 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:09,862 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:09,965 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:10,207 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:10,303 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:10,492 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:10,675 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:10,768 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:11,009 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:11,259 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:11,360 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:11,487 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:11,668 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:11,766 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:11,871 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:12,147 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:12,707 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:12,827 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:12,947 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:13,088 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:13,215 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:13,421 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:13,618 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:13,735 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:13,813 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:14,003 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:14,235 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:14,395 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:14,528 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:14,660 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:14,882 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:14,966 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:15,097 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:15,258 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:15,391 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:15,530 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:15,774 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:15,983 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:16,203 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:16,398 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:16,634 [INFO    ] HTTP Request: POST https://cleaner.dadata.ru/api/v1/clean/address "HTTP/1.1 200 "
+2024-01-25 14:11:16,690 [INFO    ] 838it [00:27, 29.96it/s]
+2024-01-25 14:11:16,690 [INFO    ] 
+2024-01-25 14:11:16,691 [INFO    ] dadata con closed succesfully
+2024-01-25 14:11:16,692 [INFO    ] обращение к DDT по 792/838 адресам из avito заняло 0:00:31.604045
+2024-01-25 14:11:16,705 [INFO    ] обращение к DDT выполнено для 1256/1375 новых объявлений, найден fias для 814
+2024-01-25 14:12:41,912 [INFO    ] уникальных троек по h_fias_id, ad_id, d_id, в таблице с районами и houses_jkh_ddt/id: 1256
+2024-01-25 14:12:41,914 [INFO    ] выгрузка данных в таблицу realty
+2024-01-25 14:12:41,922 [INFO    ] начат процесс обновления jkh_distr
+2024-01-25 14:12:42,355 [INFO    ] Добавлено районов к объявлениям realty: 153 - было 0 стало 153
+2024-01-25 14:12:42,355 [INFO    ] Есть несовпадения районов c jkh, обновление районов в jkh для 0 записей
+2024-01-25 14:12:45,517 [INFO    ] Временная таблица temp_jkh_houses очищена
+2024-01-25 14:12:48,884 [INFO    ] Обновление данных jkh_houses завершено
+2024-01-25 14:12:50,133 [INFO    ] все новые объявления добавлены
+2024-01-25 14:12:52,414 [INFO    ] Успешно обработан файл 24-01-24 (без дублей).csv для prices
+2024-01-25 14:12:52,414 [INFO    ] Выгрузка в таблицу prices обработанного файла из авито: 24-01-24 (без дублей).csv
+2024-01-25 14:13:09,514 [INFO    ] данные avito загружены успешно
+2024-01-25 14:13:10,065 [INFO    ] Новые данные загружены по файлам ['24-01-24 (без дублей).csv'] из авито и ['циан 24-01-24 (без дублей).csv'] из циана за 0:13:08.954942
+2024-01-25 14:13:10,165 [INFO    ] HTTP Request: GET https://dadata.ru/api/v2/profile/balance "HTTP/1.1 200 OK"
+2024-01-25 14:13:10,532 [INFO    ] отчет отправлен в tg
+2024-01-25 14:13:10,708 [INFO    ] сохранение лог-файла
