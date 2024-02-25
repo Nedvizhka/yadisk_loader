@@ -1,4 +1,3 @@
-import logging
 import traceback
 import telebot
 
@@ -18,7 +17,7 @@ def report_df_append(df, col_name, value):
     df.at[0, col_name] = value
 
 
-def get_city_table(engine):
+def get_city_table(engine, logging):
     cities_query = 'SELECT * FROM city'
     try:
         con_obj = engine.connect()
@@ -32,18 +31,18 @@ def get_city_table(engine):
     return city_db, exc_code
 
 
-def create_dadata_rep(engine, env_value):
+def create_dadata_rep(engine, env_value, logging):
     try:
         con_obj = engine.connect()
         con_obj.close()
     except:
         try:
-            server, engine = get_sql_engine(env_value)
+            server, engine = get_sql_engine(logging, env_value)
             logging.info('подключение к базе восстановлено')
         except Exception as exc:
             logging.error('не удается подключиться к базе: {}'.format(traceback.format_exc()))
             return None, exc
-    city_df, err_c = get_city_table(engine)
+    city_df, err_c = get_city_table(engine, logging)
     city_df['ddt_avito'] = 0
     city_df['ddt_cian'] = 0
     city_df['ddt_total'] = 0
@@ -51,7 +50,7 @@ def create_dadata_rep(engine, env_value):
     return city_df, None
 
 
-def fill_dadata_report(city_df, df_ddt, source):
+def fill_dadata_report(city_df, df_ddt, source, logging):
     try:
         if source == 'avito':
             df_ddt['city'] = df_ddt.addr.apply(lambda x: x.split('; ')[0])
@@ -85,7 +84,7 @@ def check_balance():
     return result
 
 
-def report_text(common_rep_df, dadata_rep_df, limits_df, dadata_balance):
+def report_text(common_rep_df, dadata_rep_df, limits_df, dadata_balance, logging):
     try:
         # переменная для отчета
         rep_text = str()
@@ -220,12 +219,13 @@ def report_text(common_rep_df, dadata_rep_df, limits_df, dadata_balance):
         return
 
 
-def run_bot_send_msg(msg_txt, monitoring_bot=None):
+def run_bot_send_msg(msg_txt, logging, monitoring_bot=None):
     bot = telebot.TeleBot('5384767557:AAGBM487FW6lZq6D3z7ct44ADqyMjjjXpxc')
     if monitoring_bot == None:
         chat_id = '-1001683557389' # nedvizhka alarm
     else:
         chat_id = '-1001919765143' # nedvizhka monitoring
     bot.send_message(chat_id, f"`{msg_txt}`", parse_mode='Markdown')
-    logging.info('отчет отправлен в tg')
+    if logging is not None:
+        logging.info('отчет отправлен в tg')
     bot.stop_bot()

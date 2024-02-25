@@ -6,8 +6,6 @@ from sshtunnel import SSHTunnelForwarder
 
 from sqlalchemy import text
 
-import logging
-
 
 def get_config(env_value=None, get_only_start_time=False):
     config = configparser.ConfigParser()
@@ -43,7 +41,7 @@ def get_config(env_value=None, get_only_start_time=False):
         return start_time
 
 
-def get_sql_engine(env_value=None):
+def get_sql_engine(logging, env_value=None):
     ssh_host, ssh_port, ssh_username, ssh_password, database_username, database_password, \
         database_name, localhost, localhost_port, table_name, ya_token, ya_api, ya_link = get_config(env_value=env_value)
 
@@ -65,14 +63,14 @@ def get_sql_engine(env_value=None):
     return sql_server, sql_engine
 
 
-def check_sql_connection(sql_server, sql_engine, env_value=None):
+def check_sql_connection(sql_server, sql_engine, logging, env_value=None):
     try:
         con_obj = sql_engine.connect()
         con_obj.close()
         return sql_server, sql_engine, None
     except:
         try:
-            sql_server, sql_engine = get_sql_engine(env_value)
+            sql_server, sql_engine = get_sql_engine(logging, env_value)
             logging.info('подключение к базе восстановлено')
             return sql_server, sql_engine, None
         except Exception as exc:
@@ -80,13 +78,13 @@ def check_sql_connection(sql_server, sql_engine, env_value=None):
             return None, None, True
 
 
-def load_df_into_sql_table(df, table_name, engine, bigsize=False, env_value=None):
+def load_df_into_sql_table(df, table_name, engine, logging, bigsize=False, env_value=None):
     try:
         con_obj = engine.connect()
         con_obj.close()
     except:
         try:
-            server, engine = get_sql_engine(env_value)
+            server, engine = get_sql_engine(logging, env_value)
             logging.info('подключение к базе восстановлено')
         except Exception:
             logging.error('не удается подключиться к базе {}'.format(traceback.format_exc()))
@@ -95,13 +93,13 @@ def load_df_into_sql_table(df, table_name, engine, bigsize=False, env_value=None
     df.to_sql(name=table_name, con=engine, if_exists='append', chunksize=chunk_s, method='multi', index=False)
 
 
-def drop_temp_table(engine, table, env_value):
+def drop_temp_table(engine, table, logging, env_value):
     try:
         con_obj = engine.connect()
         con_obj.close()
     except:
         try:
-            server, engine = get_sql_engine(env_value)
+            server, engine = get_sql_engine(logging, env_value)
             logging.info('подключение к базе восстановлено')
         except Exception as exc:
             logging.error('не удается подключиться к базе: {}'.format(traceback.format_exc()))

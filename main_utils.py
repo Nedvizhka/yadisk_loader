@@ -1,4 +1,3 @@
-import logging
 import os
 import warnings
 import zipfile
@@ -90,7 +89,7 @@ def write_saved_file_names(filename, env_value, source):
     uploaded_txt.close()
 
 
-def download_local_yadisk_files(yandex_api_token, handled_files, save_dir, marketplace):
+def download_local_yadisk_files(yandex_api_token, handled_files, save_dir, marketplace, logging):
     y = yadisk.YaDisk(token=yandex_api_token)
     if y.check_token():
         logging.info('yandex token valid')
@@ -119,7 +118,7 @@ def download_local_yadisk_files(yandex_api_token, handled_files, save_dir, marke
         return saved_files, is_error
 
 
-def download_yadisk_files(yandex_api, sharing_link, handled_files, save_dir, marketplace):
+def download_yadisk_files(yandex_api, sharing_link, handled_files, save_dir, marketplace, logging):
     direct_link = get_direct_link(yandex_api, sharing_link)
     try:
         saved_files = []
@@ -161,7 +160,7 @@ def get_local_files(save_dir):
     return saved_files_list
 
 
-def get_index_temp(engine):
+def get_index_temp(engine, logging):
     index_show_query = \
         """SHOW indexes FROM temp_realty_new"""
     try:
@@ -176,7 +175,7 @@ def get_index_temp(engine):
     return index_db, exc_code
 
 
-def create_temp_realty(engine):
+def create_temp_realty(engine, logging):
     create_table_query = \
         """CREATE TABLE `temp_realty_new` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -209,7 +208,7 @@ def create_temp_realty(engine):
     try:
         con_obj = engine.connect()
         con_obj.execute(text(create_table_query))
-        if 'index_ad_id_temp' in get_index_temp(engine)[0].Key_name.to_list():
+        if 'index_ad_id_temp' in get_index_temp(engine, logging)[0].Key_name.to_list():
             pass
         else:
             con_obj.execute(text(index_create_query))
@@ -232,7 +231,7 @@ def create_temp_realty(engine):
             return True
 
 
-def get_exist_ad_id(engine, source):
+def get_exist_ad_id(engine, source, logging):
     source_id = 2 if source == 'cian' else 3
     ad_id_query = f'SELECT ad_id FROM realty where source_id = {source_id}'
     try:
@@ -246,7 +245,7 @@ def get_exist_ad_id(engine, source):
         exc_code = exc.code
     return ad_id_db, exc_code
 
-def update_status(engine):
+def update_status(engine, logging):
     try:
         con_obj = engine.connect()
 
@@ -273,7 +272,7 @@ def update_status(engine):
         return True
 
 
-def update_realty(engine, df, source, env_value):
+def update_realty(engine, df, source, logging, env_value):
     clear_temp_table_query = \
         """DELETE FROM temp_realty_new"""
     try:
@@ -287,7 +286,7 @@ def update_realty(engine, df, source, env_value):
         except:
             logging.info('не удалось очистить temp таблицу')
 
-        load_df_into_sql_table(df, 'temp_realty_new', engine, env_value=env_value)
+        load_df_into_sql_table(df, 'temp_realty_new', engine, logging, env_value=env_value)
 
         con_obj = engine.connect()
         common_ids = tuple(df.ad_id)
@@ -341,9 +340,9 @@ def update_realty(engine, df, source, env_value):
             return True
 
 
-def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df, source, env_value):
+def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df, source, logging, env_value):
     # создание временной таблицы для обновления данных
-    error_create_temp_realty = create_temp_realty(engine)
+    error_create_temp_realty = create_temp_realty(engine, logging)
     if error_create_temp_realty:
         error_create_temp_realty = True
         return error_create_temp_realty, False, False, False
@@ -351,7 +350,7 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
         error_create_temp_realty = False
 
     # разбивка полученных данных на новые и существующие по ad_id
-    exist_ad_id, error_getting_ad_id = get_exist_ad_id(engine, source)
+    exist_ad_id, error_getting_ad_id = get_exist_ad_id(engine, source, logging)
     exist_ad_id = exist_ad_id.ad_id.to_list()
 
     if error_getting_ad_id:
@@ -373,7 +372,7 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
 
     # обновление данных
     if len(df_realty_exist) != 0:
-        error_updating_realty = update_realty(engine, df_realty_exist, source, env_value)
+        error_updating_realty = update_realty(engine, df_realty_exist, source, logging, env_value)
         if error_updating_realty:
             error_updating_realty = True
             return False, False, False, error_updating_realty
@@ -388,7 +387,7 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
     try:
         addr_df, exc_str = find_new_addr(tuple(int(i) for i in filter(lambda v: v == v, df_realty_new.city_id.unique()))
                                          if len(df_realty_new.city_id.unique()) > 1 else str('('+str(df_realty_new.city_id.unique()[0])+')'),
-                                         engine, env_value)
+                                         engine, logging, env_value)
     except:
         logging.error(traceback.format_exc())
         logging.info(f'какая то хуйня 393 main_utils нужен фикс: \n {df_realty_new.city_id.unique()}')
@@ -421,7 +420,7 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
         # проставление районов новым объявлениям, адрес которых существует в realty
         logging.info('обновление районов для найденных в realty по адресу новых объявлений:')
         empty_districts_of_exist = tuple(int(i) for i in filter(lambda v: v == v, df_realty_new_found.query('district_id.isnull()').house_id.unique()))
-        found_empty_distr_df, exc_str = find_empty_districts(empty_districts_of_exist, engine, env_value)
+        found_empty_distr_df, exc_str = find_empty_districts(empty_districts_of_exist, engine, logging, env_value)
         if exc_str:
             error_updating_realty = True
             return False, False, False, error_updating_realty
@@ -457,22 +456,22 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
     try:
         # обновление dadata_houses
         fdate = get_date_from_name(fname)
-        df_dadata_houses, df_dadata_tg_report = dadata_request(df_realty_new, fdate, jkh_cnt_df, source)
+        df_dadata_houses, df_dadata_tg_report = dadata_request(df_realty_new, fdate, jkh_cnt_df, source, logging)
         df_dadata_tg_report = df_dadata_tg_report[df_dadata_tg_report.parsed_now == True]
         df_dadata_tg_report.drop(columns='parsed_now', inplace=True)
         # дополнение tg отчета
-        err_filling_report = fill_dadata_report(rep_ddt_df, df_dadata_tg_report, source)
+        err_filling_report = fill_dadata_report(rep_ddt_df, df_dadata_tg_report, source, logging)
         if err_filling_report:
             return False, False, False, True
 
         try:
-            load_df_into_sql_table(df_dadata_houses, 'dadata_houses', engine, bigsize=True, env_value=env_value)
+            load_df_into_sql_table(df_dadata_houses, 'dadata_houses', engine, logging, bigsize=True, env_value=env_value)
         except Exception as exp:
             logging.error(traceback.format_exc())
             logging.error('не удалось отправить df в таблицу')
             try:
-                server, engine = get_sql_engine(env_value)
-                load_df_into_sql_table(df_dadata_houses, 'dadata_houses', engine, bigsize=True, env_value=env_value)
+                server, engine = get_sql_engine(logging, env_value)
+                load_df_into_sql_table(df_dadata_houses, 'dadata_houses', engine, logging, bigsize=True, env_value=env_value)
                 close_sql_connection(server, engine)
             except Exception as exp:
                 logging.error(traceback.format_exc())
@@ -480,7 +479,7 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
                 return False, False, True, False
 
         # добавление полей для realty
-        only_districts_df, error_loading_districts_from_houses = get_districts_from_house(df_dadata_houses, engine, env_value)
+        only_districts_df, error_loading_districts_from_houses = get_districts_from_house(df_dadata_houses, engine, logging, env_value)
         only_districts_df = only_districts_df.sort_values('district_id', ascending=False)\
             .drop_duplicates('ad_id', keep='first')\
             .sort_index()
@@ -499,12 +498,12 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
                 # обновление полей для jkh_id
                 df_realty_new_merged_w_dist, \
                 error_create_temp_jkh_houses, \
-                error_updating_jkh_houses = update_jkh_district(df_realty_new_merged, only_districts_df, engine, env_value)
+                error_updating_jkh_houses = update_jkh_district(df_realty_new_merged, only_districts_df, engine, logging, env_value)
                 if error_create_temp_jkh_houses or error_updating_jkh_houses:
                     logging.error('не удалось обновить jkh_houses')
                     return False, False, False, error_updating_realty
                 df_realty_new_merged_add_by_addr = df_realty_new_merged_w_dist.append(df_realty_new_found, ignore_index=True)
-                load_df_into_sql_table(df_realty_new_merged_add_by_addr, 'realty', engine, env_value)
+                load_df_into_sql_table(df_realty_new_merged_add_by_addr, 'realty', engine, logging, env_value)
                 error_loading_into_realty = False
                 logging.info('все новые объявления добавлены')
             except:
@@ -514,7 +513,7 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
                 df_realty_new['dadata_houses_id'] = None
                 # соединение df получившегося после dadata и после поиска по адресу
                 df_realty_new_merged_add_by_addr = df_realty_new_found.append(df_realty_new, ignore_index=True)
-                load_df_into_sql_table(df_realty_new_merged_add_by_addr, 'realty', engine, env_value)
+                load_df_into_sql_table(df_realty_new_merged_add_by_addr, 'realty', engine, logging, env_value)
                 error_loading_into_realty = False
 
         else:
@@ -524,7 +523,7 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
             df_realty_new['dadata_houses_id'] = None
             # соединение df получившегося после dadata и после поиска по адресу
             df_realty_new_merged_add_by_addr = df_realty_new_found.append(df_realty_new, ignore_index=True)
-            load_df_into_sql_table(df_realty_new_merged_add_by_addr, 'realty', engine, env_value)
+            load_df_into_sql_table(df_realty_new_merged_add_by_addr, 'realty', engine, logging, env_value)
             error_loading_into_realty = False
 
     except Exception as exc:
@@ -536,7 +535,7 @@ def load_and_update_realty_db(engine, df, fname, rep_df, rep_ddt_df, jkh_cnt_df,
     return error_create_temp_realty, error_getting_ad_id, error_loading_into_realty, error_updating_realty
 
 
-def get_tables_info(engine):
+def get_tables_info(engine, logging):
     cities_query = 'SELECT * FROM city'
     source_query = 'SELECT id, name FROM sources'
     try:
@@ -553,7 +552,7 @@ def get_tables_info(engine):
     return city_db, source_db, exc_code
 
 
-def get_version_db(engine, today_date, source_id):
+def get_version_db(engine, today_date, source_id, logging):
     last_version = f"SELECT Max(version) FROM realty WHERE date < '{today_date}' AND source_id = {source_id}"
     try:
         con_obj = engine.connect()
@@ -639,7 +638,7 @@ def avito_addr_from_row(row, city_df):
     return addr
 
 
-def get_districts(engine):
+def get_districts(engine, logging):
     districts_query = f"SELECT DISTINCT id, city_id, name FROM districts"
     try:
         con_obj = engine.connect()
@@ -656,7 +655,7 @@ def get_districts(engine):
     return districts_query_db
 
 
-def district_from_rn_mkrn(realty_row, all_districts, sql_engine):
+def district_from_rn_mkrn(realty_row, all_districts, sql_engine, logging):
     # для записи новых районов создадим датафрейм и получим последний id района
     add_districts_df = pd.DataFrame(columns=['city_id', 'name'])
     current_max_id = all_districts.id.max()
@@ -734,11 +733,11 @@ def create_offer_from_avito(offer_avito, offer_to_cian=dict_offer_from_avito):
         return None
 
 
-def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_cian_avito):
+def create_realty(df, fname, sql_engine, source, logging, dict_realty_type=dict_realty_cian_avito):
     if source == 'avito':
         try:
             # сбор данных из таблиц в бд
-            city_df, source_df, exc_code = get_tables_info(sql_engine)
+            city_df, source_df, exc_code = get_tables_info(sql_engine, logging)
 
             # удаление корявых данных, дубликатов
             index_to_drop = df[
@@ -812,7 +811,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             # version
             current_source = df.source_id.unique()[0]
             current_date = datetime.now().date()
-            last_version = get_version_db(sql_engine, current_date, current_source)[0].iloc[0, 0]
+            last_version = get_version_db(sql_engine, current_date, current_source, logging)[0].iloc[0, 0]
             if last_version == None:
                 current_version = 1
             else:
@@ -847,7 +846,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             cian_realty = pd.DataFrame()
 
             # сбор данных из таблиц в бд
-            city_df, source_df, exc_code = get_tables_info(sql_engine)
+            city_df, source_df, exc_code = get_tables_info(sql_engine, logging)
 
             # удаление дубликатов
             df.drop_duplicates(subset=['Ссылка'], keep='last', inplace=True)
@@ -890,17 +889,17 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             cian_realty['addr'] = cian_realty['addr'].apply(lambda x: x.replace(';', '; '))
 
             # district_id после addr потому что в нем используется адрес
-            all_districts = get_districts(sql_engine)
+            all_districts = get_districts(sql_engine, logging)
 
             # добавление прогресс бара в log
-            logg = logging.getLogger()
-            tqdm_out_filter = TqdmToLogger(logg, level=logging.INFO)
+            tqdm_out_filter = TqdmToLogger(logging, level=logging_module.INFO)
             tqdm.pandas(desc='districts_update', file=tqdm_out_filter, mininterval=15)
 
             logging.info('обработка district_id:')
             cian_realty['district_id'] = cian_realty.progress_apply(lambda row: district_from_rn_mkrn(row,
                                                                                                       all_districts,
-                                                                                                      sql_engine),
+                                                                                                      sql_engine,
+                                                                                                      logging),
                                                                     axis=1)
 
             tqdm_out_filter.flush()
@@ -926,7 +925,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
             # version
             current_source = cian_realty.source_id.unique()[0]
             current_date = datetime.now().date()
-            last_version = get_version_db(sql_engine, current_date, current_source)[0].iloc[0, 0]
+            last_version = get_version_db(sql_engine, current_date, current_source, logging)[0].iloc[0, 0]
             if last_version == None:
                 current_version = 1
             else:
@@ -961,7 +960,7 @@ def create_realty(df, fname, sql_engine, source, dict_realty_type=dict_realty_ci
         return cian_realty_to_return, file_date
 
 
-def process_realty(local_dir, file_to_process, sql_engine, source):
+def process_realty(local_dir, file_to_process, sql_engine, source, logging):
     saved_files = get_local_files(local_dir)
     realty_df = pd.DataFrame()
     file_date = None
@@ -997,7 +996,7 @@ def process_realty(local_dir, file_to_process, sql_engine, source):
         return realty_df, file_date, error_status
 
 
-def get_realty_ids(engine, today_date, source_id):
+def get_realty_ids(engine, today_date, source_id, logging):
     id_query = f"SELECT link, id AS 'realty_id' FROM realty WHERE date = '{today_date}' AND source_id = {source_id}"
     try:
         con_obj = engine.connect()
@@ -1011,12 +1010,12 @@ def get_realty_ids(engine, today_date, source_id):
     return id_db, exc_code
 
 
-def create_prices(df, filename, sql_engine, source):
+def create_prices(df, filename, sql_engine, source, logging):
     try:
         if source == 'avito':
             # create df with link and realty_id
             current_source_id = df.source_id.unique()[0]
-            prices_df = get_realty_ids(sql_engine, get_date_from_name(filename), current_source_id)[0]
+            prices_df = get_realty_ids(sql_engine, get_date_from_name(filename), current_source_id, logging)[0]
 
             # price
             prices_df = pd.merge(prices_df, df[['link', 'Цена']], on='link', how='left') \
@@ -1036,7 +1035,7 @@ def create_prices(df, filename, sql_engine, source):
         else:  # source == 'cian':
             # create df with link and realty_id
             current_source_id = df.source_id.unique()[0]
-            prices_df = get_realty_ids(sql_engine, get_date_from_name(filename), current_source_id)[0]
+            prices_df = get_realty_ids(sql_engine, get_date_from_name(filename), current_source_id, logging)[0]
 
             # price
             prices_df = pd.merge(prices_df, df[['link', 'price']], on='link', how='left')
